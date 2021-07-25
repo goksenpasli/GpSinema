@@ -60,16 +60,14 @@ namespace Sinema.ViewModel
                 {
                     object[] data = parameter as object[];
                     string filename = $"{Guid.NewGuid()}.jpg";
-                    using (WebClient client = new())
+                    using WebClient client = new();
+                    if (File.Exists(MainWindowViewModel.xmldatapath))
                     {
-                        if (File.Exists(MainWindowViewModel.xmldatapath))
-                        {
-                            string webimageadress = data[1] as string;
-                            client.DownloadFileAsync(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
-                        }
+                        string webimageadress = data[1] as string;
+                        client.DownloadFileAsync(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
+                        Film film = data[0] as Film;
+                        film.ResimYolu = filename;
                     }
-                    Film film = data[0] as Film;
-                    film.ResimYolu = filename;
                 }
                 catch (Exception)
                 {
