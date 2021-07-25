@@ -1,4 +1,6 @@
-﻿using Sinema.Model;
+﻿using Microsoft.Win32;
+using Sinema.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -38,6 +40,17 @@ namespace Sinema.ViewModel
             }
 
             return new string(stack.ToArray());
+        }
+
+        public static void ResimEkle(Film dc)
+        {
+            OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
+                File.Copy(openFileDialog.FileName, $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
+                dc.ResimYolu = filename;
+            }
         }
 
         public static ObservableCollection<string> SalonHarfleri(int max)

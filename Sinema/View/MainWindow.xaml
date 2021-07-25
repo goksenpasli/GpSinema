@@ -240,7 +240,20 @@
                             <GridViewColumn>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Width="48" Height="48" Source="{Binding ResimYolu, Converter={StaticResource DataImageFilePathImageUriConverter}, ConverterParameter='48'}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="Bold">
+                                                <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmResimGüncelle, ElementName=grid}" TextDecorations="None">
+                                                    <Hyperlink.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                            <Binding Mode="OneWay" />
+                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
+                                                        </MultiBinding>
+                                                    </Hyperlink.CommandParameter>
+                                                    <Run Text="+" />
+                                                </Hyperlink>
+                                            </TextBlock>
+                                            <Image Width="48" Height="48" Source="{Binding ResimYolu, Converter={StaticResource DataImageFilePathImageUriConverter}, ConverterParameter='48'}" />
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -296,13 +309,13 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" />
-                            <Button Command="{Binding DataContext.ReportViewModel.SalonDurumuRaporla, ElementName=grid}" CommandParameter="{Binding Mode=OneWay}" Margin="20,0,0,0">
+                            <Button Margin="20,0,0,0" Command="{Binding DataContext.ReportViewModel.SalonDurumuRaporla, ElementName=grid}" CommandParameter="{Binding Mode=OneWay}">
                                 <Button.Content>
-                                        <Image Width="16" Height="16">
-                                            <Image.Source>
-                                                <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".xlsx" />
-                                            </Image.Source>
-                                        </Image>
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <Binding Converter="{StaticResource FilePathToIconConverter}" Source=".xlsx" />
+                                        </Image.Source>
+                                    </Image>
                                 </Button.Content>
                             </Button>
                         </StackPanel>
@@ -335,6 +348,16 @@
                                             </MultiBinding>
                                         </Button.CommandParameter>
                                     </Button>
+                                    <Button Content="TÜM KOLTUKLARI GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                <Binding Mode="OneWay" />
+                                                <Binding ElementName="grid" Path="DataContext" />
+                                                <Binding ElementName="Cb" Path="SelectedItem" />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+
                                 </StackPanel>
                             </UniformGrid>
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding SalonHarfleri}">

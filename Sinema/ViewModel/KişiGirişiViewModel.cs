@@ -18,7 +18,7 @@ namespace Sinema.ViewModel
                 Koltuk koltuk = data[2] as Koltuk;
                 if (koltuk.KoltukTipiId == 0)
                 {
-                    MessageBox.Show($"Koltuk Tipi Ayarlanmamış Sağ Tıklayıp Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show("Koltuk Tipi Ayarlanmamış Sağ Tıklayıp Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
                 Film film = data[3] as Film;

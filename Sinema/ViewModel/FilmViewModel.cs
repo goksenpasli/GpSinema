@@ -3,7 +3,6 @@ using Microsoft.Win32;
 using Sinema.Model;
 using System;
 using System.Globalization;
-using System.IO;
 using System.Windows.Input;
 
 namespace Sinema.ViewModel
@@ -50,15 +49,13 @@ namespace Sinema.ViewModel
                 }
             }, parameter => true);
 
-            FilmResimEkle = new RelayCommand<object>(parameter =>
+            FilmResimEkle = new RelayCommand<object>(parameter => ExtensionMethods.ResimEkle(Film), parameter => true);
+
+            FilmResimGüncelle = new RelayCommand<object>(parameter =>
             {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
-                    File.Copy(openFileDialog.FileName, $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
-                    Film.ResimYolu = filename;
-                }
+                object[] data = parameter as object[];
+                ExtensionMethods.ResimEkle(data[0] as Film);
+                (data[1] as Salonlar).Serialize();
             }, parameter => true);
         }
 
@@ -79,6 +76,8 @@ namespace Sinema.ViewModel
         public ICommand FilmGirişiYap { get; }
 
         public ICommand FilmResimEkle { get; }
+
+        public ICommand FilmResimGüncelle { get; }
 
         public string FilmTipi
         {

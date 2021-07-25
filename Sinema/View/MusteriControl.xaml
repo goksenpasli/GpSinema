@@ -3,8 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Sinema"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:view="clr-namespace:Sinema.View"
-    xmlns:model="clr-namespace:Sinema.Model" xmlns:viewModel="clr-namespace:Sinema.ViewModel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Sinema.Model" xmlns:view="clr-namespace:Sinema.View"
+    xmlns:viewModel="clr-namespace:Sinema.ViewModel"
     d:DataContext="{d:DesignInstance Type=model:Musteri}"
     d:DesignHeight="500" d:DesignWidth="480" UseLayoutRounding="True"
     mc:Ignorable="d">
@@ -108,7 +109,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Extensions:ContentToggleButton OverContent="BİLET">
-                                            <view:BiletView/>
+                                            <view:BiletView />
                                         </Extensions:ContentToggleButton>
                                         <!--<TextBlock>
                                             <Hyperlink Command="{Binding DataContext.KişiGirişiViewModel.MusteriBiletYazdır, ElementName=grid}">

@@ -62,6 +62,21 @@ namespace Sinema.ViewModel
 
                 mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
             }, parameter => true);
+
+            TümKoltuklarıGöster = new RelayCommand<object>(parameter =>
+            {
+                object[] data = parameter as object[];
+                Salon salon = data[0] as Salon;
+                MainWindowViewModel mainWindowViewModel = data[1] as MainWindowViewModel;
+                foreach (Koltuk item in salon.Koltuklar)
+                {
+                    if (!item.Görünür)
+                    {
+                        item.Görünür = true;
+                    }
+                }
+                mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+            }, parameter => true);
         }
 
         public Koltuk Koltuk
@@ -97,5 +112,7 @@ namespace Sinema.ViewModel
         public ICommand KoltukTipiGirişiYap { get; }
 
         public ICommand TümKoltuklarıAyarla { get; }
+
+        public ICommand TümKoltuklarıGöster { get; }
     }
 }
