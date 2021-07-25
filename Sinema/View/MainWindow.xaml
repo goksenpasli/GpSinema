@@ -14,6 +14,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <local:KoltukTipiIdToBrushConverter x:Key="KoltukTipiIdToBrushConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -254,18 +255,24 @@
                         FontSize="24" FontWeight="Bold" />
                     <Separator Grid.ColumnSpan="3" Margin="0,2,0,0" VerticalAlignment="Bottom" />
                     <Image Grid.Row="1" Grid.Column="0" Source="{Binding ResimYolu, ConverterParameter=200, Converter={StaticResource DataImageFilePathImageUriConverter}, IsAsync=True}" />
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
                         <TextBlock Foreground="Red"
                             HorizontalAlignment="Center"
                             FontSize="20" FontWeight="Bold"><Run Text="{Binding FilmSaati, StringFormat=\{0:d\}}" Language="tr-tr" /><LineBreak /><Run Text="{Binding FilmSaati, StringFormat=\{0:h:mm\}}" Language="tr-tr" /></TextBlock>
                         <TextBlock Text="{Binding FilmTipi}"
                             TextTrimming="CharacterEllipsis"
+                            Padding="3,0,0,0"
                             FontSize="16" FontStyle="Italic" />
                         <TextBlock Text="{Binding Yönetmen}"
                             TextTrimming="CharacterEllipsis"
+                            Padding="3,0,0,0"
                             FontSize="16" FontStyle="Italic" />
                         <TextBlock Text="{Binding Oyuncular}"
                             TextTrimming="CharacterEllipsis"
+                            Padding="3,0,0,0"
                             FontSize="16" FontStyle="Italic" FontWeight="Bold" />
                     </StackPanel>
                     <Extensions:ContentToggleButton Grid.Column="2"
@@ -304,6 +311,15 @@
                                     <DataTemplate>
                                         <TextBlock VerticalAlignment="Center" FontSize="18" FontWeight="Bold">
                                             <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmResimGüncelle, ElementName=grid}" TextDecorations="None">
+                                                <Hyperlink.Style>
+                                                    <Style TargetType="Hyperlink">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ResimYolu, Converter={StaticResource StringNullableToBooleanConverter}}" Value="true">
+                                                                <Setter Property="Foreground" Value="Green" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Hyperlink.Style>
                                                 <Hyperlink.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource CloneConverter}">
                                                         <Binding Mode="OneWay" />
@@ -311,7 +327,17 @@
                                                     </MultiBinding>
                                                 </Hyperlink.CommandParameter>
                                                 <Run Text="µ" FontFamily="Webdings" />
-                                            </Hyperlink><Run Text=" " /><Hyperlink Command="{Binding DataContext.FilmViewModel.FilmVideoGüncelle, ElementName=grid}" TextDecorations="None">
+                                            </Hyperlink>
+                                            <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmVideoGüncelle, ElementName=grid}" TextDecorations="None">
+                                                <Hyperlink.Style>
+                                                    <Style TargetType="Hyperlink">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding VideoYolu, Converter={StaticResource StringNullableToBooleanConverter}}" Value="true">
+                                                                <Setter Property="Foreground" Value="Green" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Hyperlink.Style>
                                                 <Hyperlink.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource CloneConverter}">
                                                         <Binding Mode="OneWay" />

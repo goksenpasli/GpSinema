@@ -141,7 +141,7 @@ namespace Extensions.Controls
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if (Player.Source != null)
+            if (MediaDataFilePath != null)
             {
                 Player.Play();
             }
