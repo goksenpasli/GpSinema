@@ -51,6 +51,15 @@ namespace Sinema.ViewModel
                 File.Copy(openFileDialog.FileName, $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
                 dc.ResimYolu = filename;
             }
+        }     
+        
+        public static void VideoEkle(Film dc)
+        {
+            OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4)|*.mp4" };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                dc.VideoYolu = openFileDialog.FileName;
+            }
         }
 
         public static ObservableCollection<string> SalonHarfleri(int max)

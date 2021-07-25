@@ -81,7 +81,7 @@ namespace Sinema.ViewModel
 
         public Koltuk Koltuk
         {
-            get { return koltuk; }
+            get => koltuk;
 
             set
             {
@@ -97,7 +97,7 @@ namespace Sinema.ViewModel
 
         public KoltukTipi KoltukTipi
         {
-            get { return koltukTipi; }
+            get => koltukTipi;
 
             set
             {

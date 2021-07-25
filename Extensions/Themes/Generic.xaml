@@ -182,9 +182,12 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter Content="{TemplateBinding OverContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter Content="{TemplateBinding OverContent}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Focusable="False" RecognizesAccessKey="True" />
                             <CheckBox x:Name="Cb"
                                 Grid.Column="1"
                                 Visibility="{TemplateBinding StayOpenCheckBoxVisibility}"

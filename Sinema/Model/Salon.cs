@@ -168,7 +168,7 @@ namespace Sinema.Model
         [XmlIgnore]
         public Salon SeçiliSalon
         {
-            get { return seçiliSalon; }
+            get => seçiliSalon;
 
             set
             {

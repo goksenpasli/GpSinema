@@ -55,7 +55,7 @@
                 <DataGridTemplateColumn Header="RESİM">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Width="80" Source="{Binding IsAsync=True, XPath=/root/movie/@poster}">
+                            <Image Width="80" Source="{Binding IsAsync=True, XPath=/root/movie/@poster}" SizeChanged="Image_SizeChanged" >
                                 <Image.ToolTip>
                                     <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                                         <Image Source="{Binding Source}" />

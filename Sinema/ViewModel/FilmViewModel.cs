@@ -1,8 +1,9 @@
 ﻿using Extensions;
-using Microsoft.Win32;
 using Sinema.Model;
 using System;
 using System.Globalization;
+using System.IO;
+using System.Net;
 using System.Windows.Input;
 
 namespace Sinema.ViewModel
@@ -33,6 +34,8 @@ namespace Sinema.ViewModel
                     FilmTipi = FilmTipi,
                     VideoYolu = Film.VideoYolu,
                     ResimYolu = Film.ResimYolu,
+                    Oyuncular = Film.Oyuncular,
+                    Yönetmen = Film.Yönetmen,
                     FilmSaati = Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1])),
                 };
 
@@ -40,14 +43,7 @@ namespace Sinema.ViewModel
                 (parameter as Salonlar).Serialize();
             }, parameter => SeçiliSalon is not null && !string.IsNullOrWhiteSpace(Film.Adı) && DateTime.TryParseExact(Saat, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
-            FilmVideoEkle = new RelayCommand<object>(parameter =>
-            {
-                OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4)|*.mp4" };
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    Film.VideoYolu = openFileDialog.FileName;
-                }
-            }, parameter => true);
+            FilmVideoEkle = new RelayCommand<object>(parameter => ExtensionMethods.VideoEkle(Film), parameter => true);
 
             FilmResimEkle = new RelayCommand<object>(parameter => ExtensionMethods.ResimEkle(Film), parameter => true);
 
@@ -57,11 +53,40 @@ namespace Sinema.ViewModel
                 ExtensionMethods.ResimEkle(data[0] as Film);
                 (data[1] as Salonlar).Serialize();
             }, parameter => true);
+
+            WebFilmResimAktar = new RelayCommand<object>(parameter =>
+            {
+                try
+                {
+                    object[] data = parameter as object[];
+                    string filename = $"{Guid.NewGuid()}.jpg";
+                    using (WebClient client = new())
+                    {
+                        if (File.Exists(MainWindowViewModel.xmldatapath))
+                        {
+                            string webimageadress = data[1] as string;
+                            client.DownloadFileAsync(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
+                        }
+                    }
+                    Film film = data[0] as Film;
+                    film.ResimYolu = filename;
+                }
+                catch (Exception)
+                {
+                }
+            }, parameter => true);
+
+            FilmVideoGüncelle = new RelayCommand<object>(parameter =>
+            {
+                object[] data = parameter as object[];
+                ExtensionMethods.VideoEkle(data[0] as Film);
+                (data[1] as Salonlar).Serialize();
+            }, parameter => true);
         }
 
         public Film Film
         {
-            get { return film; }
+            get => film;
 
             set
             {
@@ -79,6 +104,8 @@ namespace Sinema.ViewModel
 
         public ICommand FilmResimGüncelle { get; }
 
+        public ICommand WebFilmResimAktar { get; }
+
         public string FilmTipi
         {
             get => filmTipi;
@@ -94,6 +121,8 @@ namespace Sinema.ViewModel
         }
 
         public ICommand FilmVideoEkle { get; }
+
+        public ICommand FilmVideoGüncelle { get; }
 
         public string Saat
         {

@@ -7,7 +7,7 @@
     xmlns:model="clr-namespace:Sinema.Model" xmlns:view="clr-namespace:Sinema.View"
     xmlns:viewModel="clr-namespace:Sinema.ViewModel"
     d:DataContext="{d:DesignInstance Type=model:Musteri}"
-    d:DesignHeight="500" d:DesignWidth="480" UseLayoutRounding="True"
+    d:DesignHeight="420" d:DesignWidth="650" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="CvsSipariş" Source="{Binding SeçiliMusteri.Siparis.Urun}" />
@@ -20,11 +20,11 @@
             </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="27*" />
-                    <RowDefinition Height="20*" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel d:DataContext="{d:DesignInstance Type=model:Musteri}">
@@ -44,7 +44,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" FontWeight="Bold" />
-                                        <Image MaxWidth="96" MaxHeight="96" Source="{Binding ResimYolu, Converter={StaticResource DataImageFilePathImageUriConverter}, ConverterParameter='96'}" />
+                                        <Image MaxWidth="96" MaxHeight="96" Source="{Binding ResimYolu, IsAsync=True, Converter={StaticResource DataImageFilePathImageUriConverter}, ConverterParameter='96'}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
@@ -78,11 +78,64 @@
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>
+                    <GroupBox Header="SİPARİŞ EKLE"
+                        Grid.Row="0" Grid.Column="2"
+                        d:DataContext="{d:DesignInstance Type=model:Musteri}">
+                        <StackPanel>
+                            <HeaderedContentControl Header="ÜRÜN">
+                                <ComboBox x:Name="CbÜrün" ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.Urunler.Urun, ElementName=grid}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <Run Text="{Binding ÜrünAdi}" />
+                                                <Run Text="{Binding BirimFiyat, StringFormat=\{0:C\}}"
+                                                    Foreground="Red"
+                                                    FontWeight="Bold"
+                                                    Language="tr-tr" />
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
+                            </HeaderedContentControl>
+                            <HeaderedContentControl Header="ADET">
+                                <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
+                                    Value="{Binding Path=SeçiliMusteri.Siparis.UrunAdet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </HeaderedContentControl>
+                            <Button Command="{Binding DataContext.ÜrünGirişiViewModel.MusteriÜrünGirişiYap, ElementName=grid}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="144" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="SİPARİŞ EKLE" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource CloneConverter}">
+                                        <Binding Path="SeçiliMusteri" />
+                                        <Binding ElementName="grid" Path="DataContext.SalonViewModel" />
+                                        <Binding ElementName="CbÜrün" Path="SelectedItem" />
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                            </Button>
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
                 <ListView Grid.Column="1"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource CvsMüşteri}}"
                     Extensions:GridViewSort.AutoSort="True"
-                    SelectedItem="{Binding SeçiliMusteri}">
+                    SelectedItem="{Binding SeçiliMusteri}"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="AD" Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}" />
@@ -111,75 +164,14 @@
                                         <Extensions:ContentToggleButton OverContent="BİLET">
                                             <view:BiletView />
                                         </Extensions:ContentToggleButton>
-                                        <!--<TextBlock>
-                                            <Hyperlink Command="{Binding DataContext.KişiGirişiViewModel.MusteriBiletYazdır, ElementName=grid}">
-                                                <Run Text=" BİLET YAZDIR" />
-                                                <Hyperlink.CommandParameter>
-                                                    <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                        <Binding Mode="OneWay" />
-                                                        <Binding ElementName="grid" Path="DataContext.SalonViewModel" />
-                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
-                                                    </MultiBinding>
-                                                </Hyperlink.CommandParameter>
-                                            </Hyperlink>
-                                        </TextBlock>-->
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <GroupBox Header="SİPARİŞ EKLE" Grid.Row="1" d:DataContext="{d:DesignInstance Type=model:Musteri}">
-                    <StackPanel>
-                        <HeaderedContentControl Header="ÜRÜN">
-                            <ComboBox x:Name="CbÜrün" ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.Urunler.Urun, ElementName=grid}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock>
-                                            <Run Text="{Binding ÜrünAdi}" />
-                                            <Run Text="{Binding BirimFiyat, StringFormat=\{0:C\}}"
-                                                Foreground="Red"
-                                                FontWeight="Bold"
-                                                Language="tr-tr" />
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <ComboBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <VirtualizingStackPanel />
-                                    </ItemsPanelTemplate>
-                                </ComboBox.ItemsPanel>
-                            </ComboBox>
-                        </HeaderedContentControl>
-                        <HeaderedContentControl Header="ADET">
-                            <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
-                                Value="{Binding Path=SeçiliMusteri.Siparis.UrunAdet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </HeaderedContentControl>
-                        <Button Command="{Binding DataContext.ÜrünGirişiViewModel.MusteriÜrünGirişiYap, ElementName=grid}">
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Height="16">
-                                        <Image.Source>
-                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                <Binding Source="Shell32.dll" />
-                                                <Binding Source="144" />
-                                            </MultiBinding>
-                                        </Image.Source>
-                                    </Image>
-                                    <TextBlock Text="SİPARİŞ EKLE" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Button.Content>
-                            <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource CloneConverter}">
-                                    <Binding Path="SeçiliMusteri" />
-                                    <Binding ElementName="grid" Path="DataContext.SalonViewModel" />
-                                    <Binding ElementName="CbÜrün" Path="SelectedItem" />
-                                </MultiBinding>
-                            </Button.CommandParameter>
-                        </Button>
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Grid.Row="1" Grid.Column="1">
+
+                <GroupBox Grid.Row="0" Grid.Column="3">
                     <GroupBox.Header>
                         <Button Command="{Binding DataContext.ReportViewModel.KişiSiparişListesiRaporla, ElementName=grid}" CommandParameter="{Binding Mode=OneWay, Source={StaticResource CvsSipariş}}">
                             <Button.Content>
@@ -199,7 +191,7 @@
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <ListView ItemsSource="{Binding Mode=OneWay, Source={StaticResource CvsSipariş}}" Extensions:GridViewSort.AutoSort="True">
+                        <ListView ItemsSource="{Binding Mode=OneWay, Source={StaticResource CvsSipariş}}" Extensions:GridViewSort.AutoSort="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="AD" Extensions:GridViewSort.PropertyName="ÜrünAdi" DisplayMemberBinding="{Binding ÜrünAdi}" />

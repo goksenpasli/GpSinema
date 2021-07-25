@@ -55,7 +55,7 @@ namespace Sinema.ViewModel
 
         public Urun Urun
         {
-            get { return urun; }
+            get => urun;
 
             set
             {

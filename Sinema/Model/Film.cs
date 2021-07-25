@@ -58,7 +58,7 @@ namespace Sinema.Model
         [XmlAttribute(AttributeName = "FilmTipi")]
         public string FilmTipi
         {
-            get { return filmTipi; }
+            get => filmTipi;
 
             set
             {

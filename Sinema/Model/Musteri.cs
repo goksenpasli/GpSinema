@@ -40,7 +40,7 @@ namespace Sinema.Model
         [XmlAttribute(AttributeName = "BiletFiyat")]
         public double BiletFiyat
         {
-            get { return biletfiyat; }
+            get => biletfiyat;
 
             set
             {

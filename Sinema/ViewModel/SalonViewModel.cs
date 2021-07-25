@@ -45,7 +45,7 @@ namespace Sinema.ViewModel
 
         public Salon Salon
         {
-            get { return salon; }
+            get => salon;
 
             set
             {
@@ -59,7 +59,7 @@ namespace Sinema.ViewModel
 
         public Salonlar Salonlar
         {
-            get { return salonlar; }
+            get => salonlar;
 
             set
             {

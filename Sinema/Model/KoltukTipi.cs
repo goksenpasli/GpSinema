@@ -62,7 +62,7 @@ namespace Sinema.Model
         [XmlAttribute(AttributeName = "KoltukRenk")]
         public string KoltukRenk
         {
-            get { return koltukRenk; }
+            get => koltukRenk;
 
             set
             {
