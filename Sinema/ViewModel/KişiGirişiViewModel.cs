@@ -72,25 +72,7 @@ namespace Sinema.ViewModel
                     salonViewModel.Salonlar.Serialize();
                 }
             }, parameter => true);
-
-            MusteriBiletYazdır = new RelayCommand<object>(parameter =>
-            {
-                if (MessageBox.Show("Seçili Müşteriyi Silmek İstiyor Musun?", "SİNEMA", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-                {
-                    object[] data = parameter as object[];
-                    Musteri Musteri = data[0] as Musteri;
-                    SalonViewModel salonViewModel = data[1] as SalonViewModel;
-                    Koltuk koltuk = data[2] as Koltuk;
-
-                    koltuk.KoltukDolu = true;
-                    koltuk.Müşteri.Remove(Musteri);
-                    koltuk.KoltukDolu = false;
-                    salonViewModel.Salonlar.Serialize();
-                }
-            }, parameter => true);
         }
-
-        public ICommand MusteriBiletYazdır { get; }
 
         public ICommand MusteriGirişiYap { get; }
 
