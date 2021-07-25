@@ -1,0 +1,124 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <x:Array x:Key="FilmTipleri" Type="{x:Type sys:String}">
+        <sys:String>AKSİYON FİLMİ</sys:String>
+        <sys:String>CASUS FİLMİ</sys:String>
+        <sys:String>DÖVÜŞ FİLMİ</sys:String>
+        <sys:String>FELAKET FİLMİ</sys:String>
+        <sys:String>BELGESEL FİLM</sys:String>
+        <sys:String>DOĞA FİLMİ</sys:String>
+        <sys:String>GEZİ FİLMİ</sys:String>
+        <sys:String>YARI BELGESEL FİLM</sys:String>
+        <sys:String>BİLİM KURGU FİLMİ</sys:String>
+        <sys:String>ALTERNATİF TARİH FİLMİ</sys:String>
+        <sys:String>ASKERÎ BİLİM KURGU FİLMİ</sys:String>
+        <sys:String>BİLİM KURGU-AKSİYON FİLMİ</sys:String>
+        <sys:String>BİLİM KURGU-MACERA FİLMİ</sys:String>
+        <sys:String>KIYAMET SONRASI BİLİM KURGUSU FİLMİ</sys:String>
+        <sys:String>STEAMPUNK FİLMİ</sys:String>
+        <sys:String>UZAY OPERASI FİLMİ</sys:String>
+        <sys:String>DİNİ FİLM</sys:String>
+        <sys:String>DRAMATİK FİLM</sys:String>
+        <sys:String>EROTİK DRAM FİLMİ</sys:String>
+        <sys:String>MELODRAM FİLMİ</sys:String>
+        <sys:String>POLİTİK DRAM FİLMİ</sys:String>
+        <sys:String>TARİHİ DRAM FİLMİ</sys:String>
+        <sys:String>TRAJEDİ FİLMİ</sys:String>
+        <sys:String>EĞİTİM FİLMİ</sys:String>
+        <sys:String>EROTİK FİLM</sys:String>
+        <sys:String>FANTASTİK FİLM</sys:String>
+        <sys:String>MASAL FİLMİ</sys:String>
+        <sys:String>MİTOLOJİK FİLM</sys:String>
+        <sys:String>SÜPER KAHRAMAN FİLMİ</sys:String>
+        <sys:String>TARİHSEL FANTEZİ FİLMİ</sys:String>
+        <sys:String>GERİLİM FİLMİ</sys:String>
+        <sys:String>AKSİYON-GERİLİM FİLMİ</sys:String>
+        <sys:String>EROTİK GERİLİM FİLMİ</sys:String>
+        <sys:String>POLİTİK GERİLİM FİLMİ</sys:String>
+        <sys:String>PSİKOLOJİK GERİLİM FİLMİ</sys:String>
+        <sys:String>KOMEDİ FİLMİ</sys:String>
+        <sys:String>ABSÜRT KOMEDİ FİLMİ</sys:String>
+        <sys:String>AKSİYON KOMEDİSİ FİLMİ</sys:String>
+        <sys:String>ASKERİ KOMEDİ FİLMİ</sys:String>
+        <sys:String>BİLİM KURGU-KOMEDİ FİLMİ</sys:String>
+        <sys:String>DİNİ KOMEDİ FİLMİ</sys:String>
+        <sys:String>FANTASTİK KOMEDİ FİLMİ</sys:String>
+        <sys:String>KABA KOMEDİ FİLMİ</sys:String>
+        <sys:String>KARA MİZAH FİLMİ</sys:String>
+        <sys:String>KARAKTER KOMEDİSİ FİLMİ</sys:String>
+        <sys:String>KOMEDİ-DRAMA FİLMİ</sys:String>
+        <sys:String>KORKU KOMEDİSİ FİLM</sys:String>
+        <sys:String>MÜZİKAL KOMEDİ FİLMİ</sys:String>
+        <sys:String>PARODİ FİLMİ</sys:String>
+        <sys:String>POLİTİK KOMEDİ FİLMİ</sys:String>
+        <sys:String>ROMANTİK KOMEDİ FİLMİ</sys:String>
+        <sys:String>SEKS KOMEDİSİ FİLMİ</sys:String>
+        <sys:String>WESTERN KOMEDİSİ FİLMİ</sys:String>
+        <sys:String>YANLIŞLIKLAR KOMEDİSİ FİLMİ</sys:String>
+        <sys:String>ZOMBİ KOMEDİSİ FİLMİ</sys:String>
+        <sys:String>KORKU FİLMİ</sys:String>
+        <sys:String>BİLİM KURGU-KORKU FİLMİ</sys:String>
+        <sys:String>BİYOLOJİK KORKU FİLMİ</sys:String>
+        <sys:String>BÜYÜCÜ FİLMİ</sys:String>
+        <sys:String>CADI FİLMİ</sys:String>
+        <sys:String>CANAVAR FİLMİ</sys:String>
+        <sys:String>CİN FİLMİ</sys:String>
+        <sys:String>ÇİN KORKU FİLMİ</sys:String>
+        <sys:String>DOĞAL KORKU FİLMİ</sys:String>
+        <sys:String>DOĞAÜSTÜ FİLM</sys:String>
+        <sys:String>EROTİK KORKU FİLMİ</sys:String>
+        <sys:String>FRANKENSTEİN FİLMİ</sys:String>
+        <sys:String>GOLEM FİLMİ</sys:String>
+        <sys:String>GOTİK FİLM</sys:String>
+        <sys:String>HAYALET FİLMİ</sys:String>
+        <sys:String>İŞKENCECİ FİLMİ</sys:String>
+        <sys:String>JAPON KORKU FİLMİ</sys:String>
+        <sys:String>KORE KORKU FİLMİ</sys:String>
+        <sys:String>KURT ADAM FİLMİ</sys:String>
+        <sys:String>LOVECRAFTVARİ KORKU FİLMİ</sys:String>
+        <sys:String>MUMYA FİLMİ</sys:String>
+        <sys:String>PERİLİ EV FİLMİ</sys:String>
+        <sys:String>PSİKOLOJİK KORKU FİLMİ</sys:String>
+        <sys:String>ŞEYTAN FİLMİ</sys:String>
+        <sys:String>VAMPİR FİLMİ</sys:String>
+        <sys:String>YAMYAMLIK FİLMİ</sys:String>
+        <sys:String>YARATIK FİLMİ</sys:String>
+        <sys:String>ZOMBİ FİLMİ</sys:String>
+        <sys:String>MACERA FİLMİ</sys:String>
+        <sys:String>KORSAN FİLMİ</sys:String>
+        <sys:String>MÜZİK FİLMİ</sys:String>
+        <sys:String>MÜZİKAL FİLM</sys:String>
+        <sys:String>POLİTİK FİLM</sys:String>
+        <sys:String>PORNOGRAFİK FİLM</sys:String>
+        <sys:String>HARDCORE PORNO</sys:String>
+        <sys:String>SOFTCORE PORNO</sys:String>
+        <sys:String>PROPAGANDA FİLMİ</sys:String>
+        <sys:String>ROMANTİK FİLM</sys:String>
+        <sys:String>ROMANTİK DRAM FİLMİ</sys:String>
+        <sys:String>ROMANTİK GERİLİM FİLMİ</sys:String>
+        <sys:String>ROMANTİK MACERA FİLMİ</sys:String>
+        <sys:String>SAVAŞ FİLMİ</sys:String>
+        <sys:String>SPOR FİLMİ</sys:String>
+        <sys:String>SUÇ FİLMİ</sys:String>
+        <sys:String>GİZEMLİ FİLM</sys:String>
+        <sys:String>KARA FİLM</sys:String>
+        <sys:String>MAFYA FİLMİ</sys:String>
+        <sys:String>POLİSİYE FİLM</sys:String>
+        <sys:String>TARİHİ FİLM</sys:String>
+        <sys:String>WESTERN FİLMİ</sys:String>
+        <sys:String>ACİD WESTERN FİLMİ</sys:String>
+        <sys:String>AVRUPA WESTERN FİLMİ</sys:String>
+        <sys:String>BİLİM KURGU-WESTERN FİLMİ</sys:String>
+        <sys:String>ÇAĞDAŞ WESTERN FİLMİ</sys:String>
+        <sys:String>EPİK WESTERN FİLMİ</sys:String>
+        <sys:String>KIZIL WESTERN FİLMİ</sys:String>
+        <sys:String>KLASİK WESTERN FİLMİ</sys:String>
+        <sys:String>KÖRİ WESTERN FİLMİ</sys:String>
+        <sys:String>KUZEY WESTERN FİLMİ</sys:String>
+        <sys:String>MÜZİKAL WESTERN FİLMİ</sys:String>
+        <sys:String>REVİZYONİST WESTERN FİLMİ</sys:String>
+        <sys:String>ROMANTİK WESTERN FİLMİ</sys:String>
+        <sys:String>SPAGETTİ WESTERN FİLMİ</sys:String>
+        <sys:String>YEŞİLÇAM WESTERN FİLMİ</sys:String>
+        <sys:String>YAŞAM ÖYKÜSEL FİLM</sys:String>
+    </x:Array>
+</ResourceDictionary>

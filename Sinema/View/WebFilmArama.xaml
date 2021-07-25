@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="Sinema.View.WebFilmArama"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Sinema.Model"
+    d:DataContext="{d:DesignInstance Type=model:Salon}"
+    d:DesignHeight="180" d:DesignWidth="600" UseLayoutRounding="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="Film"
+            IsAsynchronous="True" IsInitialLoadEnabled="True" XPath="/root" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBox Text="{Binding Adı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <DataGrid Grid.Row="1"
+            IsReadOnly="True"
+            ItemsSource="{Binding Mode=OneWay, Source={StaticResource Film}}"
+            AutoGenerateColumns="False"
+            VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="AD" Binding="{Binding XPath=/root/movie/@title}" />
+                <DataGridTextColumn Header="DİL" Width="60" Binding="{Binding XPath=/root/movie/@language}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="YIL" Binding="{Binding XPath=/root/movie/@year}" />
+                <DataGridTextColumn Header="SÜRE" Binding="{Binding XPath=/root/movie/@runtime}" />
+                <DataGridTextColumn Header="YÖNETMEN" Binding="{Binding XPath=/root/movie/@director}" />
+                <DataGridTextColumn Header="ÜLKE" Binding="{Binding XPath=/root/movie/@country}" />
+                <DataGridTextColumn Header="OYUNCULAR" Width="100" Binding="{Binding XPath=/root/movie/@actors}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ÖZET" Width="150" Binding="{Binding XPath=/root/movie/@plot}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="RESİM">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Width="80" Source="{Binding IsAsync=True, XPath=/root/movie/@poster}">
+                                <Image.ToolTip>
+                                    <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                                        <Image Source="{Binding Source}" />
+                                    </ToolTip>
+                                </Image.ToolTip>
+                            </Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

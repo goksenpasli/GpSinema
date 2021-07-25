@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="Sinema.View.BiletView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Sinema.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Sinema.Model" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DataContext="{d:DesignInstance Type=model:Musteri}"
+    d:DesignHeight="250" d:DesignWidth="450"
+    mc:Ignorable="d">
+    <GroupBox>
+        <Grid Width="300">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <FlowDocumentScrollViewer x:Name="FdBilet"
+                Grid.Row="0"
+                Margin="20"
+                VerticalScrollBarVisibility="Auto">
+                <FlowDocument FontSize="16" FontFamily="Times New Roman"
+                    Block.LineHeight="1" Language="tr-tr">
+                    <FlowDocument.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="BorderBrush" Value="Black" />
+                            <Setter Property="BorderThickness" Value="0.5pt" />
+                        </Style>
+                    </FlowDocument.Resources>
+                    <Table CellSpacing="0">
+                        <Table.Columns>
+                            <TableColumn Width="100" />
+                            <TableColumn Width="150" />
+                        </Table.Columns>
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell ColumnSpan="2">
+                                    <Paragraph TextAlignment="Center">
+                                        <Run Text="BİLET" FontWeight="Bold" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell BorderThickness="0" ColumnSpan="2">
+                                    <BlockUIContainer TextAlignment="Center" />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <Paragraph>
+                                        <Run Text="AD" FontWeight="Bold" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>
+                                        <Run Text="{Binding Ad}" />
+                                        <Run Text="{Binding Soyad}" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <Paragraph>
+                                        <Run Text="SALON" FontWeight="Bold" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>
+                                        <Run Text="{Binding ElementName=grid, Path=DataContext.SalonViewModel.Salon.SeçiliSalon.Adı}" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <Paragraph>
+                                        <Run Text="KOLTUK" FontWeight="Bold" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell>
+                                    <Paragraph>
+                                        <Run Text="{Binding OverContent, RelativeSource={RelativeSource AncestorLevel=2, AncestorType=Extensions:ContentToggleButton}}" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+
+                        </TableRowGroup>
+                    </Table>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+            <Button Content="BİLET YAZDIR" Grid.Row="1" Click="Button_Click" />
+        </Grid>
+    </GroupBox>
+</UserControl>

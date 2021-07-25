@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Sinema.View.KoltukAyarla"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions" xmlns:Sinema="clr-namespace:Sinema"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Sinema.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Sinema.Model"
+    d:DataContext="{d:DesignInstance Type={x:Type model:Koltuk}}"
+    d:DesignHeight="125" d:DesignWidth="150" UseLayoutRounding="True"
+    mc:Ignorable="d">
+    <Grid>
+        <GroupBox Background="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}">
+            <GroupBox.Header>
+                <TextBlock Text="{Binding OverContent, StringFormat={}{0} NUMARALI KOLTUK, RelativeSource={RelativeSource AncestorType=Extensions:ContentToggleButton}}" />
+            </GroupBox.Header>
+            <StackPanel>
+                <CheckBox Content="KOLTUK ETKİN" IsChecked="{Binding KoltukEtkin}" IsTabStop="False" />
+                <CheckBox Content="KOLTUK GÖRÜNÜR" IsChecked="{Binding Görünür}" IsTabStop="False" />
+                <HeaderedContentControl Header="KOLTUK TİPİ">
+                    <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}" ItemTemplate="{StaticResource KoltukTipiColorTemplate}" SelectedValue="{Binding SeçiliKoltukTipi}" />
+                </HeaderedContentControl>
+                <Button Content="UYGULA" Command="{Binding Tag.KoltukTipiGirişiViewModel.KoltukAyarla, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource CloneConverter}">
+                            <Binding Mode="OneWay" />
+                            <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
+                            <Binding Path="SeçiliKoltukTipi" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>
