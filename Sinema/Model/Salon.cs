@@ -1,6 +1,10 @@
 ﻿using Extensions;
+using Sinema.ViewModel;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml.Serialization;
+using ExtensionMethods = Sinema.ViewModel.ExtensionMethods;
 
 namespace Sinema.Model
 {
@@ -19,13 +23,19 @@ namespace Sinema.Model
 
         private int ıd;
 
+        private double ilaveKoltukSayısı;
+
         private ObservableCollection<Koltuk> koltuklar = new();
+
+        private IEnumerable<IGrouping<int, int>> salonEnBoyYapısı;
 
         private ObservableCollection<string> salonHarfleri = new();
 
         private Film seçiliFilm;
 
         private Salon seçiliSalon;
+
+        private IGrouping<int, int> seçiliSalonKoltukGrubu;
 
         [XmlAttribute(AttributeName = "Adı")]
         public string Adı
@@ -68,6 +78,7 @@ namespace Sinema.Model
                 {
                     boyKoltukSayı = value;
                     OnPropertyChanged(nameof(BoyKoltukSayı));
+                    OnPropertyChanged(nameof(SalonEnBoyYapısı));
                 }
             }
         }
@@ -83,6 +94,7 @@ namespace Sinema.Model
                 {
                     enKoltukSayı = value;
                     OnPropertyChanged(nameof(EnKoltukSayı));
+                    OnPropertyChanged(nameof(SalonEnBoyYapısı));
                 }
             }
         }
@@ -117,6 +129,22 @@ namespace Sinema.Model
             }
         }
 
+        [XmlIgnore]
+        public double İlaveKoltukSayısı
+        {
+            get => ilaveKoltukSayısı;
+
+            set
+            {
+                if (ilaveKoltukSayısı != value)
+                {
+                    ilaveKoltukSayısı = value;
+                    OnPropertyChanged(nameof(İlaveKoltukSayısı));
+                    OnPropertyChanged(nameof(SalonEnBoyYapısı));
+                }
+            }
+        }
+
         public ObservableCollection<Koltuk> Koltuklar
         {
             get => koltuklar;
@@ -127,6 +155,24 @@ namespace Sinema.Model
                 {
                     koltuklar = value;
                     OnPropertyChanged(nameof(Koltuklar));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public IEnumerable<IGrouping<int, int>> SalonEnBoyYapısı
+        {
+            get {
+                salonEnBoyYapısı= ExtensionMethods.GroupBy(((int)İlaveKoltukSayısı + (EnKoltukSayı * BoyKoltukSayı)).Bölenler(), 2);
+                return salonEnBoyYapısı;
+            }
+
+            set
+            {
+                if (salonEnBoyYapısı != value)
+                {
+                    salonEnBoyYapısı = value;
+                    OnPropertyChanged(nameof(SalonEnBoyYapısı));
                 }
             }
         }
@@ -176,6 +222,21 @@ namespace Sinema.Model
                 {
                     seçiliSalon = value;
                     OnPropertyChanged(nameof(SeçiliSalon));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public IGrouping<int, int> SeçiliSalonKoltukGrubu
+        {
+            get { return seçiliSalonKoltukGrubu; }
+
+            set
+            {
+                if (seçiliSalonKoltukGrubu != value)
+                {
+                    seçiliSalonKoltukGrubu = value;
+                    OnPropertyChanged(nameof(SeçiliSalonKoltukGrubu));
                 }
             }
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -24,6 +25,37 @@ namespace Sinema.ViewModel
         {
             XmlSerializer serializer = new(typeof(T));
             return serializer.Deserialize(xElement.CreateReader()) as T;
+        }
+
+        public static IEnumerable<int> Bölenler(this int x)
+        {
+            List<int> List = new();
+            for (int i = 1; i <= Math.Floor(Math.Sqrt(x)); i++)
+            {
+                if (x % i != 0)
+                {
+                    continue;
+                }
+
+                List.Add(i);
+                List.Add(x / i);
+            }
+
+            if (List[List.Count / 2] == List[List.Count / 2 - 1])
+            {
+                List.Remove(List[List.Count / 2]);
+            }
+
+            return List;
+        }
+
+        public static IEnumerable<IGrouping<int, TSource>> GroupBy<TSource>(IEnumerable<TSource> source, int itemsPerGroup)
+        {
+            return source.Zip(Enumerable.Range(0, source.Count()), (s, r) => new
+            {
+                Group = r / itemsPerGroup,
+                Item = s
+            }).GroupBy(i => i.Group, g => g.Item);
         }
 
         public static string HarfeDöndür(int counter)
@@ -50,15 +82,6 @@ namespace Sinema.ViewModel
                 string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
                 File.Copy(openFileDialog.FileName, $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
                 dc.ResimYolu = filename;
-            }
-        }     
-        
-        public static void VideoEkle(Film dc)
-        {
-            OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4)|*.mp4" };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                dc.VideoYolu = openFileDialog.FileName;
             }
         }
 
@@ -91,6 +114,15 @@ namespace Sinema.ViewModel
             XmlSerializer serializer = new(typeof(T));
             using TextWriter stream = new StreamWriter(MainWindowViewModel.xmldatapath);
             serializer.Serialize(stream, dataToSerialize);
+        }
+
+        public static void VideoEkle(Film dc)
+        {
+            OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4)|*.mp4" };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                dc.VideoYolu = openFileDialog.FileName;
+            }
         }
     }
 }

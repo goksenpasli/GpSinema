@@ -14,6 +14,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
         <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <local:KoltukTipiIdToBrushConverter x:Key="KoltukTipiIdToBrushConverter" />
@@ -391,12 +392,46 @@
             <TabControl x:Name="TabCtrl" ItemsSource="{Binding SalonViewModel.Salonlar.Salon}" SelectedItem="{Binding SalonViewModel.Salon.SeçiliSalon}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" />
-                            <Button Margin="20,0,0,0" Command="{Binding DataContext.ReportViewModel.SalonDurumuRaporla, ElementName=grid}" CommandParameter="{Binding Mode=OneWay}">
+                            <Button Grid.Column="1"
+                                Background="Transparent" BorderBrush="Transparent"
+                                Command="{Binding DataContext.ReportViewModel.SalonDurumuRaporla, ElementName=grid}"
+                                CommandParameter="{Binding Mode=OneWay}">
                                 <Image Width="16" Height="16" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Source=.xlsx}" />
                             </Button>
-                        </StackPanel>
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                                <Run Text="{Binding EnKoltukSayı}" />
+                                <Run Text="X" />
+                                <Run Text="{Binding BoyKoltukSayı}" />
+                            </TextBlock>
+                            <Extensions:NumericUpDownControl Grid.Row="2"
+                                Maximum="2500" Minimum="0" SmallChange="1" ToolTip="İlave Koltuk Ekleyin Ve Dizilimini Seçin."
+                                Value="{Binding İlaveKoltukSayısı, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                <ComboBox x:Name="Cb" ItemsSource="{Binding SalonEnBoyYapısı}" SelectedItem="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SeçiliSalonKoltukGrubu}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource SalonGroupingConverter}, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Content="+"
+                                    IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
+                                    Command="{Binding DataContext.SalonViewModel.SalonGenişlet, Mode=OneWay, ElementName=grid}"
+                                    CommandParameter="{Binding Mode=OneWay}"
+                                    FontSize="14" />
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>

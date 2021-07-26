@@ -69,6 +69,7 @@
     <Compile Include="Converter\DataImageFilePathImageUriConverter.cs" />
     <Compile Include="Converter\KoltukNoMergeConverter.cs" />
     <Compile Include="Converter\KoltukTipiIdToBrushConverter.cs" />
+    <Compile Include="Converter\SalonGroupingConverter.cs" />
     <Compile Include="Converter\SeçiliFilmtoKoltukRenkConverter.cs" />
     <Compile Include="Converter\StringToBrushConverter.cs" />
     <Compile Include="Model\Film.cs" />

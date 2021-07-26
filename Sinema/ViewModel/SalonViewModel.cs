@@ -3,6 +3,7 @@ using Sinema.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using System.Xml.Linq;
 
@@ -42,6 +43,22 @@ namespace Sinema.ViewModel
                 Salonlar.Serialize();
                 Salon.Adı = null;
             }, parameter => !string.IsNullOrWhiteSpace(Salon.Adı));
+
+            SalonGenişlet = new RelayCommand<object>(parameter =>
+            {
+                Salon seçilisalon = parameter as Salon;
+
+                int EnSonKoltukNo = seçilisalon.EnKoltukSayı * seçilisalon.BoyKoltukSayı;
+                seçilisalon.EnKoltukSayı = seçilisalon.SeçiliSalonKoltukGrubu.ElementAt(0);
+                seçilisalon.BoyKoltukSayı = seçilisalon.SeçiliSalonKoltukGrubu.ElementAt(1);
+                for (int i = EnSonKoltukNo; i < EnSonKoltukNo + seçilisalon.İlaveKoltukSayısı; i++)
+                {
+                    seçilisalon.Koltuklar.Add(new Koltuk() { KoltukEtkin = true, Görünür = true, No = i + 1 });
+                }
+
+                Salonlar.Serialize();
+                seçilisalon.İlaveKoltukSayısı = 0;
+            }, parameter => parameter is not null ? (parameter as Salon)?.İlaveKoltukSayısı > 0 : false);
         }
 
         public Salon Salon
@@ -57,6 +74,8 @@ namespace Sinema.ViewModel
                 }
             }
         }
+
+        public ICommand SalonGenişlet { get; }
 
         public Salonlar Salonlar
         {
