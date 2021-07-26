@@ -34,7 +34,7 @@
                     <HeaderedContentControl Header="KİŞİ SOYADI">
                         <TextBox Text="{Binding Soyad, UpdateSourceTrigger=PropertyChanged}" />
                     </HeaderedContentControl>
-                    <HeaderedContentControl Header="KİŞİ YAŞ">
+                    <HeaderedContentControl Header="KİŞİ YAŞ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                         <Extensions:NumericUpDownControl Maximum="150" Minimum="1" SmallChange="1"
                             Value="{Binding Yas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </HeaderedContentControl>
@@ -102,7 +102,7 @@
                                     </ComboBox.ItemsPanel>
                                 </ComboBox>
                             </HeaderedContentControl>
-                            <HeaderedContentControl Header="ADET">
+                            <HeaderedContentControl Header="ADET" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                                 <Extensions:NumericUpDownControl Maximum="1000" Minimum="1" SmallChange="1"
                                     Value="{Binding Path=SeçiliMusteri.Siparis.UrunAdet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </HeaderedContentControl>

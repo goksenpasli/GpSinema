@@ -59,8 +59,28 @@
             <DataTemplate x:Key="KoltukTipiColorTemplate">
                 <TextBlock><InlineUIContainer BaselineAlignment="Center">
                         <Rectangle Width="16" Height="16" Fill="{Binding KoltukRenk, Converter={StaticResource StringToBrushConverter}}" />
-                    </InlineUIContainer><Run Text=" " /><Run Text="{Binding KoltukAçıklama}" /><Run Text=" " /><Run Text="{Binding KoltukFiyatı, StringFormat=\{0:C\}}" Language="tr-tr" /></TextBlock>
+                    </InlineUIContainer>
+                    <Run Text="{Binding KoltukAçıklama}" />
+                    <Run Text="{Binding KoltukFiyatı, StringFormat=\{0:C\}}" Language="tr-tr" />
+                </TextBlock>
             </DataTemplate>
+            <ControlTemplate x:Key="HorizontalHeaderedContentControlControlTemplate" TargetType="{x:Type HeaderedContentControl}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter Content="{TemplateBinding Header}"
+                        VerticalAlignment="Center"
+                        ContentSource="Header"
+                        ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                        Grid.Column="1"
+                        ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Grid>
+            </ControlTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

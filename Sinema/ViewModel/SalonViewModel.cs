@@ -40,6 +40,7 @@ namespace Sinema.ViewModel
                 }
                 Salonlar.Salon.Add(salon);
                 Salonlar.Serialize();
+                Salon.Adı = null;
             }, parameter => !string.IsNullOrWhiteSpace(Salon.Adı));
         }
 

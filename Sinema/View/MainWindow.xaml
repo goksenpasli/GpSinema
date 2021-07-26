@@ -27,9 +27,6 @@
                 </view:MusteriControl.DataContext>
             </view:MusteriControl>
         </DataTemplate>
-        <Style TargetType="{x:Type HeaderedContentControl}">
-            <Setter Property="IsTabStop" Value="False" />
-        </Style>
         <ObjectDataProvider x:Key="KoltukÇeşidi" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="model:KoltukÇeşidi" />
@@ -55,11 +52,11 @@
                         <HeaderedContentControl Header="ADI">
                             <TextBox Text="{Binding SalonViewModel.Salon.Adı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="SALON EN KOLTUK SAYISI">
+                        <HeaderedContentControl Header="SALON EN KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="50" Minimum="1" SmallChange="1"
                                 Value="{Binding SalonViewModel.Salon.EnKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="SALON BOY KOLTUK SAYISI">
+                        <HeaderedContentControl Header="SALON BOY KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="50" Minimum="1" SmallChange="1"
                                 Value="{Binding SalonViewModel.Salon.BoyKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
@@ -105,14 +102,12 @@
                         <HeaderedContentControl Header="FİLM TİPİ">
                             <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedItem="{Binding FilmTipi}" />
                         </HeaderedContentControl>
-                        <UniformGrid Columns="2">
-                            <HeaderedContentControl Header="YÖNETMEN">
-                                <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </HeaderedContentControl>
-                            <HeaderedContentControl Header="OYUNCULAR">
-                                <TextBox Text="{Binding Film.Oyuncular, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </HeaderedContentControl>
-                        </UniformGrid>
+                        <HeaderedContentControl Header="YÖNETMEN">
+                            <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </HeaderedContentControl>
+                        <HeaderedContentControl Header="OYUNCULAR">
+                            <TextBox Text="{Binding Film.Oyuncular, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </HeaderedContentControl>
                         <HeaderedContentControl Header="FİLM RESİM-VİDEO">
                             <UniformGrid Columns="2">
                                 <Button Command="{Binding FilmResimEkle, Mode=OneWay}">
@@ -164,11 +159,11 @@
                         <HeaderedContentControl Header="ÜRÜN ADI">
                             <TextBox Text="{Binding ÜrünGirişiViewModel.Urun.ÜrünAdi, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="ÜRÜN BİRİM FİYATI">
+                        <HeaderedContentControl Header="ÜRÜN BİRİM FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
                                 Value="{Binding ÜrünGirişiViewModel.Urun.BirimFiyat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="ÜRÜN ADETİ">
+                        <HeaderedContentControl Header="ÜRÜN ADETİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="10000" Minimum="1" SmallChange="1"
                                 Value="{Binding ÜrünGirişiViewModel.Urun.Adet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
@@ -192,7 +187,7 @@
                         <HeaderedContentControl Header="KOLTUK TİPİ">
                             <ComboBox Text="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukAçıklama, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource KoltukÇeşidi}}" IsEditable="True" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="KOLTUK FİYATI">
+                        <HeaderedContentControl Header="KOLTUK FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
                                 Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
@@ -205,10 +200,18 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
                             <ComboBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ComboBoxItem}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Name}" Value="Red">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Name}" Value="Black">
                                             <Setter Property="IsEnabled" Value="False" />
                                         </DataTrigger>
                                     </Style.Triggers>

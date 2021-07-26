@@ -26,6 +26,7 @@ namespace Sinema.ViewModel
 
                     mainWindowViewModel.SalonViewModel.Salonlar.Urunler.Urun.Add(ürün);
                     mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    Urun.ÜrünAdi = null;
                 }
             }, parameter => !string.IsNullOrWhiteSpace(Urun.ÜrünAdi));
 

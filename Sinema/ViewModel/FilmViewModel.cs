@@ -41,7 +41,10 @@ namespace Sinema.ViewModel
 
                 SeçiliSalon?.Film.Add(film);
                 (parameter as Salonlar).Serialize();
-            }, parameter => SeçiliSalon is not null && !string.IsNullOrWhiteSpace(Film.Adı) && DateTime.TryParseExact(Saat, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
+                Film.ResimYolu = null;
+                Film.VideoYolu = null;
+                Film.Adı = null;
+            }, parameter => SeçiliSalon is not null && !string.IsNullOrWhiteSpace(Film?.Adı) && DateTime.TryParseExact(Saat, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             FilmVideoEkle = new RelayCommand<object>(parameter => ExtensionMethods.VideoEkle(Film), parameter => true);
 
@@ -102,8 +105,6 @@ namespace Sinema.ViewModel
 
         public ICommand FilmResimGüncelle { get; }
 
-        public ICommand WebFilmResimAktar { get; }
-
         public string FilmTipi
         {
             get => filmTipi;
@@ -163,5 +164,7 @@ namespace Sinema.ViewModel
                 }
             }
         }
+
+        public ICommand WebFilmResimAktar { get; }
     }
 }
