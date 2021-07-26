@@ -49,8 +49,9 @@ namespace Sinema.ViewModel
                 Salon seçilisalon = parameter as Salon;
 
                 int EnSonKoltukNo = seçilisalon.EnKoltukSayı * seçilisalon.BoyKoltukSayı;
-                seçilisalon.EnKoltukSayı = seçilisalon.SeçiliSalonKoltukGrubu.ElementAt(0);
-                seçilisalon.BoyKoltukSayı = seçilisalon.SeçiliSalonKoltukGrubu.ElementAt(1);
+                IGrouping<int, int> group = seçilisalon.SeçiliSalonKoltukGrubu;
+                seçilisalon.EnKoltukSayı = group.ElementAt(0);
+                seçilisalon.BoyKoltukSayı = group.ElementAt(1);
                 for (int i = EnSonKoltukNo; i < EnSonKoltukNo + seçilisalon.İlaveKoltukSayısı; i++)
                 {
                     seçilisalon.Koltuklar.Add(new Koltuk() { KoltukEtkin = true, Görünür = true, No = i + 1 });
