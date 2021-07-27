@@ -425,11 +425,20 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                <Button Content="+"
+                                <Button 
                                     IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
                                     Command="{Binding DataContext.SalonViewModel.SalonGenişlet, Mode=OneWay, ElementName=grid}"
                                     CommandParameter="{Binding Mode=OneWay}"
-                                    FontSize="14" />
+                                    FontSize="14" >
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="144" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Button>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

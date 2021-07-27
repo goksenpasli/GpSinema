@@ -30,22 +30,14 @@ namespace Sinema.ViewModel
         public static IEnumerable<int> Bölenler(this int x)
         {
             List<int> List = new();
-            for (int i = 1; i <= Math.Floor(Math.Sqrt(x)); i++)
+            for (int i = 1; i <= x; i++)
             {
-                if (x % i != 0)
+                if (x % i == 0)
                 {
-                    continue;
+                    List.Add(i);
+                    List.Add(x / i);
                 }
-
-                List.Add(i);
-                List.Add(x / i);
             }
-
-            if (List[List.Count / 2] == List[List.Count / 2 - 1])
-            {
-                List.Remove(List[List.Count / 2]);
-            }
-
             return List;
         }
 

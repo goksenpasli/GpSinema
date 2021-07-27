@@ -59,7 +59,7 @@ namespace Sinema.ViewModel
 
                 Salonlar.Serialize();
                 seçilisalon.İlaveKoltukSayısı = 0;
-            }, parameter => parameter is not null ? (parameter as Salon)?.İlaveKoltukSayısı > 0 : false);
+            }, parameter => true);
         }
 
         public Salon Salon

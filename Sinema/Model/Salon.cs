@@ -95,6 +95,7 @@ namespace Sinema.Model
                     enKoltukSayı = value;
                     OnPropertyChanged(nameof(EnKoltukSayı));
                     OnPropertyChanged(nameof(SalonEnBoyYapısı));
+                    OnPropertyChanged(nameof(SalonHarfleri));
                 }
             }
         }
@@ -182,7 +183,7 @@ namespace Sinema.Model
         {
             get
             {
-                salonHarfleri = ViewModel.ExtensionMethods.SalonHarfleri(EnKoltukSayı);
+                salonHarfleri = ExtensionMethods.SalonHarfleri(EnKoltukSayı);
                 return salonHarfleri;
             }
 
