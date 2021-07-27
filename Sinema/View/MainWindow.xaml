@@ -396,20 +396,21 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" FontWeight="Bold" />
                             <Button Grid.Column="1"
                                 Background="Transparent" BorderBrush="Transparent"
                                 Command="{Binding DataContext.ReportViewModel.SalonDurumuRaporla, ElementName=grid}"
                                 CommandParameter="{Binding Mode=OneWay}">
                                 <Image Width="16" Height="16" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Source=.xlsx}" />
                             </Button>
-                            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                            <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
+                                VerticalAlignment="Center">
                                 <Run Text="{Binding EnKoltukSayı}" />
                                 <Run Text="X" />
                                 <Run Text="{Binding BoyKoltukSayı}" />
@@ -417,34 +418,36 @@
                             <Extensions:NumericUpDownControl Grid.Row="2"
                                 Maximum="2500" Minimum="0" SmallChange="1" ToolTip="İlave Koltuk Ekleyin Ve Dizilimini Seçin."
                                 Value="{Binding İlaveKoltukSayısı, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                                <ComboBox x:Name="Cb" ItemsSource="{Binding SalonEnBoyYapısı}" SelectedItem="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SeçiliSalonKoltukGrubu}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Converter={StaticResource SalonGroupingConverter}, Mode=OneWay}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                    <ComboBox.ItemContainerStyle>
-                                        <Style TargetType="{x:Type ComboBoxItem}">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                                        </Style>
-                                    </ComboBox.ItemContainerStyle>
-                                </ComboBox>
-                                <Button IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
-                                    Command="{Binding DataContext.SalonViewModel.SalonGenişlet, Mode=OneWay, ElementName=grid}"
-                                    CommandParameter="{Binding Mode=OneWay}"
-                                    FontSize="14">
-                                    <Image Width="16" Height="16">
-                                        <Image.Source>
-                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                <Binding Source="Shell32.dll" />
-                                                <Binding Source="144" />
-                                            </MultiBinding>
-                                        </Image.Source>
-                                    </Image>
-                                </Button>
-                            </StackPanel>
+                            <ComboBox x:Name="Cb"
+                                Grid.Row="2" Grid.Column="1"
+                                ItemsSource="{Binding SalonEnBoyYapısı}"
+                                SelectedItem="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SeçiliSalonKoltukGrubu}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource SalonGroupingConverter}, Mode=OneWay}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ComboBoxItem}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                            <Button Grid.Row="1" Grid.Column="2"
+                                IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
+                                Command="{Binding DataContext.SalonViewModel.SalonGenişlet, Mode=OneWay, ElementName=grid}"
+                                CommandParameter="{Binding Mode=OneWay}"
+                                FontSize="14">
+                                <Image Width="16" Height="16">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                            <Binding Source="Shell32.dll" />
+                                            <Binding Source="144" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
@@ -466,24 +469,24 @@
                                 </ListBox>
                                 <StackPanel Orientation="Horizontal">
                                     <ComboBox x:Name="Cb" ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, ElementName=grid}" ItemTemplate="{DynamicResource KoltukTipiColorTemplate}" />
-                                    <Button Content="TÜM SALONA UYGULA" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıAyarla, ElementName=grid}">
-                                        <Button.CommandParameter>
-                                            <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                <Binding Mode="OneWay" />
-                                                <Binding ElementName="grid" Path="DataContext" />
-                                                <Binding ElementName="Cb" Path="SelectedItem" />
-                                            </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
-                                    <Button Content="GİZLİ KOLTUKLARI GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}">
-                                        <Button.CommandParameter>
-                                            <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                <Binding Mode="OneWay" />
-                                                <Binding ElementName="grid" Path="DataContext" />
-                                                <Binding ElementName="Cb" Path="SelectedItem" />
-                                            </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
+                                        <Button Content="TÜM SALONA&#xA;UYGULA" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıAyarla, ElementName=grid}">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                    <Binding Mode="OneWay" />
+                                                    <Binding ElementName="grid" Path="DataContext" />
+                                                    <Binding ElementName="Cb" Path="SelectedItem" />
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                        <Button Content="GİZLİ KOLTUKLARI&#xA;GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                    <Binding Mode="OneWay" />
+                                                    <Binding ElementName="grid" Path="DataContext" />
+                                                    <Binding ElementName="Cb" Path="SelectedItem" />
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
                                 </StackPanel>
                             </UniformGrid>
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding SalonHarfleri}">

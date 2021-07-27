@@ -67,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\DataImageFilePathImageUriConverter.cs" />
+    <Compile Include="Converter\FilmIdToFilmConverter.cs" />
     <Compile Include="Converter\KoltukNoMergeConverter.cs" />
     <Compile Include="Converter\KoltukTipiIdToBrushConverter.cs" />
     <Compile Include="Converter\SalonGroupingConverter.cs" />
