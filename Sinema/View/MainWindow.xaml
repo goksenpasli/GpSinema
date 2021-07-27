@@ -424,12 +424,17 @@
                                             <TextBlock Text="{Binding Converter={StaticResource SalonGroupingConverter}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ComboBoxItem}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
                                 </ComboBox>
-                                <Button 
-                                    IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
+                                <Button IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
                                     Command="{Binding DataContext.SalonViewModel.SalonGenişlet, Mode=OneWay, ElementName=grid}"
                                     CommandParameter="{Binding Mode=OneWay}"
-                                    FontSize="14" >
+                                    FontSize="14">
                                     <Image Width="16" Height="16">
                                         <Image.Source>
                                             <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
