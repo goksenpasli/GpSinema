@@ -47,17 +47,31 @@ namespace Sinema.ViewModel
                 mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
             }, parameter => true);
 
-            TümKoltuklarıAyarla = new RelayCommand<object>(parameter =>
+            KoltuklarıAyarla = new RelayCommand<object>(parameter =>
             {
                 object[] data = parameter as object[];
                 Salon salon = data[0] as Salon;
                 MainWindowViewModel mainWindowViewModel = data[1] as MainWindowViewModel;
                 KoltukTipi SeçiliKoltukTipi = data[2] as KoltukTipi;
                 KoltukTipiIdToBrushConverter.koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
+
                 foreach (Koltuk item in salon.Koltuklar)
                 {
-                    item.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                    item.KoltukTipiId = SeçiliKoltukTipi.Id;
+                    if (salon.SeçiliKoltukDüzeni == 0)
+                    {
+                        item.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                        item.KoltukTipiId = SeçiliKoltukTipi.Id;
+                    }
+                    if (salon.SeçiliKoltukDüzeni == 1 && item.No % 2 == 1)
+                    {
+                        item.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                        item.KoltukTipiId = SeçiliKoltukTipi.Id;
+                    }
+                    if (salon.SeçiliKoltukDüzeni == 2 && item.No % 2 == 0)
+                    {
+                        item.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                        item.KoltukTipiId = SeçiliKoltukTipi.Id;
+                    }
                 }
 
                 mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
@@ -79,6 +93,8 @@ namespace Sinema.ViewModel
             }, parameter => true);
         }
 
+        public ICommand ÇiftKoltuklarıAyarla { get; }
+
         public Koltuk Koltuk
         {
             get => koltuk;
@@ -95,6 +111,8 @@ namespace Sinema.ViewModel
 
         public ICommand KoltukAyarla { get; }
 
+        public ICommand KoltuklarıAyarla { get; }
+
         public KoltukTipi KoltukTipi
         {
             get => koltukTipi;
@@ -110,6 +128,8 @@ namespace Sinema.ViewModel
         }
 
         public ICommand KoltukTipiGirişiYap { get; }
+
+        public ICommand TekKoltuklarıAyarla { get; }
 
         public ICommand TümKoltuklarıAyarla { get; }
 

@@ -81,6 +81,9 @@
                         ContentTemplate="{TemplateBinding ContentTemplate}" />
                 </Grid>
             </ControlTemplate>
+            <Style TargetType="HeaderedContentControl">
+                <Setter Property="IsTabStop" Value="False"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

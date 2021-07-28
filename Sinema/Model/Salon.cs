@@ -33,6 +33,8 @@ namespace Sinema.Model
 
         private Film seçiliFilm;
 
+        private int seçiliKoltukDüzeni;
+
         private Salon seçiliSalon;
 
         private IGrouping<int, int> seçiliSalonKoltukGrubu;
@@ -163,8 +165,9 @@ namespace Sinema.Model
         [XmlIgnore]
         public IEnumerable<IGrouping<int, int>> SalonEnBoyYapısı
         {
-            get {
-                salonEnBoyYapısı= ExtensionMethods.GroupBy(((int)İlaveKoltukSayısı + (EnKoltukSayı * BoyKoltukSayı)).Bölenler(), 2);
+            get
+            {
+                salonEnBoyYapısı = ExtensionMethods.GroupBy(((int)İlaveKoltukSayısı + (EnKoltukSayı * BoyKoltukSayı)).Bölenler(), 2);
                 return salonEnBoyYapısı;
             }
 
@@ -208,6 +211,21 @@ namespace Sinema.Model
                 {
                     seçiliFilm = value;
                     OnPropertyChanged(nameof(SeçiliFilm));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public int SeçiliKoltukDüzeni
+        {
+            get => seçiliKoltukDüzeni;
+
+            set
+            {
+                if (seçiliKoltukDüzeni != value)
+                {
+                    seçiliKoltukDüzeni = value;
+                    OnPropertyChanged(nameof(SeçiliKoltukDüzeni));
                 }
             }
         }

@@ -76,7 +76,18 @@
                         </Button>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Header="FİLMLER" DataContext="{Binding FilmViewModel}">
+                <GroupBox DataContext="{Binding FilmViewModel}">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="FİLMLER" VerticalAlignment="Center" />
+                            <Button Foreground="{x:Null}"
+                                Background="{x:Null}"
+                                Command="{Binding DataContext.ReportViewModel.FilmListesiRaporla, ElementName=grid}"
+                                IsTabStop="False">
+                                <Image Width="16" Height="16" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Source=.xlsx}" />
+                            </Button>
+                        </StackPanel>
+                    </GroupBox.Header>
                     <StackPanel>
                         <HeaderedContentControl Header="SALON SEÇ">
                             <ComboBox ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.Salon, ElementName=grid}" DisplayMemberPath="Adı" SelectedItem="{Binding SeçiliSalon}">
@@ -406,7 +417,8 @@
                             <Button Grid.Column="1"
                                 Background="Transparent" BorderBrush="Transparent"
                                 Command="{Binding DataContext.ReportViewModel.SalonDurumuRaporla, ElementName=grid}"
-                                CommandParameter="{Binding Mode=OneWay}">
+                                CommandParameter="{Binding Mode=OneWay}"
+                                IsTabStop="False">
                                 <Image Width="16" Height="16" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Source=.xlsx}" />
                             </Button>
                             <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
@@ -469,24 +481,54 @@
                                 </ListBox>
                                 <StackPanel Orientation="Horizontal">
                                     <ComboBox x:Name="Cb" ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, ElementName=grid}" ItemTemplate="{DynamicResource KoltukTipiColorTemplate}" />
-                                        <Button Content="TÜM SALONA&#xA;UYGULA" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıAyarla, ElementName=grid}">
-                                            <Button.CommandParameter>
-                                                <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                    <Binding Mode="OneWay" />
-                                                    <Binding ElementName="grid" Path="DataContext" />
-                                                    <Binding ElementName="Cb" Path="SelectedItem" />
-                                                </MultiBinding>
-                                            </Button.CommandParameter>
-                                        </Button>
-                                        <Button Content="GİZLİ KOLTUKLARI&#xA;GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}">
-                                            <Button.CommandParameter>
-                                                <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                    <Binding Mode="OneWay" />
-                                                    <Binding ElementName="grid" Path="DataContext" />
-                                                    <Binding ElementName="Cb" Path="SelectedItem" />
-                                                </MultiBinding>
-                                            </Button.CommandParameter>
-                                        </Button>
+                                    <Extensions:ContentToggleButton x:Name="Ctb" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" OverContent="KOLTUK&#xA;AYARLA">
+                                        <Extensions:ContentToggleButton.Content>
+                                            <GroupBox Header="KOLTUK AYARLA">
+                                                <StackPanel>
+                                                    <ListBox 
+                                                        Background="{x:Null}"
+                                                        BorderBrush="{x:Null}"
+                                                        SelectedIndex="{Binding SeçiliKoltukDüzeni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                        <ListBox.Resources>
+                                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate>
+                                                                            <RadioButton Content="{TemplateBinding ContentPresenter.Content}"
+                                                                                VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                                                                IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ListBox.Resources>
+                                                        <ListBoxItem Content="TÜMÜNE UYGULA" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                                        <ListBoxItem Content="TEK RAKAMLARA UYGULA" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                                        <ListBoxItem Content="ÇİFT RAKAMLARA UYGULA" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                                    </ListBox>
+                                                    <Button Content="UYGULA" Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltuklarıAyarla, ElementName=grid}" >
+                                                        <Button.CommandParameter>
+                                                            <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                                <Binding Mode="OneWay" />
+                                                                <Binding ElementName="grid" Path="DataContext" />
+                                                                <Binding ElementName="Cb" Path="SelectedItem" />
+                                                                <Binding ElementName="Cb" Path="SelectedItem" />
+                                                            </MultiBinding>
+                                                        </Button.CommandParameter>
+                                                    </Button>                                                   
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </Extensions:ContentToggleButton.Content>
+                                    </Extensions:ContentToggleButton>
+                                    <Button Content="GİZLİ KOLTUKLARI&#xA;GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                <Binding Mode="OneWay" />
+                                                <Binding ElementName="grid" Path="DataContext" />
+                                                <Binding ElementName="Cb" Path="SelectedItem" />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
                                 </StackPanel>
                             </UniformGrid>
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding SalonHarfleri}">
