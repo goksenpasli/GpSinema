@@ -102,7 +102,7 @@ namespace Sinema.ViewModel
                 {
                     object[] data = parameter as object[];
                     Salon salon = data[0] as Salon;
-                    return salon.KoltukAltAralık <= salon.KoltukÜstAralık;
+                    return salon.KoltukAltAralık <= salon.KoltukÜstAralık && salon.KoltukÜstAralık <= salon.EnKoltukSayı * salon.BoyKoltukSayı;
                 }
                 return false;
             });
