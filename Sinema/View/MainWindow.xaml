@@ -480,15 +480,15 @@
                                     </ListBox.ItemsPanel>
                                 </ListBox>
                                 <StackPanel Orientation="Horizontal">
-                                    <ComboBox x:Name="Cb" ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, ElementName=grid}" ItemTemplate="{DynamicResource KoltukTipiColorTemplate}" />
+                                    <ComboBox x:Name="Cb"
+                                        VerticalContentAlignment="Center"
+                                        ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, ElementName=grid}"
+                                        ItemTemplate="{DynamicResource KoltukTipiColorTemplate}" />
                                     <Extensions:ContentToggleButton x:Name="Ctb" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" OverContent="KOLTUK&#xA;AYARLA">
                                         <Extensions:ContentToggleButton.Content>
                                             <GroupBox Header="KOLTUK AYARLA">
                                                 <StackPanel>
-                                                    <ListBox 
-                                                        Background="{x:Null}"
-                                                        BorderBrush="{x:Null}"
-                                                        SelectedIndex="{Binding SeçiliKoltukDüzeni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <ListBox Background="{x:Null}" BorderBrush="{x:Null}" SelectedIndex="{Binding SeçiliKoltukDüzeni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                         <ListBox.Resources>
                                                             <Style TargetType="{x:Type ListBoxItem}">
                                                                 <Setter Property="Template">
@@ -505,8 +505,34 @@
                                                         <ListBoxItem Content="TÜMÜNE UYGULA" VerticalAlignment="Center" VerticalContentAlignment="Center" />
                                                         <ListBoxItem Content="TEK RAKAMLARA UYGULA" VerticalAlignment="Center" VerticalContentAlignment="Center" />
                                                         <ListBoxItem Content="ÇİFT RAKAMLARA UYGULA" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                                                        <ListBoxItem VerticalAlignment="Center" VerticalContentAlignment="Center">
+                                                            <ListBoxItem.Content>
+                                                                <StackPanel IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}, Mode=TwoWay}" Orientation="Horizontal">
+                                                                    <TextBlock Text="ARALIĞA UYGULA" VerticalAlignment="Center" />
+                                                                    <Extensions:NumericUpDownControl Width="35"
+                                                                        Maximum="5000" Minimum="1" SmallChange="1"
+                                                                        Value="{Binding KoltukAltAralık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                    <Extensions:NumericUpDownControl Width="35"
+                                                                        Maximum="5000" Minimum="1" SmallChange="1"
+                                                                        Value="{Binding KoltukÜstAralık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                </StackPanel>
+                                                            </ListBoxItem.Content>
+                                                        </ListBoxItem>
+                                                        <ListBoxItem VerticalAlignment="Center" VerticalContentAlignment="Center">
+                                                            <ListBoxItem.Content>
+                                                                <StackPanel IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}, Mode=TwoWay}" Orientation="Horizontal">
+                                                                    <TextBlock Text="DİKDÖRTGENE UYGULA" VerticalAlignment="Center" />
+                                                                    <Extensions:NumericUpDownControl Width="35"
+                                                                        Maximum="5000" Minimum="1" SmallChange="1"
+                                                                        Value="{Binding KoltukAltAralık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                    <Extensions:NumericUpDownControl Width="35"
+                                                                        Maximum="5000" Minimum="1" SmallChange="1"
+                                                                        Value="{Binding KoltukÜstAralık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                </StackPanel>
+                                                            </ListBoxItem.Content>
+                                                        </ListBoxItem>
                                                     </ListBox>
-                                                    <Button Content="UYGULA" Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltuklarıAyarla, ElementName=grid}" >
+                                                    <Button Content="UYGULA" Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltuklarıAyarla, ElementName=grid}">
                                                         <Button.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                                                 <Binding Mode="OneWay" />
@@ -515,7 +541,7 @@
                                                                 <Binding ElementName="Cb" Path="SelectedItem" />
                                                             </MultiBinding>
                                                         </Button.CommandParameter>
-                                                    </Button>                                                   
+                                                    </Button>
                                                 </StackPanel>
                                             </GroupBox>
                                         </Extensions:ContentToggleButton.Content>

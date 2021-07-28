@@ -25,7 +25,11 @@ namespace Sinema.Model
 
         private double ilaveKoltukSayısı;
 
+        private double koltukAltAralık = 1;
+
         private ObservableCollection<Koltuk> koltuklar = new();
+
+        private double koltukÜstAralık = 1;
 
         private IEnumerable<IGrouping<int, int>> salonEnBoyYapısı;
 
@@ -148,6 +152,21 @@ namespace Sinema.Model
             }
         }
 
+        [XmlIgnore]
+        public double KoltukAltAralık
+        {
+            get { return koltukAltAralık; }
+
+            set
+            {
+                if (koltukAltAralık != value)
+                {
+                    koltukAltAralık = value;
+                    OnPropertyChanged(nameof(KoltukAltAralık));
+                }
+            }
+        }
+
         public ObservableCollection<Koltuk> Koltuklar
         {
             get => koltuklar;
@@ -158,6 +177,24 @@ namespace Sinema.Model
                 {
                     koltuklar = value;
                     OnPropertyChanged(nameof(Koltuklar));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public double KoltukÜstAralık
+        {
+            get
+            {
+                return koltukÜstAralık;
+            }
+
+            set
+            {
+                if (koltukÜstAralık != value)
+                {
+                    koltukÜstAralık = value;
+                    OnPropertyChanged(nameof(KoltukÜstAralık));
                 }
             }
         }

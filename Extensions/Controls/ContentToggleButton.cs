@@ -5,6 +5,8 @@ namespace Extensions
 {
     public class ContentToggleButton : ToggleButton
     {
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(ContentToggleButton), new PropertyMetadata(new CornerRadius(3d)));
+
         public static readonly DependencyProperty OverContentProperty = DependencyProperty.Register("OverContent", typeof(object), typeof(ContentToggleButton), new PropertyMetadata(null));
 
         public static readonly DependencyProperty PlacementModeProperty = DependencyProperty.Register("PlacementMode", typeof(PlacementMode), typeof(ContentToggleButton), new PropertyMetadata(PlacementMode.Bottom));
@@ -18,17 +20,22 @@ namespace Extensions
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentToggleButton), new FrameworkPropertyMetadata(typeof(ContentToggleButton)));
         }
 
-
-        public PlacementMode PlacementMode
+        public CornerRadius CornerRadius
         {
-            get => (PlacementMode)GetValue(PlacementModeProperty);
-            set => SetValue(PlacementModeProperty, value);
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
         public object OverContent
         {
             get => GetValue(OverContentProperty);
             set => SetValue(OverContentProperty, value);
+        }
+
+        public PlacementMode PlacementMode
+        {
+            get => (PlacementMode)GetValue(PlacementModeProperty);
+            set => SetValue(PlacementModeProperty, value);
         }
 
         public Visibility StayOpenCheckBoxVisibility
