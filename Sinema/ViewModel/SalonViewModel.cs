@@ -11,6 +11,8 @@ namespace Sinema.ViewModel
 {
     public class SalonViewModel : InpcBase
     {
+        private ObservableCollection<string> bulunanKişiler;
+
         private Salon salon;
 
         private Salonlar salonlar;
@@ -60,6 +62,37 @@ namespace Sinema.ViewModel
                 Salonlar.Serialize();
                 seçilisalon.İlaveKoltukSayısı = 0;
             }, parameter => true);
+
+            SalonKişiAra = new RelayCommand<object>(parameter =>
+            {
+                if (parameter is string aramametni && File.Exists(MainWindowViewModel.xmldatapath))
+                {
+                    BulunanKişiler = new();
+                    foreach (XElement item in XElement.Load(MainWindowViewModel.xmldatapath)?.Descendants("Müşteri"))
+                    {
+                        if (item.Attribute("Ad").Value.Contains(aramametni))
+                        {
+                            string koltuk = item.Parent.Attribute("No").Value;
+                            string salon = item.Parent.Parent.Parent.Attribute("Adı").Value;
+                            BulunanKişiler.Add(salon + " " + koltuk + " nolu koltuk");
+                        }
+                    }
+                }
+            }, parameter => parameter is string aramametni && !string.IsNullOrWhiteSpace(aramametni));
+        }
+
+        public ObservableCollection<string> BulunanKişiler
+        {
+            get => bulunanKişiler;
+
+            set
+            {
+                if (bulunanKişiler != value)
+                {
+                    bulunanKişiler = value;
+                    OnPropertyChanged(nameof(BulunanKişiler));
+                }
+            }
         }
 
         public Salon Salon
@@ -75,6 +108,8 @@ namespace Sinema.ViewModel
                 }
             }
         }
+
+        public ICommand SalonKişiAra { get; }
 
         public ICommand SalonGenişlet { get; }
 

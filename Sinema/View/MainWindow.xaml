@@ -399,7 +399,18 @@
                 </GroupBox>
             </Grid>
         </GroupBox>
-        <GroupBox Header="SALONLAR" Grid.Column="1">
+        <GroupBox Grid.Column="1">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="SALONLAR" VerticalAlignment="Center" />
+                    <TextBox x:Name="Tb" Width="100" />
+                    <Extensions:SplitButton Content="KİŞİ ARA" Command="{Binding SalonViewModel.SalonKişiAra, Mode=OneWay}" CommandParameter="{Binding ElementName=Tb, Path=Text}">
+                        <Extensions:SplitButton.InternalContent>
+                            <ListBox Width="200" Height="200" ItemsSource="{Binding SalonViewModel.BulunanKişiler}" />
+                        </Extensions:SplitButton.InternalContent>
+                    </Extensions:SplitButton>
+                </StackPanel>
+            </GroupBox.Header>
             <TabControl x:Name="TabCtrl" ItemsSource="{Binding SalonViewModel.Salonlar.Salon}" SelectedItem="{Binding SalonViewModel.Salon.SeçiliSalon}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>

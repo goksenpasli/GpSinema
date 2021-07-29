@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NGS.Templater.dll" />
+    <SplashScreen Include="splash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
