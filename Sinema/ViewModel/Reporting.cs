@@ -10,7 +10,7 @@ namespace Sinema.ViewModel
     {
         public static void CreateReport(this IEnumerable dbset, string xlsxfilepath)
         {
-            using Stream stream = File.Open(xlsxfilepath,FileMode.Open,FileAccess.Read,FileShare.ReadWrite);
+            using Stream stream = File.Open(xlsxfilepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             string dosyaismi = Path.GetTempPath() + Guid.NewGuid() + ".xlsx";
             using (FileStream output = new(dosyaismi, FileMode.Create))
             {
