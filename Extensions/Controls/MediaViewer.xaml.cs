@@ -9,8 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace Extensions.Controls
@@ -198,23 +196,11 @@ namespace Extensions.Controls
                             double predictedValue = PixelsToValue(e.GetPosition(Sld).X, Sld.Minimum, Sld.Maximum, Sld.ActualWidth);
                             mediaElement.IsMuted = true;
                             mediaElement.Source = Player.Source;
+                            mediaElement.Height = tooltip.Height;
+                            mediaElement.Width = tooltip.Width;
                             mediaElement.Pause();
                             mediaElement.Position = TimeSpan.FromSeconds(predictedValue);
-                            DrawingVisual dv = new();
-                            using (DrawingContext dc = dv.RenderOpen())
-                            {
-                                VisualBrush vb = new(mediaElement);
-                                if (vb.CanFreeze)
-                                {
-                                    vb.Freeze();
-                                }
-                                dc.DrawRectangle(vb, null, new Rect(new Size(tooltip.Width, tooltip.Height)));
-                            }
-
-                            RenderTargetBitmap bmp = new((int)tooltip.Width, (int)tooltip.Height, 96, 96, PixelFormats.Pbgra32);
-                            bmp.Render(dv);
-                            bmp.Freeze();
-                            image.Source = bmp;
+                            image.Source = mediaElement.ToRenderTargetBitmap();
                             tooltip.Content = image;
                             if (!tooltip.IsOpen)
                             {

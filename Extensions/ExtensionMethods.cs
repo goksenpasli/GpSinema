@@ -61,7 +61,7 @@ namespace Extensions
 
         public static Bitmap BitmapChangeFormat(this Bitmap bitmap, System.Drawing.Imaging.PixelFormat format)
         {
-            return bitmap.Clone(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
+            return bitmap.Clone(new Rectangle(0, 0, bitmap.Width, bitmap.Height), format);
         }
 
         public static bool Contains(this string source, string toCheck, StringComparison comp)
@@ -148,7 +148,10 @@ namespace Extensions
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr ExtractIcon(this IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
-        public static IEnumerable<string> FilterFiles(this string path, params string[] exts) => exts.Select(x => x).SelectMany(x => Directory.EnumerateFiles(path, x, SearchOption.TopDirectoryOnly));
+        public static IEnumerable<string> FilterFiles(this string path, params string[] exts)
+        {
+            return exts.Select(x => x).SelectMany(x => Directory.EnumerateFiles(path, x, SearchOption.TopDirectoryOnly));
+        }
 
         public static string GetFileType(this string filename)
         {
@@ -368,9 +371,9 @@ namespace Extensions
             double scale = resolution / 96d;
             uiElement.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
             System.Windows.Size sz = uiElement.DesiredSize;
-            Rect rect = new Rect(sz);
+            Rect rect = new(sz);
             uiElement.Arrange(rect);
-            RenderTargetBitmap bmp = new RenderTargetBitmap((int)(scale * rect.Width), (int)(scale * rect.Height), scale * 96, scale * 96, PixelFormats.Default);
+            RenderTargetBitmap bmp = new((int)(scale * rect.Width), (int)(scale * rect.Height), scale * 96, scale * 96, PixelFormats.Default);
             if (bmp != null)
             {
                 bmp.Render(uiElement);
