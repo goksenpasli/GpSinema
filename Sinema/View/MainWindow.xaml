@@ -662,23 +662,45 @@
                                             ContextMenuService.ShowOnDisabled="True"
                                             Tag="{Binding DataContext, ElementName=grid}">
                                             <Extensions:ContentToggleButton.ToolTip>
-                                                <ListView Grid.Column="1" ItemsSource="{Binding Müşteri}" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                                                    <ListView.View>
-                                                        <GridView>
-                                                            <GridViewColumn Header="AD" DisplayMemberBinding="{Binding Ad}" />
-                                                            <GridViewColumn Header="SOYAD" DisplayMemberBinding="{Binding Soyad}" />
-                                                            <GridViewColumn Header="FİLM">
-                                                                <GridViewColumn.CellTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}">
-                                                                            <Run Text="{Binding Adı}" />
-                                                                        </TextBlock>
-                                                                    </DataTemplate>
-                                                                </GridViewColumn.CellTemplate>
-                                                            </GridViewColumn>
-                                                        </GridView>
-                                                    </ListView.View>
-                                                </ListView>
+                                                <ToolTip>
+                                                    <ToolTip.Style>
+                                                        <Style TargetType="ToolTip">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Müşteri.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ToolTip.Style>
+                                                    <ListBox ItemsSource="{Binding Müşteri}" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                                        <ListBox.ItemContainerStyle>
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                            </Style>
+                                                        </ListBox.ItemContainerStyle>
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" Orientation="Horizontal">
+                                                                        <Image HorizontalAlignment="Left" Source="{Binding ResimYolu, ConverterParameter=32, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
+                                                                        <TextBlock Text="{Binding Adı}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                                    </StackPanel>
+                                                                    <TextBlock Grid.Column="1"
+                                                                        Margin="25,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                                        FontWeight="Bold">
+                                                                        <Run Text="{Binding Ad}" />
+                                                                        <LineBreak />
+                                                                        <Run Text="{Binding Soyad}" />
+                                                                    </TextBlock>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </ToolTip>
                                             </Extensions:ContentToggleButton.ToolTip>
                                             <Extensions:ContentToggleButton.OverContent>
                                                 <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
