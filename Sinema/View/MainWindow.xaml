@@ -15,6 +15,7 @@
     mc:Ignorable="d">
     <Window.Resources>
         <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
+        <local:FilmIdToFilmVisibilityConverter x:Key="FilmIdToFilmVisibilityConverter" />
         <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
         <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
@@ -417,16 +418,13 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="ADI"
-                                Width="175"
+                                Width="160"
                                 Extensions:GridViewSort.PropertyName="Adı"
                                 DisplayMemberBinding="{Binding Adı}" />
-                            <GridViewColumn Header="FİLM&#xA;SAATİ" Width="105" Extensions:GridViewSort.PropertyName="FilmSaati">
+                            <GridViewColumn Header="FİLM&#xA;SAATİ" Width="115" Extensions:GridViewSort.PropertyName="FilmSaati">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock>
-                                            <Run Text="{Binding FilmSaati, StringFormat=\{0:d\}}" Language="tr-tr" />
-                                            <Run Text="{Binding FilmSaati, StringFormat=\{0:h:mm\}}" Language="tr-tr" />
-                                        </TextBlock>
+                                        <TextBlock Text="{Binding FilmSaati, StringFormat=\{0:g\}}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -676,6 +674,7 @@
                                                         <ListBox.ItemContainerStyle>
                                                             <Style TargetType="ListBoxItem">
                                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
                                                             </Style>
                                                         </ListBox.ItemContainerStyle>
                                                         <ListBox.ItemTemplate>
