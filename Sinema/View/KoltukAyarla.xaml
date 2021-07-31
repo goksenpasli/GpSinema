@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Sinema.Model"
     d:DataContext="{d:DesignInstance Type={x:Type model:Koltuk}}"
-    d:DesignHeight="275" d:DesignWidth="350" UseLayoutRounding="True"
+    d:DesignHeight="275" d:DesignWidth="400" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <GroupBox Background="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}">
@@ -24,7 +24,18 @@
                     <HeaderedContentControl Header="KOLTUK TİPİ">
                         <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}" ItemTemplate="{StaticResource KoltukTipiColorTemplate}" SelectedValue="{Binding SeçiliKoltukTipi}" />
                     </HeaderedContentControl>
-                    <Button Content="UYGULA" Command="{Binding Tag.KoltukTipiGirişiViewModel.KoltukAyarla, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                    <Button Command="{Binding Tag.KoltukTipiGirişiViewModel.KoltukAyarla, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                        <Binding Source="Shell32.dll" />
+                                        <Binding Source="144" />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="UYGULA" VerticalAlignment="Center" />
+                        </StackPanel>
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                 <Binding Mode="OneWay" />
@@ -39,11 +50,16 @@
                     ItemsSource="{Binding Müşteri}"
                     Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl, AncestorLevel=2}}"
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="AD" DisplayMemberBinding="{Binding Ad}" />
                             <GridViewColumn Header="SOYAD" DisplayMemberBinding="{Binding Soyad}" />
-                            <GridViewColumn Header="KOLTUK NO">
+                            <GridViewColumn Header="KOLTUK&#xA;NO">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Extensions:NumericUpDownControl Maximum="{Binding Tag.Koltuklar.Count, RelativeSource={RelativeSource AncestorType=ListView}}"
@@ -55,7 +71,18 @@
                             <GridViewColumn>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="MÜŞTERİ TAŞI" Command="{Binding Tag.KişiGirişiViewModel.MusteriTaşı, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                                        <Button Command="{Binding Tag.KişiGirişiViewModel.MusteriTaşı, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="16" Height="16">
+                                                    <Image.Source>
+                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                            <Binding Source="Shell32.dll" />
+                                                            <Binding Source="146" />
+                                                        </MultiBinding>
+                                                    </Image.Source>
+                                                </Image>
+                                                <TextBlock Text="TAŞI" VerticalAlignment="Center" />
+                                            </StackPanel>
                                             <Button.CommandParameter>
                                                 <MultiBinding Converter="{StaticResource CloneConverter}">
                                                     <Binding Mode="OneWay" />

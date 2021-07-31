@@ -9,7 +9,6 @@ namespace Sinema
 {
     public class KoltukNoMergeConverter : IMultiValueConverter
     {
-
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))

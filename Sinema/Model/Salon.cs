@@ -43,6 +43,8 @@ namespace Sinema.Model
 
         private IGrouping<int, int> seçiliSalonKoltukGrubu;
 
+        private bool topluKoltukGizle;
+
         [XmlAttribute(AttributeName = "Adı")]
         public string Adı
         {
@@ -293,6 +295,21 @@ namespace Sinema.Model
                 {
                     seçiliSalonKoltukGrubu = value;
                     OnPropertyChanged(nameof(SeçiliSalonKoltukGrubu));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public bool TopluKoltukGizle
+        {
+            get => topluKoltukGizle;
+
+            set
+            {
+                if (topluKoltukGizle != value)
+                {
+                    topluKoltukGizle = value;
+                    OnPropertyChanged(nameof(TopluKoltukGizle));
                 }
             }
         }

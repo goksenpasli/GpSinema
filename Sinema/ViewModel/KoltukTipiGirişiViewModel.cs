@@ -62,16 +62,28 @@ namespace Sinema.ViewModel
                     {
                         koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                         koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                        if (salon.TopluKoltukGizle)
+                        {
+                            koltuk.Görünür = false;
+                        }
                     }
                     if (salon.SeçiliKoltukDüzeni == 1 && koltuk.No % 2 == 1)
                     {
                         koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                         koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                        if (salon.TopluKoltukGizle)
+                        {
+                            koltuk.Görünür = false;
+                        }
                     }
                     if (salon.SeçiliKoltukDüzeni == 2 && koltuk.No % 2 == 0)
                     {
                         koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                         koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                        if (salon.TopluKoltukGizle)
+                        {
+                            koltuk.Görünür = false;
+                        }
                     }
                     if (salon.SeçiliKoltukDüzeni == 3)
                     {
@@ -79,6 +91,10 @@ namespace Sinema.ViewModel
                         {
                             koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                             koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                            if (salon.TopluKoltukGizle)
+                            {
+                                koltukaralık.Görünür = false;
+                            }
                         }
                     }
                     if (salon.SeçiliKoltukDüzeni == 4)
@@ -90,6 +106,10 @@ namespace Sinema.ViewModel
                                 Koltuk koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
                                 koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                                 koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                                if (salon.TopluKoltukGizle)
+                                {
+                                    koltukaralık.Görünür = false;
+                                }
                             }
                         }
                     }
@@ -102,7 +122,7 @@ namespace Sinema.ViewModel
                 {
                     object[] data = parameter as object[];
                     Salon salon = data[0] as Salon;
-                    return salon.KoltukAltAralık <= salon.KoltukÜstAralık && salon.KoltukÜstAralık <= salon.EnKoltukSayı * salon.BoyKoltukSayı;
+                    return salon?.KoltukAltAralık <= salon?.KoltukÜstAralık && salon?.KoltukÜstAralık <= salon?.EnKoltukSayı * salon?.BoyKoltukSayı;
                 }
                 return false;
             });

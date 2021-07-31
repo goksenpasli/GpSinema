@@ -6,103 +6,101 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Sinema.Model" xmlns:sys="clr-namespace:System;assembly=mscorlib"
     d:DataContext="{d:DesignInstance Type={x:Type model:Musteri}}"
-    d:DesignHeight="250" d:DesignWidth="450"
+    d:DesignHeight="150" d:DesignWidth="280"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Sinema:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
     </UserControl.Resources>
-    <GroupBox>
-        <Grid Width="300">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <FlowDocumentScrollViewer x:Name="FdBilet"
-                Grid.Row="0"
-                Margin="20"
-                VerticalScrollBarVisibility="Auto">
-                <FlowDocument FontSize="16" FontFamily="Times New Roman"
-                    Block.LineHeight="1" Language="tr-tr">
-                    <FlowDocument.Resources>
-                        <Style TargetType="{x:Type TableCell}">
-                            <Setter Property="BorderBrush" Value="Black" />
-                            <Setter Property="BorderThickness" Value="0.5pt" />
-                        </Style>
-                    </FlowDocument.Resources>
-                    <Table CellSpacing="0">
-                        <Table.Columns>
-                            <TableColumn Width="100" />
-                            <TableColumn Width="150" />
-                        </Table.Columns>
-                        <TableRowGroup>
-                            <TableRow>
-                                <TableCell ColumnSpan="2">
-                                    <Paragraph TextAlignment="Center">
-                                        <Run Text="BİLET" FontWeight="Bold" />
-                                    </Paragraph>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell BorderThickness="0" ColumnSpan="2">
-                                    <BlockUIContainer TextAlignment="Center" />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="AD" FontWeight="Bold" />
-                                    </Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="{Binding Ad}" />
-                                        <Run Text=" " />
-                                        <Run Text="{Binding Soyad}" />
-                                    </Paragraph>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="SALON" FontWeight="Bold" />
-                                    </Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="{Binding DataContext.SalonViewModel.Salon.SeçiliSalon.Adı, ElementName=grid}" />
-                                    </Paragraph>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="FİLM" FontWeight="Bold" />
-                                    </Paragraph>
-                                </TableCell>
-                                <TableCell DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}">
-                                    <Paragraph>
-                                        <Run Text="{Binding Adı}" />
-                                    </Paragraph>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="KOLTUK" FontWeight="Bold" />
-                                    </Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>
-                                        <Run Text="{Binding OverContent, RelativeSource={RelativeSource AncestorLevel=2, AncestorType={x:Type Extensions:ContentToggleButton}}}" />
-                                    </Paragraph>
-                                </TableCell>
-                            </TableRow>
+    <Grid Width="265">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+        <FlowDocumentScrollViewer x:Name="FdBilet"
+            Grid.Row="0"
+            Margin="6,2"
+            VerticalScrollBarVisibility="Auto">
+            <FlowDocument FontSize="16" FontFamily="Times New Roman"
+                Block.LineHeight="1" Language="tr-tr">
+                <FlowDocument.Resources>
+                    <Style TargetType="{x:Type TableCell}">
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="0.5pt" />
+                    </Style>
+                </FlowDocument.Resources>
+                <Table CellSpacing="0">
+                    <Table.Columns>
+                        <TableColumn Width="100" />
+                        <TableColumn Width="150" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell ColumnSpan="2">
+                                <Paragraph TextAlignment="Center">
+                                    <Run Text="BİLET" FontWeight="Bold" />
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="0" ColumnSpan="2">
+                                <BlockUIContainer TextAlignment="Center" />
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="AD" FontWeight="Bold" />
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="{Binding Ad}" />
+                                    <Run Text=" " />
+                                    <Run Text="{Binding Soyad}" />
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="SALON" FontWeight="Bold" />
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="{Binding DataContext.SalonViewModel.Salon.SeçiliSalon.Adı, RelativeSource={RelativeSource AncestorType=Sinema:MainWindow}}" />
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="FİLM" FontWeight="Bold" />
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}">
+                                <Paragraph>
+                                    <Run Text="{Binding Adı}" />
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="KOLTUK" FontWeight="Bold" />
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>
+                                    <Run Text="{Binding OverContent, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}" />
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
 
-                        </TableRowGroup>
-                    </Table>
-                </FlowDocument>
-            </FlowDocumentScrollViewer>
-            <Button Content="BİLET YAZDIR" Grid.Row="1" Click="Button_Click" />
-        </Grid>
-    </GroupBox>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <Button Content="BİLET YAZDIR" Grid.Row="1" Click="Button_Click" />
+    </Grid>
 </UserControl>

@@ -108,14 +108,14 @@
                                 <Extensions:TimePicker TimeValue="{Binding Saat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </UniformGrid>
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="SÜRESİ">
+                        <HeaderedContentControl Header="SÜRESİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="500" Minimum="0" SmallChange="1"
                                 Value="{Binding Film.Süre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="FİLM TİPİ">
                             <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedItem="{Binding FilmTipi}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="YÖNETMEN">
+                        <HeaderedContentControl Header="YÖNETMEN" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="OYUNCULAR">
@@ -171,7 +171,7 @@
                     <TabControl Background="{StaticResource BorderBackground}">
                         <TabItem Header="GİRİŞ">
                             <StackPanel>
-                                <HeaderedContentControl Header="ÜRÜN ADI">
+                                <HeaderedContentControl Header="ÜRÜN ADI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                                     <TextBox Text="{Binding ÜrünGirişiViewModel.Urun.ÜrünAdi, UpdateSourceTrigger=PropertyChanged}" />
                                 </HeaderedContentControl>
                                 <HeaderedContentControl Header="ÜRÜN BİRİM FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
@@ -243,7 +243,7 @@
                 </GroupBox>
                 <GroupBox Header="KOLTUK GİRİŞİ">
                     <StackPanel>
-                        <HeaderedContentControl Header="KOLTUK TİPİ">
+                        <HeaderedContentControl Header="KOLTUK TİPİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <ComboBox Text="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukAçıklama, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource KoltukÇeşidi}}" IsEditable="True" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="KOLTUK FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
@@ -271,6 +271,9 @@
                                             <Setter Property="IsEnabled" Value="False" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Name}" Value="Black">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Name}" Value="Transparent">
                                             <Setter Property="IsEnabled" Value="False" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -327,7 +330,11 @@
                     <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
                         <TextBlock Foreground="Red"
                             HorizontalAlignment="Center"
-                            FontSize="20" FontWeight="Bold"><Run Text="{Binding FilmSaati, StringFormat=\{0:d\}}" Language="tr-tr" /><LineBreak /><Run Text="{Binding FilmSaati, StringFormat=\{0:h:mm\}}" Language="tr-tr" /></TextBlock>
+                            FontSize="20" FontWeight="Bold">
+                            <Run Text="{Binding FilmSaati, StringFormat=\{0:d\}}" Language="tr-tr" />
+                            <LineBreak />
+                            <Run Text="{Binding FilmSaati, StringFormat=\{0:H:mm\}}" Language="tr-tr" />
+                        </TextBlock>
                         <TextBlock Text="{Binding FilmTipi}"
                             TextTrimming="CharacterEllipsis"
                             Padding="3,0,0,0"
@@ -554,7 +561,13 @@
                                         ItemTemplate="{DynamicResource KoltukTipiColorTemplate}" />
                                     <Extensions:ContentToggleButton x:Name="Ctb" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" OverContent="KOLTUK&#xA;AYARLA">
                                         <Extensions:ContentToggleButton.Content>
-                                            <GroupBox Header="KOLTUK AYARLA">
+                                            <GroupBox>
+                                                <GroupBox.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="KOLTUK AYARLA" VerticalAlignment="Center" />
+                                                        <CheckBox Content="KOLTUKLARI GİZLE" IsChecked="{Binding TopluKoltukGizle}" />
+                                                    </StackPanel>
+                                                </GroupBox.Header>
                                                 <StackPanel>
                                                     <ListBox Background="{x:Null}" BorderBrush="{x:Null}" SelectedIndex="{Binding SeçiliKoltukDüzeni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                         <ListBox.Resources>
@@ -607,7 +620,20 @@
                                                             </ListBoxItem.Content>
                                                         </ListBoxItem>
                                                     </ListBox>
-                                                    <Button Content="UYGULA" Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltuklarıAyarla, ElementName=grid}">
+                                                    <Button Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltuklarıAyarla, ElementName=grid}">
+                                                        <Button.Content>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Image Width="16" Height="16">
+                                                                    <Image.Source>
+                                                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                                            <Binding Source="Shell32.dll" />
+                                                                            <Binding Source="144" />
+                                                                        </MultiBinding>
+                                                                    </Image.Source>
+                                                                </Image>
+                                                                <TextBlock Text="UYGULA" VerticalAlignment="Center" />
+                                                            </StackPanel>
+                                                        </Button.Content>
                                                         <Button.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                                                 <Binding Mode="OneWay" />
@@ -731,13 +757,13 @@
                                                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}" Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}">
                                                     <ContextMenu.Template>
                                                         <ControlTemplate>
-                                                            <view:KoltukAyarla Width="350" />
+                                                            <view:KoltukAyarla Width="400" />
                                                         </ControlTemplate>
                                                     </ContextMenu.Template>
                                                 </ContextMenu>
                                             </Extensions:ContentToggleButton.ContextMenu>
                                             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                <Extensions:ResizablePanel Width="650" Height="420" MinWidth="650" MinHeight="420">
+                                                <Extensions:ResizablePanel Width="680" Height="430" MinWidth="680" MinHeight="430">
                                                     <ContentControl ContentTemplate="{StaticResource MüşteriWindow}" />
                                                 </Extensions:ResizablePanel>
                                             </ScrollViewer>

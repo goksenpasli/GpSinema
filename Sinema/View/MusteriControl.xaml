@@ -7,7 +7,7 @@
     xmlns:model="clr-namespace:Sinema.Model" xmlns:view="clr-namespace:Sinema.View"
     xmlns:viewModel="clr-namespace:Sinema.ViewModel"
     d:DataContext="{d:DesignInstance Type=model:Musteri}"
-    d:DesignHeight="420" d:DesignWidth="650" UseLayoutRounding="True"
+    d:DesignHeight="430" d:DesignWidth="680" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="CvsSipariş" Source="{Binding SeçiliMusteri.Siparis.Urun}" />
@@ -21,13 +21,14 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
+                    <RowDefinition Height="132.8" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <StackPanel d:DataContext="{d:DesignInstance Type=model:Musteri}">
+                <StackPanel Grid.RowSpan="2" d:DataContext="{d:DesignInstance Type=model:Musteri}">
                     <HeaderedContentControl Header="KİŞİ ADI">
                         <TextBox Text="{Binding Ad, UpdateSourceTrigger=PropertyChanged}" />
                     </HeaderedContentControl>
@@ -136,7 +137,8 @@
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
-                <ListView Grid.Column="1"
+                <ListView x:Name="Lv"
+                    Grid.Column="1"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource CvsMüşteri}}"
                     Extensions:GridViewSort.AutoSort="True"
                     SelectedItem="{Binding SeçiliMusteri}"
@@ -168,20 +170,11 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Extensions:ContentToggleButton OverContent="BİLET">
-                                            <view:BiletView />
-                                        </Extensions:ContentToggleButton>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
-
-                <GroupBox Grid.Row="0" Grid.Column="3">
+                <view:BiletView Grid.Row="1" Grid.Column="1" DataContext="{Binding ElementName=Lv, Path=SelectedItem}" />
+                <GroupBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
                     <GroupBox.Header>
                         <Button Command="{Binding DataContext.ReportViewModel.KişiSiparişListesiRaporla, ElementName=grid}" CommandParameter="{Binding Mode=OneWay, Source={StaticResource CvsSipariş}}">
                             <Button.Content>
@@ -243,7 +236,6 @@
                                         </TextBlock.ToolTip>
                                     </TextBlock>
                                 </Grid>
-
                             </StatusBarItem>
                         </StatusBar>
                     </Grid>
