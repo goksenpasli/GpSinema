@@ -53,6 +53,11 @@
                                     <VirtualizingStackPanel />
                                 </ItemsPanelTemplate>
                             </ComboBox.ItemsPanel>
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
                         </ComboBox>
                     </HeaderedContentControl>
                     <Button Command="{Binding DataContext.KişiGirişiViewModel.MusteriGirişiYap, ElementName=grid}">
@@ -136,6 +141,11 @@
                     Extensions:GridViewSort.AutoSort="True"
                     SelectedItem="{Binding SeçiliMusteri}"
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="AD" Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}" />

@@ -15,7 +15,6 @@
     mc:Ignorable="d">
     <Window.Resources>
         <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
-        <local:FilmIdToFilmVisibilityConverter x:Key="FilmIdToFilmVisibilityConverter" />
         <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
         <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
