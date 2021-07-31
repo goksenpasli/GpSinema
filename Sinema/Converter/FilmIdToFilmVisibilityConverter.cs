@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Sinema
 {
-    
+
     public class FilmIdToFilmVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -23,12 +23,8 @@ namespace Sinema
             if (value is int filmid)
             {
                 IEnumerable<XElement> filmler = XElement.Load(MainWindowViewModel.xmldatapath)?.Descendants("Film");
-                var film= filmler.FirstOrDefault(z => z.Attribute("Id").Value == filmid.ToString()).DeSerialize<Film>();
-                if (film.FilmSaati<DateTime.Now)
-                {
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
+                Film film = filmler.FirstOrDefault(z => z.Attribute("Id").Value == filmid.ToString()).DeSerialize<Film>();
+                return film.FilmSaati < DateTime.Now ? Visibility.Collapsed : Visibility.Visible;
             }
 
             return Visibility.Collapsed;

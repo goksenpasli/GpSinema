@@ -368,7 +368,7 @@
                 <ListView x:Name="Lv"
                     Grid.Row="1"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource Filmler}}"
-                    Extensions:GridViewSort.AutoSort="True" SelectedIndex="0"
+                    Extensions:GridViewSort.AutoSort="True"
                     SelectedItem="{Binding DataContext.SalonViewModel.Salon.SeçiliFilm, ElementName=grid}"
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.View>
@@ -430,6 +430,11 @@
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
                 <GroupBox Grid.Row="2" DataContext="{Binding FilmViewModel}">
                     <GroupBox.Header>
