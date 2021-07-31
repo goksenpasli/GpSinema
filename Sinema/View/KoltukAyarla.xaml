@@ -37,7 +37,8 @@
                 <ListView Grid.Column="1"
                     Height="250"
                     ItemsSource="{Binding Müşteri}"
-                    Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl, AncestorLevel=2}}">
+                    Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl, AncestorLevel=2}}"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="AD" DisplayMemberBinding="{Binding Ad}" />

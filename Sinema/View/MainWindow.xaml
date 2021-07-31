@@ -14,6 +14,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
         <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
         <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
@@ -167,7 +168,7 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="ÜRÜN GİRİŞİ">
-                    <TabControl>
+                    <TabControl Background="{StaticResource BorderBackground}">
                         <TabItem Header="GİRİŞ">
                             <StackPanel>
                                 <HeaderedContentControl Header="ÜRÜN ADI">
@@ -419,7 +420,7 @@
                                 Width="175"
                                 Extensions:GridViewSort.PropertyName="Adı"
                                 DisplayMemberBinding="{Binding Adı}" />
-                            <GridViewColumn Header="FİLM&#xA;SAATİ" Width="110" Extensions:GridViewSort.PropertyName="FilmSaati">
+                            <GridViewColumn Header="FİLM&#xA;SAATİ" Width="105" Extensions:GridViewSort.PropertyName="FilmSaati">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock>
@@ -462,7 +463,10 @@
                     </Extensions:SplitButton>
                 </StackPanel>
             </GroupBox.Header>
-            <TabControl x:Name="TabCtrl" ItemsSource="{Binding SalonViewModel.Salonlar.Salon}" SelectedItem="{Binding SalonViewModel.Salon.SeçiliSalon}">
+            <TabControl x:Name="TabCtrl"
+                Background="{StaticResource BorderBackground}"
+                ItemsSource="{Binding SalonViewModel.Salonlar.Salon}"
+                SelectedItem="{Binding SalonViewModel.Salon.SeçiliSalon}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -583,7 +587,14 @@
                                                         <ListBoxItem VerticalAlignment="Center" VerticalContentAlignment="Center">
                                                             <ListBoxItem.Content>
                                                                 <StackPanel IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}, Mode=TwoWay}" Orientation="Horizontal">
-                                                                    <TextBlock Text="DİKDÖRTGENE UYGULA" VerticalAlignment="Center" />
+                                                                    <TextBlock Text="DİKDÖRTGENE UYGULA" VerticalAlignment="Center">
+                                                                        <TextBlock.ToolTip>
+                                                                            <StackPanel Width="220" Height="200">
+                                                                                <TextBlock Text="Bunu Salondaki Koltukları Dikdörtgen Seklinde Ayarlamak İçin Kullanabilirsiniz. Başlangıç Sol Üst Bitiş Sağ Alt Buttonu Göstermektedir. İşlem Bu Aralıkta Oluşan Dikdörtgene Uygulanacaktır." Foreground="Red" TextWrapping="Wrap" />
+                                                                                <ContentControl Content="{StaticResource Kare}" />
+                                                                            </StackPanel>
+                                                                        </TextBlock.ToolTip>
+                                                                    </TextBlock>
                                                                     <Extensions:NumericUpDownControl Width="35"
                                                                         Maximum="5000" Minimum="1" SmallChange="1"
                                                                         Value="{Binding KoltukAltAralık, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -646,9 +657,29 @@
                                         <Extensions:ContentToggleButton IsEnabled="{Binding KoltukEtkin}"
                                             Visibility="{Binding Görünür, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             BorderBrush="{Binding KoltukTipiId, Converter={StaticResource KoltukTipiIdToBrushConverter}}"
-                                            BorderThickness="2"
+                                            BorderThickness="3"
+                                            Margin="1"
                                             ContextMenuService.ShowOnDisabled="True"
                                             Tag="{Binding DataContext, ElementName=grid}">
+                                            <Extensions:ContentToggleButton.ToolTip>
+                                                <ListView Grid.Column="1" ItemsSource="{Binding Müşteri}" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                                    <ListView.View>
+                                                        <GridView>
+                                                            <GridViewColumn Header="AD" DisplayMemberBinding="{Binding Ad}" />
+                                                            <GridViewColumn Header="SOYAD" DisplayMemberBinding="{Binding Soyad}" />
+                                                            <GridViewColumn Header="FİLM">
+                                                                <GridViewColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}">
+                                                                            <Run Text="{Binding Adı}" />
+                                                                        </TextBlock>
+                                                                    </DataTemplate>
+                                                                </GridViewColumn.CellTemplate>
+                                                            </GridViewColumn>
+                                                        </GridView>
+                                                    </ListView.View>
+                                                </ListView>
+                                            </Extensions:ContentToggleButton.ToolTip>
                                             <Extensions:ContentToggleButton.OverContent>
                                                 <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
                                                     <Binding Path="No" />

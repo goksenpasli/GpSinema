@@ -82,7 +82,10 @@
                 </Grid>
             </ControlTemplate>
             <Style TargetType="HeaderedContentControl">
-                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="IsTabStop" Value="False" />
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="Background" Value="{StaticResource BorderBackground}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

@@ -121,4 +121,86 @@
         <sys:String>YEŞİLÇAM WESTERN FİLMİ</sys:String>
         <sys:String>YAŞAM ÖYKÜSEL FİLM</sys:String>
     </x:Array>
+    <Canvas x:Key="Kare" Width="85" Height="93.25">
+        <Rectangle Canvas.Left="23.1667" Canvas.Top="0"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="Red" Stretch="Fill" />
+        <Rectangle Canvas.Left="66" Canvas.Top="0"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="-5.96046e-008" Canvas.Top="0"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="23.1667" Canvas.Top="19.4167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="Red" Stretch="Fill" />
+        <Rectangle Canvas.Left="66" Canvas.Top="19.4167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="8.9407e-007" Canvas.Top="19.4167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="23.1667" Canvas.Top="38.9167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="Red" Stretch="Fill" />
+        <Rectangle Canvas.Left="66" Canvas.Top="38.9167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="8.9407e-007" Canvas.Top="38.9167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="23.1667" Canvas.Top="57.6667"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="66" Canvas.Top="57.6667"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="8.9407e-007" Canvas.Top="57.6667"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="23.1667" Canvas.Top="76"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="66" Canvas.Top="76"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="8.9407e-007" Canvas.Top="76"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="44.25" Canvas.Top="0"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="Red" Stretch="Fill" />
+        <Rectangle Canvas.Left="44.25" Canvas.Top="19.4167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="Red" Stretch="Fill" />
+        <Rectangle Canvas.Left="44.25" Canvas.Top="38.9167"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="Red" Stretch="Fill" />
+        <Rectangle Canvas.Left="44.25" Canvas.Top="57.6667"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+        <Rectangle Canvas.Left="44.25" Canvas.Top="76"
+            Width="19" Height="17.25"
+            Stroke="#FF000000" StrokeLineJoin="Round"
+            Fill="#FFC24D4D" Stretch="Fill" />
+    </Canvas>
 </ResourceDictionary>
