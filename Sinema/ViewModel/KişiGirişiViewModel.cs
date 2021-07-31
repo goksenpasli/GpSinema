@@ -72,10 +72,39 @@ namespace Sinema.ViewModel
                     salonViewModel.Salonlar.Serialize();
                 }
             }, parameter => true);
+
+            MusteriTaşı = new RelayCommand<object>(parameter =>
+            {
+                object[] data = parameter as object[];
+                Musteri Musteri = data[0] as Musteri;
+                Koltuk kaynakkoltuk = data[2] as Koltuk;
+                Salon salon = data[3] as Salon;
+                Koltuk hedefkoltuk = salon.Koltuklar.FirstOrDefault(z => z.No == kaynakkoltuk.TaşınacakKoltukNo);
+
+                if (!hedefkoltuk.Müşteri.Any(z => z.FilmId == Musteri.FilmId))
+                {
+                    hedefkoltuk.KoltukDolu = false;
+                    hedefkoltuk.Müşteri.Add(Musteri);
+                    hedefkoltuk.KoltukDolu = true;
+
+                    kaynakkoltuk.KoltukDolu = true;
+                    kaynakkoltuk.Müşteri.Remove(Musteri);
+                    kaynakkoltuk.KoltukDolu = false;
+
+                    SalonViewModel salonViewModel = data[1] as SalonViewModel;
+                    salonViewModel.Salonlar.Serialize();
+                }
+                else
+                {
+                    MessageBox.Show($"Bu Filmde Taşınacak Koltukta {hedefkoltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.FilmId).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }, parameter => true);
         }
 
         public ICommand MusteriGirişiYap { get; }
 
         public ICommand MusteriSil { get; }
+
+        public ICommand MusteriTaşı { get; }
     }
 }

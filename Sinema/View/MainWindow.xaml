@@ -167,32 +167,78 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="ÜRÜN GİRİŞİ">
-                    <StackPanel>
-                        <HeaderedContentControl Header="ÜRÜN ADI">
-                            <TextBox Text="{Binding ÜrünGirişiViewModel.Urun.ÜrünAdi, UpdateSourceTrigger=PropertyChanged}" />
-                        </HeaderedContentControl>
-                        <HeaderedContentControl Header="ÜRÜN BİRİM FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                            <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
-                                Value="{Binding ÜrünGirişiViewModel.Urun.BirimFiyat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </HeaderedContentControl>
-                        <HeaderedContentControl Header="ÜRÜN ADETİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                            <Extensions:NumericUpDownControl Maximum="10000" Minimum="1" SmallChange="1"
-                                Value="{Binding ÜrünGirişiViewModel.Urun.Adet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </HeaderedContentControl>
-                        <Button Command="{Binding ÜrünGirişiViewModel.ÜrünGir, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="32" Height="32">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="41" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="GİRİŞ YAP" VerticalAlignment="Center" />
+                    <TabControl>
+                        <TabItem Header="GİRİŞ">
+                            <StackPanel>
+                                <HeaderedContentControl Header="ÜRÜN ADI">
+                                    <TextBox Text="{Binding ÜrünGirişiViewModel.Urun.ÜrünAdi, UpdateSourceTrigger=PropertyChanged}" />
+                                </HeaderedContentControl>
+                                <HeaderedContentControl Header="ÜRÜN BİRİM FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                    <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
+                                        Value="{Binding ÜrünGirişiViewModel.Urun.BirimFiyat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </HeaderedContentControl>
+                                <HeaderedContentControl Header="ÜRÜN ADETİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                    <Extensions:NumericUpDownControl Maximum="10000" Minimum="1" SmallChange="1"
+                                        Value="{Binding ÜrünGirişiViewModel.Urun.Adet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </HeaderedContentControl>
+                                <Button Command="{Binding ÜrünGirişiViewModel.ÜrünGir, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="32" Height="32">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="41" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="GİRİŞ YAP" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
-                        </Button>
-                    </StackPanel>
+                        </TabItem>
+                        <TabItem Header="GÜNCELLE">
+                            <ListView Height="75" ItemsSource="{Binding SalonViewModel.Salonlar.Urunler.Urun}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+                                            <GridViewColumn Header="ÜRÜNLER" DisplayMemberBinding="{Binding ÜrünAdi}" />
+                                            <GridViewColumn Header="BİRİM &#xA;FİYAT">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="5000" Minimum="1"
+                                                            Value="{Binding BirimFiyat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="ADET" DisplayMemberBinding="{Binding Adet}" />
+                                            <GridViewColumn>
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Command="{Binding DataContext.ÜrünGirişiViewModel.ÜrünGüncelle, Mode=OneWay, ElementName=grid}">
+                                                            <Image Width="16" Height="16">
+                                                                <Image.Source>
+                                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                                        <Binding Source="Shell32.dll" />
+                                                                        <Binding Source="144" />
+                                                                    </MultiBinding>
+                                                                </Image.Source>
+                                                            </Image>
+                                                            <Button.CommandParameter>
+                                                                <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                                    <Binding Mode="OneWay" />
+                                                                    <Binding ElementName="grid" Path="DataContext" />
+                                                                </MultiBinding>
+                                                            </Button.CommandParameter>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </TabItem>
+                    </TabControl>
                 </GroupBox>
                 <GroupBox Header="KOLTUK GİRİŞİ">
                     <StackPanel>
@@ -269,7 +315,11 @@
                         HorizontalAlignment="Center"
                         FontSize="24" FontWeight="Bold" />
                     <Separator Grid.ColumnSpan="3" Margin="0,2,0,0" VerticalAlignment="Bottom" />
-                    <Image Grid.Row="1" Grid.Column="0" Source="{Binding ResimYolu, ConverterParameter=200, Converter={StaticResource DataImageFilePathImageUriConverter}, IsAsync=True}" />
+                    <Image Grid.Row="1" Grid.Column="0" Source="{Binding ResimYolu, ConverterParameter=200, Converter={StaticResource DataImageFilePathImageUriConverter}, IsAsync=True}">
+                        <Image.ToolTip>
+                            <Image Source="{Binding ResimYolu, ConverterParameter=600, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
+                        </Image.ToolTip>
+                    </Image>
                     <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                     </StackPanel>
@@ -360,7 +410,8 @@
                                                     </MultiBinding>
                                                 </Hyperlink.CommandParameter>
                                                 <Run Text="·" FontFamily="Webdings" />
-                                            </Hyperlink></TextBlock>
+                                            </Hyperlink>
+                                        </TextBlock>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -624,7 +675,7 @@
                                                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}" Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}">
                                                     <ContextMenu.Template>
                                                         <ControlTemplate>
-                                                            <view:KoltukAyarla Width="150" />
+                                                            <view:KoltukAyarla Width="350" />
                                                         </ControlTemplate>
                                                     </ContextMenu.Template>
                                                 </ContextMenu>

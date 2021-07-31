@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Sinema.ViewModel
 {
-    public class ÜrünGirişiViewModel:InpcBase
+    public class ÜrünGirişiViewModel : InpcBase
     {
         private Urun urun;
 
@@ -29,6 +29,16 @@ namespace Sinema.ViewModel
                     Urun.ÜrünAdi = null;
                 }
             }, parameter => !string.IsNullOrWhiteSpace(Urun.ÜrünAdi));
+
+            ÜrünGüncelle = new RelayCommand<object>(parameter =>
+            {
+                object[] data = parameter as object[];
+                if (data[0] is Urun urun && data[1] is MainWindowViewModel mainWindowViewModel)
+                {
+                    urun.BirimFiyat = Math.Round(urun.BirimFiyat, 2);
+                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                }
+            }, parameter => true);
 
             MusteriÜrünGirişiYap = new RelayCommand<object>(parameter =>
             {
@@ -69,5 +79,6 @@ namespace Sinema.ViewModel
         }
 
         public ICommand ÜrünGir { get; }
+        public ICommand ÜrünGüncelle { get; }
     }
 }

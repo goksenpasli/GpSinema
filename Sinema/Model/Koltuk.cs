@@ -21,6 +21,8 @@ namespace Sinema.Model
 
         private KoltukTipi seçiliKoltukTipi;
 
+        private int taşınacakKoltukNo = 1;
+
         [XmlAttribute(AttributeName = "Görünür")]
         public bool Görünür
         {
@@ -122,6 +124,21 @@ namespace Sinema.Model
                 {
                     seçiliKoltukTipi = value;
                     OnPropertyChanged(nameof(SeçiliKoltukTipi));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public int TaşınacakKoltukNo
+        {
+            get => taşınacakKoltukNo;
+
+            set
+            {
+                if (taşınacakKoltukNo != value)
+                {
+                    taşınacakKoltukNo = value;
+                    OnPropertyChanged(nameof(TaşınacakKoltukNo));
                 }
             }
         }

@@ -6,29 +6,71 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Sinema.Model"
     d:DataContext="{d:DesignInstance Type={x:Type model:Koltuk}}"
-    d:DesignHeight="125" d:DesignWidth="150" UseLayoutRounding="True"
+    d:DesignHeight="275" d:DesignWidth="350" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <GroupBox Background="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}">
             <GroupBox.Header>
                 <TextBlock Text="{Binding OverContent, StringFormat={}{0} NUMARALI KOLTUK, RelativeSource={RelativeSource AncestorType=Extensions:ContentToggleButton}}" />
             </GroupBox.Header>
-            <StackPanel>
-                <CheckBox Content="KOLTUK ETKİN" IsChecked="{Binding KoltukEtkin}" IsTabStop="False" />
-                <CheckBox Content="KOLTUK GÖRÜNÜR" IsChecked="{Binding Görünür}" IsTabStop="False" />
-                <HeaderedContentControl Header="KOLTUK TİPİ">
-                    <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}" ItemTemplate="{StaticResource KoltukTipiColorTemplate}" SelectedValue="{Binding SeçiliKoltukTipi}" />
-                </HeaderedContentControl>
-                <Button Content="UYGULA" Command="{Binding Tag.KoltukTipiGirişiViewModel.KoltukAyarla, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
-                    <Button.CommandParameter>
-                        <MultiBinding Converter="{StaticResource CloneConverter}">
-                            <Binding Mode="OneWay" />
-                            <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
-                            <Binding Path="SeçiliKoltukTipi" />
-                        </MultiBinding>
-                    </Button.CommandParameter>
-                </Button>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <CheckBox Content="KOLTUK ETKİN" IsChecked="{Binding KoltukEtkin}" IsTabStop="False" />
+                    <CheckBox Content="KOLTUK GÖRÜNÜR" IsChecked="{Binding Görünür}" IsTabStop="False" />
+                    <HeaderedContentControl Header="KOLTUK TİPİ">
+                        <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}" ItemTemplate="{StaticResource KoltukTipiColorTemplate}" SelectedValue="{Binding SeçiliKoltukTipi}" />
+                    </HeaderedContentControl>
+                    <Button Content="UYGULA" Command="{Binding Tag.KoltukTipiGirişiViewModel.KoltukAyarla, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource CloneConverter}">
+                                <Binding Mode="OneWay" />
+                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
+                                <Binding Path="SeçiliKoltukTipi" />
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
+                <ListView Grid.Column="1"
+                    Height="250"
+                    ItemsSource="{Binding Müşteri}"
+                    Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl, AncestorLevel=2}}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="AD" DisplayMemberBinding="{Binding Ad}" />
+                            <GridViewColumn Header="SOYAD" DisplayMemberBinding="{Binding Soyad}" />
+                            <GridViewColumn Header="KOLTUK NO">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Extensions:NumericUpDownControl Maximum="{Binding Tag.Koltuklar.Count, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                            Minimum="1" SmallChange="1"
+                                            Value="{Binding DataContext.TaşınacakKoltukNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="MÜŞTERİ TAŞI" Command="{Binding Tag.KişiGirişiViewModel.MusteriTaşı, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
+                                            <Button.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                    <Binding Mode="OneWay" />
+                                                    <Binding Path="Tag.SalonViewModel" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
+                                                    <Binding Mode="OneWay" Path="DataContext" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                                    <Binding Mode="OneWay" Path="Tag" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>
