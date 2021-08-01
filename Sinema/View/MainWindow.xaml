@@ -697,6 +697,7 @@
                                                 <MultiBinding Converter="{StaticResource SeçiliFilmtoKoltukRenkConverter}">
                                                     <Binding Mode="OneWay" />
                                                     <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliFilm" />
+                                                    <Binding Path="KoltukDolu" />
                                                 </MultiBinding>
                                             </Extensions:ContentToggleButton.Background>
                                             <Extensions:ContentToggleButton.ToolTip>
