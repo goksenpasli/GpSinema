@@ -67,9 +67,10 @@ namespace Sinema.ViewModel
                     if (File.Exists(MainWindowViewModel.xmldatapath))
                     {
                         string webimageadress = data[1] as string;
-                        client.DownloadFileAsync(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
+                        client.DownloadFile(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
                         Film film = data[0] as Film;
                         film.ResimYolu = filename;
+                        (data[2] as Salonlar).Serialize();
                     }
                 }
                 catch (Exception)

@@ -84,7 +84,6 @@
     <Compile Include="Model\Siparis.cs" />
     <Compile Include="Model\Urun.cs" />
     <Compile Include="Model\Urunler.cs" />
-    <Compile Include="ViewModel\FilmAramaViewModel.cs" />
     <Compile Include="ViewModel\ReportViewModel.cs" />
     <Compile Include="ViewModel\KoltukTipiGirişiViewModel.cs" />
     <Compile Include="ViewModel\ListViewSum.cs" />

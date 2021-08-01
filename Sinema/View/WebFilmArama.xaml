@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Sinema.View.WebFilmArama"
+﻿<UserControl x:Class="Sinema.View.WebFilmArama" x:Name="UserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding Adı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Text="{Binding FilmAdı, ElementName=UserControl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <DataGrid Grid.Row="1"
             IsReadOnly="True"
             ItemsSource="{Binding Mode=OneWay, Source={StaticResource Film}}"
@@ -55,7 +55,7 @@
                 <DataGridTemplateColumn Header="RESİM">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Width="80" Source="{Binding IsAsync=True, XPath=/root/movie/@poster}" SizeChanged="Image_SizeChanged" >
+                            <Image Width="80" SizeChanged="Image_SizeChanged" Source="{Binding IsAsync=True, XPath=/root/movie/@poster}">
                                 <Image.ToolTip>
                                     <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
                                         <Image Source="{Binding Source}" />

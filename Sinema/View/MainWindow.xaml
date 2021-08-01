@@ -302,7 +302,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200" />
                     <RowDefinition />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid DataContext="{Binding SelectedItem, ElementName=Lv}" d:DataContext="{d:DesignInstance Type={x:Type model:Film}}">
                     <Grid.RowDefinitions>
@@ -314,10 +313,30 @@
                         <ColumnDefinition Width="3*" />
                         <ColumnDefinition Width="48" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Adı}"
-                        Grid.ColumnSpan="3"
+                    <Extensions:ContentToggleButton Grid.ColumnSpan="3"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
                         HorizontalAlignment="Center"
-                        FontSize="24" FontWeight="Bold" />
+                        FontSize="24" FontWeight="Bold"
+                        OverContent="{Binding Adı}">
+                        <GroupBox Grid.Row="2" FontSize="12" FontWeight="Normal">
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="FİLMİ INTERNETTE BAK" VerticalAlignment="Center" />
+                                    <Button Content="RESMİ KULLAN" IsEnabled="{Binding DownloadedImageAdress, Converter={StaticResource NullableToBooleanConverter}, ElementName=WebFilm}" Command="{Binding DataContext.FilmViewModel.WebFilmResimAktar, ElementName=grid}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                <Binding Mode="OneWay" />
+                                                <Binding ElementName="WebFilm" Path="DownloadedImageAdress" />
+                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <view:WebFilmArama x:Name="WebFilm" FilmAdı="{Binding Adı, Mode=OneWay}" />
+                        </GroupBox>
+                    </Extensions:ContentToggleButton>
                     <Separator Grid.ColumnSpan="3" Margin="0,2,0,0" VerticalAlignment="Bottom" />
                     <Image Grid.Row="1" Grid.Column="0" Source="{Binding ResimYolu, ConverterParameter=200, Converter={StaticResource DataImageFilePathImageUriConverter}, IsAsync=True}">
                         <Image.ToolTip>
@@ -442,22 +461,6 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
-                <GroupBox Grid.Row="2" DataContext="{Binding FilmViewModel}">
-                    <GroupBox.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="FİLMİ INTERNETTE BAK" VerticalAlignment="Center" />
-                            <Button Content="RESMİ YENİ KAYITTA KULLAN" IsEnabled="{Binding DownloadedImageAdress, Converter={StaticResource NullableToBooleanConverter}, ElementName=WebFilm}" Command="{Binding WebFilmResimAktar, Mode=OneWay}">
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource CloneConverter}">
-                                        <Binding Mode="OneWay" Path="Film" />
-                                        <Binding ElementName="WebFilm" Path="DownloadedImageAdress" />
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                        </StackPanel>
-                    </GroupBox.Header>
-                    <view:WebFilmArama x:Name="WebFilm" />
-                </GroupBox>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="1">
