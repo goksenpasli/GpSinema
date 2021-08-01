@@ -15,7 +15,7 @@ namespace Sinema.View
 
         public static readonly DependencyProperty FilmAdıProperty = DependencyProperty.Register("FilmAdı", typeof(string), typeof(WebFilmArama), new PropertyMetadata(null, Changed));
 
-        public static XmlDataProvider xmlDataProvider;
+        private static XmlDataProvider xmlDataProvider;
 
         public WebFilmArama()
         {

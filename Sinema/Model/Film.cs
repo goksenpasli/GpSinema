@@ -17,6 +17,8 @@ namespace Sinema.Model
 
         private string oyuncular;
 
+        private string renk;
+
         private string resimYolu;
 
         private double süre;
@@ -96,6 +98,21 @@ namespace Sinema.Model
                 {
                     oyuncular = value;
                     OnPropertyChanged(nameof(Oyuncular));
+                }
+            }
+        }
+
+        [XmlAttribute(AttributeName = "Renk")]
+        public string Renk
+        {
+            get { return renk; }
+
+            set
+            {
+                if (renk != value)
+                {
+                    renk = value;
+                    OnPropertyChanged(nameof(Renk));
                 }
             }
         }

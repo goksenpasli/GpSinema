@@ -43,10 +43,16 @@
                     <HeaderedContentControl Header="FİLM SEÇ">
                         <ComboBox x:Name="Cb" ItemsSource="{Binding SelectedItem.Film, ElementName=TabCtrl}">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" FontWeight="Bold" />
-                                        <Image MaxWidth="96" MaxHeight="96" Source="{Binding ResimYolu, IsAsync=True, Converter={StaticResource DataImageFilePathImageUriConverter}, ConverterParameter='96'}" />
+                                <DataTemplate DataType="{x:Type model:Film}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding FilmSaati, StringFormat=\{0:g\}}"
+                                            Foreground="Red"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            FontWeight="Bold" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Adı}" VerticalAlignment="Center" FontWeight="Bold" />
+                                            <Image MaxWidth="96" MaxHeight="96" Source="{Binding ResimYolu, IsAsync=True, Converter={StaticResource DataImageFilePathImageUriConverter}, ConverterParameter='96'}" />
+                                        </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>

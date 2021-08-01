@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Sinema.Model"
-    d:DataContext="{d:DesignInstance Type=model:Salon}"
+    d:DataContext="{d:DesignInstance Type=model:Film}"
     d:DesignHeight="180" d:DesignWidth="600" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>

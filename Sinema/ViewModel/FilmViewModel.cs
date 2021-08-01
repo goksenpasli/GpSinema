@@ -3,8 +3,11 @@ using Sinema.Model;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Sinema.ViewModel
 {
@@ -36,6 +39,7 @@ namespace Sinema.ViewModel
                     ResimYolu = Film.ResimYolu,
                     Oyuncular = Film.Oyuncular,
                     Yönetmen = Film.Yönetmen,
+                    Renk = typeof(Brushes).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(pi => (Brush)pi.GetValue(null, null)).Where(z => z != Brushes.Black && z != Brushes.Transparent).OrderBy(_ => Guid.NewGuid()).Take(1).First().ToString(),
                     FilmSaati = Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1])),
                 };
 

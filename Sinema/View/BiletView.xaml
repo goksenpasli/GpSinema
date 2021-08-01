@@ -49,7 +49,7 @@
                         <TableRow>
                             <TableCell>
                                 <Paragraph>
-                                    <Run Text="AD" FontWeight="Bold" />
+                                    <Run Text="AD SOYAD" FontWeight="Bold" />
                                 </Paragraph>
                             </TableCell>
                             <TableCell>
@@ -101,6 +101,18 @@
                 </Table>
             </FlowDocument>
         </FlowDocumentScrollViewer>
-        <Button Content="BİLET YAZDIR" Grid.Row="1" Click="Button_Click" />
+        <Button Grid.Row="1" Click="Button_Click">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="16" Height="16">
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                            <Binding Source="Shell32.dll" />
+                            <Binding Source="136" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+                <TextBlock Text="BİLET YAZDIR" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

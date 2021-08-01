@@ -51,7 +51,7 @@
             <StackPanel>
                 <GroupBox Header="SALON OLUŞTUR">
                     <StackPanel>
-                        <HeaderedContentControl Header="ADI">
+                        <HeaderedContentControl Header="ADI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding SalonViewModel.Salon.Adı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="SALON EN KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
@@ -457,6 +457,7 @@
                     </ListView.View>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="{Binding Renk, Converter={StaticResource StringToBrushConverter}}" />
                             <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -692,6 +693,12 @@
                                             Margin="1"
                                             ContextMenuService.ShowOnDisabled="True"
                                             Tag="{Binding DataContext, ElementName=grid}">
+                                            <Extensions:ContentToggleButton.Background>
+                                                <MultiBinding Converter="{StaticResource SeçiliFilmtoKoltukRenkConverter}">
+                                                    <Binding Mode="OneWay" />
+                                                    <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliFilm" />
+                                                </MultiBinding>
+                                            </Extensions:ContentToggleButton.Background>
                                             <Extensions:ContentToggleButton.ToolTip>
                                                 <ToolTip>
                                                     <ToolTip.Style>
@@ -740,22 +747,6 @@
                                                     <Binding ElementName="Cb" Path="DataContext.SalonHarfleri.Count" />
                                                 </MultiBinding>
                                             </Extensions:ContentToggleButton.OverContent>
-                                            <Extensions:ContentToggleButton.Style>
-                                                <Style BasedOn="{StaticResource {x:Type Extensions:ContentToggleButton}}" TargetType="{x:Type Extensions:ContentToggleButton}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Value="true">
-                                                            <DataTrigger.Binding>
-                                                                <MultiBinding Converter="{StaticResource SeçiliFilmtoKoltukRenkConverter}">
-                                                                    <Binding Mode="OneWay" />
-                                                                    <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliFilm" />
-                                                                    <Binding Path="KoltukDolu" />
-                                                                </MultiBinding>
-                                                            </DataTrigger.Binding>
-                                                            <Setter Property="Background" Value="Red" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Extensions:ContentToggleButton.Style>
                                             <Extensions:ContentToggleButton.ContextMenu>
                                                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}" Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}">
                                                     <ContextMenu.Template>
