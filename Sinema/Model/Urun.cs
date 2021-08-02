@@ -10,6 +10,8 @@ namespace Sinema.Model
 
         private double birimFiyat = 1;
 
+        private int ıd;
+
         private double toplamFiyat;
 
         private string ürünAdi;
@@ -42,6 +44,21 @@ namespace Sinema.Model
                     birimFiyat = value;
                     OnPropertyChanged(nameof(BirimFiyat));
                     OnPropertyChanged(nameof(ToplamFiyat));
+                }
+            }
+        }
+
+        [XmlAttribute(AttributeName = "Id")]
+        public int Id
+        {
+            get => ıd;
+
+            set
+            {
+                if (ıd != value)
+                {
+                    ıd = value;
+                    OnPropertyChanged(nameof(Id));
                 }
             }
         }

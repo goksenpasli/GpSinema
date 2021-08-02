@@ -2,6 +2,7 @@
 using Sinema.Model;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Sinema.ViewModel
@@ -19,6 +20,7 @@ namespace Sinema.ViewModel
                 {
                     Urun ürün = new()
                     {
+                        Id = new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue),
                         ÜrünAdi = Urun.ÜrünAdi,
                         Adet = Urun.Adet,
                         BirimFiyat = Urun.BirimFiyat
@@ -47,18 +49,28 @@ namespace Sinema.ViewModel
                 SalonViewModel salonViewModel = data[1] as SalonViewModel;
                 Urun urun = data[2] as Urun;
 
-                Urun ürün = new()
+                Urun seçiliurun = salonViewModel.Salonlar.Urunler.Urun.FirstOrDefault(z => z.Id == urun.Id);
+                if (Musteri.Siparis.UrunAdet <= seçiliurun.Adet)
                 {
-                    Adet = Musteri.Siparis.UrunAdet,
-                    BirimFiyat = urun.BirimFiyat,
-                    ÜrünAdi = urun.ÜrünAdi
-                };
+                    Urun ürün = new()
+                    {
+                        Adet = Musteri.Siparis.UrunAdet,
+                        BirimFiyat = urun.BirimFiyat,
+                        ÜrünAdi = urun.ÜrünAdi,
+                        Id = urun.Id
+                    };
 
-                Musteri.Siparis.Tarih = DateTime.Now;
-                Musteri.Siparis.Urun.Add(ürün);
-                Musteri.Siparis.ToplamTutar = Musteri.Siparis.Urun.Sum(z => z.ToplamFiyat);
+                    Musteri.Siparis.Tarih = DateTime.Now;
+                    Musteri.Siparis.Urun.Add(ürün);
+                    Musteri.Siparis.ToplamTutar = Musteri.Siparis.Urun.Sum(z => z.ToplamFiyat);
+                    seçiliurun.Adet -= Musteri.Siparis.UrunAdet;
 
-                salonViewModel.Salonlar.Serialize();
+                    salonViewModel.Salonlar.Serialize();
+                }
+                else
+                {
+                    MessageBox.Show("Depoda Yeterli Ürün Yok.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }, parameter => parameter is not null && (parameter as object[])?[2] is Urun && (parameter as object[])?[0] is Musteri);
         }
 
@@ -79,6 +91,7 @@ namespace Sinema.ViewModel
         }
 
         public ICommand ÜrünGir { get; }
+
         public ICommand ÜrünGüncelle { get; }
     }
 }
