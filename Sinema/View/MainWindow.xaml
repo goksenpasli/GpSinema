@@ -40,6 +40,16 @@
                 <ComponentModel:SortDescription Direction="Ascending" PropertyName="FilmSaati" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
+        <Style x:Key="ComboBoxColorBlockStyle" TargetType="{x:Type ComboBoxItem}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="Black">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="Transparent">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid x:Name="grid" d:DataContext="{d:DesignInstance Type={x:Type viewmodel:MainWindowViewModel}}">
         <Grid.ColumnDefinitions>
@@ -115,6 +125,24 @@
                         <HeaderedContentControl Header="FİLM TİPİ">
                             <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedItem="{Binding FilmTipi}" />
                         </HeaderedContentControl>
+                        <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                            ItemContainerStyle="{StaticResource ComboBoxColorBlockStyle}"
+                            SelectedValue="{Binding Film.Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="Name">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Width="16" Height="16" Fill="{Binding Name}" />
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
                         <HeaderedContentControl Header="YÖNETMEN" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
@@ -250,7 +278,10 @@
                             <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
                                 Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}" SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}" SelectedValuePath="Name">
+                        <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                            ItemContainerStyle="{StaticResource ComboBoxColorBlockStyle}"
+                            SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}"
+                            SelectedValuePath="Name">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -264,21 +295,6 @@
                                     <VirtualizingStackPanel />
                                 </ItemsPanelTemplate>
                             </ComboBox.ItemsPanel>
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="{x:Type ComboBoxItem}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Name}" Value="Red">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Name}" Value="Black">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Name}" Value="Transparent">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
                         </ComboBox>
                         <Button Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
                             <StackPanel Orientation="Horizontal">

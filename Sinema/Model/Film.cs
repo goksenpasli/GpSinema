@@ -17,7 +17,7 @@ namespace Sinema.Model
 
         private string oyuncular;
 
-        private string renk;
+        private string renk = "Green";
 
         private string resimYolu;
 
