@@ -66,6 +66,17 @@ namespace Sinema.ViewModel
                     SalonViewModel salonViewModel = data[1] as SalonViewModel;
                     Koltuk koltuk = data[2] as Koltuk;
 
+                    foreach (Urun müşterisipariş in Musteri?.Siparis?.Urun)
+                    {
+                        foreach (Urun depoürün in salonViewModel?.Salonlar?.Urunler?.Urun)
+                        {
+                            if (müşterisipariş.Id == depoürün.Id)
+                            {
+                                depoürün.Adet += müşterisipariş.Adet;
+                            }
+                        }
+                    }
+
                     koltuk.KoltukDolu = true;
                     koltuk.Müşteri.Remove(Musteri);
                     koltuk.KoltukDolu = false;

@@ -1,5 +1,7 @@
 ﻿using Extensions;
 using System;
+using System.Linq;
+using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace Sinema.Model
@@ -17,7 +19,7 @@ namespace Sinema.Model
 
         private string oyuncular;
 
-        private string renk = "Green";
+        private string renk = typeof(Colors).GetProperties().Select(z => z.Name.Replace("System.Windows.Media.Colors ", "")).Where(z => z is not "Black" and not "White" and not "Transparent").OrderBy(_ => Guid.NewGuid()).Take(1).First();
 
         private string resimYolu;
 
