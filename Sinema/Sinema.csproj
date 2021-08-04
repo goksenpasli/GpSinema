@@ -182,9 +182,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TextTemplate.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Application.ico" />
   </ItemGroup>
   <ItemGroup>

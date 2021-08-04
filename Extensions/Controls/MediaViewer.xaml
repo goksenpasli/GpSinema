@@ -99,6 +99,10 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -123,8 +127,30 @@
                 Foreground="Blue"
                 FontSize="18" FontFamily="Webdings"
                 Click="Stop_Click" />
-            <Slider x:Name="Sld"
+            <Button x:Name="Back" Content="7"
                 Grid.Column="3"
+                Width="24" Height="24"
+                Foreground="Blue"
+                FontSize="18" FontFamily="Webdings"
+                Click="Back_Click" />
+            <Button x:Name="Forward" Content="8"
+                Grid.Column="4"
+                Width="24" Height="24"
+                Foreground="Blue"
+                FontSize="18" FontFamily="Webdings"
+                Click="Forward_Click" />
+            <Button x:Name="SlowBackward" Content="9"
+                Grid.Column="5"
+                Width="24" Height="24"
+                Foreground="Blue"
+                FontSize="18" FontFamily="Webdings" Click="SlowBackward_Click" />
+            <Button x:Name="SlowForward" Content=":"
+                Grid.Column="6"
+                Width="24" Height="24"
+                Foreground="Blue"
+                FontSize="18" FontFamily="Webdings" Click="SlowForward_Click" />
+            <Slider x:Name="Sld"
+                Grid.Column="7"
                 VerticalAlignment="Center"
                 Style="{StaticResource Horizontal_Slider}"
                 IsMoveToPointEnabled="True"
@@ -133,7 +159,7 @@
                 Thumb.DragStarted="Sld_DragStarted"
                 Value="{Binding MediaPosition, Converter={StaticResource TimespanToSecondsConverter}, Mode=TwoWay}" />
             <ToggleButton x:Name="Mute"
-                Grid.Column="4"
+                Grid.Column="8"
                 Width="24" Height="24"
                 Foreground="Blue"
                 Margin="1,0,1,0"
@@ -161,20 +187,20 @@
                 </ToggleButton.Style>
             </ToggleButton>
             <Slider x:Name="Volume"
-                Grid.Column="5"
+                Grid.Column="9"
                 Width="60"
                 VerticalAlignment="Center"
                 Style="{StaticResource Horizontal_Slider}"
                 IsMoveToPointEnabled="True" Maximum="1"
                 Value="{Binding MediaVolume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Grid.Column="6"
+            <TextBlock Grid.Column="10"
                 Foreground="Black"
                 Margin="1,0,1,0" VerticalAlignment="Center">
                 <Run Text="{Binding MediaPosition, Mode=OneWay, Converter={StaticResource TimeSpanToStringConverter}}" />
                 <Run Text="{Binding EndTimeSpan, Mode=OneWay, Converter={StaticResource TimeSpanToStringConverter}}" />
             </TextBlock>
             <Button x:Name="Capture" Content="N"
-                Grid.Column="7"
+                Grid.Column="11"
                 Width="24" Height="24"
                 Foreground="Blue"
                 VerticalContentAlignment="Center"

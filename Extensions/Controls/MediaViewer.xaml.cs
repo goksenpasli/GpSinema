@@ -102,6 +102,11 @@ namespace Extensions.Controls
             }
         }
 
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            Player.Position = Player.Position.Subtract(new TimeSpan(0, 0, 30));
+        }
+
         private void Capture_Click(object sender, RoutedEventArgs e)
         {
             if (Player.NaturalVideoWidth > 0)
@@ -110,6 +115,11 @@ namespace Extensions.Controls
                 byte[] data = Player.ToRenderTargetBitmap().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg);
                 File.WriteAllBytes(picturesfolder.SetUniqueFile("Resim", "jpg"), data);
             }
+        }
+
+        private void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            Player.Position = Player.Position.Add(new TimeSpan(0, 0, 30));
         }
 
         private void Mute_Checked(object sender, RoutedEventArgs e)
@@ -213,6 +223,26 @@ namespace Extensions.Controls
                 {
                     MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private void SlowBackward_Click(object sender, RoutedEventArgs e)
+        {
+            if (Player.CanPause)
+            {
+                Player.Play();
+                Player.Position = Player.Position.Subtract(new TimeSpan(0, 0, 0, 0, 1000 / 30));
+                Player.Pause();
+            }
+        }
+
+        private void SlowForward_Click(object sender, RoutedEventArgs e)
+        {
+            if (Player.CanPause)
+            {
+                Player.Play();
+                Player.Position = Player.Position.Add(new TimeSpan(0, 0, 0, 0, 1000 / 30));
+                Player.Pause();
             }
         }
 
