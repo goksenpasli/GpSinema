@@ -311,6 +311,7 @@
                         </Button>
                     </StackPanel>
                 </GroupBox>
+                <Button Content="UYGULAMA HAKKINDA" Command="{Binding SalonViewModel.Hakkında}" IsTabStop="False" />
             </StackPanel>
         </ScrollViewer>
         <GroupBox Header="SEANS" Grid.Column="2">

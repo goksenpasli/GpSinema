@@ -1,5 +1,6 @@
 ﻿using Extensions;
 using Sinema.Model;
+using Sinema.View;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -79,6 +80,8 @@ namespace Sinema.ViewModel
                     }
                 }
             }, parameter => parameter is string aramametni && !string.IsNullOrWhiteSpace(aramametni));
+
+            Hakkında = new RelayCommand<object>(parameter => new Hakkında().Show(), parameter => true);
         }
 
         public ObservableCollection<string> BulunanKişiler
@@ -95,6 +98,8 @@ namespace Sinema.ViewModel
             }
         }
 
+        public ICommand Hakkında { get; }
+
         public Salon Salon
         {
             get => salon;
@@ -109,9 +114,9 @@ namespace Sinema.ViewModel
             }
         }
 
-        public ICommand SalonKişiAra { get; }
-
         public ICommand SalonGenişlet { get; }
+
+        public ICommand SalonKişiAra { get; }
 
         public Salonlar Salonlar
         {

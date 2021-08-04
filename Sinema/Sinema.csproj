@@ -93,6 +93,9 @@
     <Compile Include="View\BiletView.xaml.cs">
       <DependentUpon>BiletView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Hakkında.xaml.cs">
+      <DependentUpon>Hakkında.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\KoltukAyarla.xaml.cs">
       <DependentUpon>KoltukAyarla.xaml</DependentUpon>
     </Compile>
@@ -107,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FilmVerileri.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Hakkında.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
