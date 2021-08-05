@@ -35,6 +35,8 @@ namespace Sinema.Model
 
         private ObservableCollection<string> salonHarfleri = new();
 
+        private IEnumerable<int> salonÖnizleme;
+
         private Film seçiliFilm;
 
         private int seçiliKoltukDüzeni;
@@ -87,6 +89,7 @@ namespace Sinema.Model
                     boyKoltukSayı = value;
                     OnPropertyChanged(nameof(BoyKoltukSayı));
                     OnPropertyChanged(nameof(SalonEnBoyYapısı));
+                    OnPropertyChanged(nameof(SalonÖnizleme));
                 }
             }
         }
@@ -104,6 +107,7 @@ namespace Sinema.Model
                     OnPropertyChanged(nameof(EnKoltukSayı));
                     OnPropertyChanged(nameof(SalonEnBoyYapısı));
                     OnPropertyChanged(nameof(SalonHarfleri));
+                    OnPropertyChanged(nameof(SalonÖnizleme));
                 }
             }
         }
@@ -235,6 +239,25 @@ namespace Sinema.Model
                 {
                     salonHarfleri = value;
                     OnPropertyChanged(nameof(SalonHarfleri));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public IEnumerable<int> SalonÖnizleme
+        {
+            get
+            {
+                salonÖnizleme = Enumerable.Range(1, BoyKoltukSayı * EnKoltukSayı);
+                return salonÖnizleme;
+            }
+
+            set
+            {
+                if (salonÖnizleme != value)
+                {
+                    salonÖnizleme = value;
+                    OnPropertyChanged(nameof(SalonÖnizleme));
                 }
             }
         }

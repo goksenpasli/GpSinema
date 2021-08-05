@@ -55,7 +55,6 @@
                             <TableCell>
                                 <Paragraph>
                                     <Run Text="{Binding Ad}" />
-                                    <Run Text=" " />
                                     <Run Text="{Binding Soyad}" />
                                 </Paragraph>
                             </TableCell>

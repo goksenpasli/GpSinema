@@ -50,6 +50,23 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <ItemsControl x:Key="PreviewTooltip" ItemsSource="{Binding SalonViewModel.Salon.SalonÖnizleme}" x:Shared="false">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="20" Height="20"
+                        BorderBrush="Red" BorderThickness="1">
+                        <TextBlock Text="{Binding Mode=OneWay}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            FontSize="10" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding SalonViewModel.Salon.EnKoltukSayı}" Rows="{Binding SalonViewModel.Salon.BoyKoltukSayı}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
     </Window.Resources>
     <Grid x:Name="grid" d:DataContext="{d:DesignInstance Type={x:Type viewmodel:MainWindowViewModel}}">
         <Grid.ColumnDefinitions>
@@ -66,11 +83,19 @@
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="SALON EN KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="50" Minimum="1" SmallChange="1"
-                                Value="{Binding SalonViewModel.Salon.EnKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding SalonViewModel.Salon.EnKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Extensions:NumericUpDownControl.ToolTip>
+                                    <ToolTip Content="{StaticResource PreviewTooltip}" />
+                                </Extensions:NumericUpDownControl.ToolTip>
+                            </Extensions:NumericUpDownControl>
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="SALON BOY KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="50" Minimum="1" SmallChange="1"
-                                Value="{Binding SalonViewModel.Salon.BoyKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding SalonViewModel.Salon.BoyKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <Extensions:NumericUpDownControl.ToolTip>
+                                    <ToolTip Content="{StaticResource PreviewTooltip}" />
+                                </Extensions:NumericUpDownControl.ToolTip>
+                            </Extensions:NumericUpDownControl>
                         </HeaderedContentControl>
                         <Button Command="{Binding SalonViewModel.SalonOluştur, Mode=OneWay}">
                             <StackPanel Orientation="Horizontal">

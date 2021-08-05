@@ -81,7 +81,7 @@ namespace Sinema.ViewModel
                 }
             }, parameter => parameter is string aramametni && !string.IsNullOrWhiteSpace(aramametni));
 
-            Hakkında = new RelayCommand<object>(parameter => new Hakkında().Show(), parameter => true);
+            Hakkında = new RelayCommand<object>(parameter => new Hakkında().ShowDialog(), parameter => true);
         }
 
         public ObservableCollection<string> BulunanKişiler
