@@ -737,7 +737,7 @@
                                                     <Extensions:ContentToggleButton IsEnabled="{Binding KoltukEtkin}"
                                                         Visibility="{Binding Görünür, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                         BorderBrush="{Binding KoltukTipiId, Converter={StaticResource KoltukTipiIdToBrushConverter}}"
-                                                        BorderThickness="3"
+                                                        BorderThickness="2"
                                                         Margin="1"
                                                         ContextMenuService.ShowOnDisabled="True"
                                                         Tag="{Binding DataContext, ElementName=grid}">
@@ -825,7 +825,7 @@
                                                     <TextBlock Text="{Binding}"
                                                         TextTrimming="CharacterEllipsis"
                                                         VerticalAlignment="Center"
-                                                        FontSize="8" FontWeight="Bold" />
+                                                        FontSize="10" FontWeight="Bold" />
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                             <ItemsControl.ItemsPanel>

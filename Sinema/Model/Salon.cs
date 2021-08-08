@@ -248,7 +248,7 @@ namespace Sinema.Model
             get
             {
                 salonSayıları = new();
-                for (int i = 1; i < EnKoltukSayı * BoyKoltukSayı; i += EnKoltukSayı)
+                for (int i = 1; i <= BoyKoltukSayı; i++)
                 {
                     salonSayıları.Add(i.ToString());
                 }
