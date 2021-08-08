@@ -13,6 +13,15 @@ namespace Extensions
         public GraphControl()
         {
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                Series = new ObservableCollection<Chart>
+                {
+                    new Chart() { ChartBrush = Brushes.Red, ChartValue = 10, Description = "Data1" },
+                    new Chart() { ChartBrush = Brushes.Green, ChartValue = 20, Description = "Data2" },
+                    new Chart() { ChartBrush = Brushes.Orange, ChartValue = 15, Description = "Data3" }
+                };
+            }
         }
 
         public ObservableCollection<Chart> Series
@@ -23,11 +32,6 @@ namespace Extensions
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                return;
-            }
-
             if (Series is not null)
             {
                 double max = Series.Max(z => z.ChartValue);
