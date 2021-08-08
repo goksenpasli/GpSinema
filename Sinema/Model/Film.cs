@@ -107,7 +107,7 @@ namespace Sinema.Model
         [XmlAttribute(AttributeName = "Renk")]
         public string Renk
         {
-            get { return renk; }
+            get => renk;
 
             set
             {

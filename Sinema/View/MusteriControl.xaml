@@ -46,7 +46,6 @@
                                 <DataTemplate DataType="{x:Type model:Film}">
                                     <StackPanel>
                                         <TextBlock Text="{Binding FilmSaati, StringFormat=\{0:g\}}"
-                                            Foreground="Red"
                                             HorizontalAlignment="Center" VerticalAlignment="Center"
                                             FontWeight="Bold" />
                                         <StackPanel Orientation="Horizontal">
@@ -63,6 +62,7 @@
                             </ComboBox.ItemsPanel>
                             <ComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Background" Value="{Binding Renk, Converter={StaticResource StringToBrushConverter}}" />
                                     <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
                                 </Style>
                             </ComboBox.ItemContainerStyle>
@@ -148,7 +148,7 @@
                     Grid.Column="1"
                     ItemsSource="{Binding Mode=OneWay, Source={StaticResource CvsMüşteri}}"
                     Extensions:GridViewSort.AutoSort="True"
-                    SelectedItem="{Binding SeçiliMusteri}"
+                    SelectedItem="{Binding SeçiliMusteri, Mode=TwoWay}"
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">

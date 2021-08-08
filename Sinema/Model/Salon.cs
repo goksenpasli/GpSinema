@@ -46,6 +46,7 @@ namespace Sinema.Model
         private IGrouping<int, int> seçiliSalonKoltukGrubu;
 
         private bool topluKoltukGizle;
+        private ObservableCollection<string> salonSayıları;
 
         [XmlAttribute(AttributeName = "Adı")]
         public string Adı
@@ -90,6 +91,7 @@ namespace Sinema.Model
                     OnPropertyChanged(nameof(BoyKoltukSayı));
                     OnPropertyChanged(nameof(SalonEnBoyYapısı));
                     OnPropertyChanged(nameof(SalonÖnizleme));
+                    OnPropertyChanged(nameof(SalonSayıları));
                 }
             }
         }
@@ -161,7 +163,7 @@ namespace Sinema.Model
         [XmlIgnore]
         public double KoltukAltAralık
         {
-            get { return koltukAltAralık; }
+            get => koltukAltAralık;
 
             set
             {
@@ -190,10 +192,7 @@ namespace Sinema.Model
         [XmlIgnore]
         public double KoltukÜstAralık
         {
-            get
-            {
-                return koltukÜstAralık;
-            }
+            get => koltukÜstAralık;
 
             set
             {
@@ -239,6 +238,29 @@ namespace Sinema.Model
                 {
                     salonHarfleri = value;
                     OnPropertyChanged(nameof(SalonHarfleri));
+                }
+            }
+        }
+        [XmlIgnore]
+
+        public ObservableCollection<string> SalonSayıları
+        {
+            get
+            {
+                salonSayıları = new();
+                for (int i = 1; i < EnKoltukSayı * BoyKoltukSayı; i += EnKoltukSayı)
+                {
+                    salonSayıları.Add(i.ToString());
+                }
+                return salonSayıları;
+            }
+
+            set
+            {
+                if (salonSayıları != value)
+                {
+                    salonSayıları = value;
+                    OnPropertyChanged(nameof(SalonSayıları));
                 }
             }
         }
@@ -310,7 +332,7 @@ namespace Sinema.Model
         [XmlIgnore]
         public IGrouping<int, int> SeçiliSalonKoltukGrubu
         {
-            get { return seçiliSalonKoltukGrubu; }
+            get => seçiliSalonKoltukGrubu;
 
             set
             {
