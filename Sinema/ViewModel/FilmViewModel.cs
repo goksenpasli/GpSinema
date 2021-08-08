@@ -3,7 +3,9 @@ using Sinema.Model;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Sinema.ViewModel
@@ -26,25 +28,32 @@ namespace Sinema.ViewModel
 
             FilmGirişiYap = new RelayCommand<object>(parameter =>
             {
-                Film film = new()
+                if (SeçiliSalon.Film.Any(z => z.FilmSaati == FilmSaatiniAl()))
                 {
-                    Id = new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue),
-                    Adı = Film.Adı,
-                    Süre = Film.Süre,
-                    FilmTipi = FilmTipi,
-                    VideoYolu = Film.VideoYolu,
-                    ResimYolu = Film.ResimYolu,
-                    Oyuncular = Film.Oyuncular,
-                    Yönetmen = Film.Yönetmen,
-                    Renk = Film.Renk,
-                    FilmSaati = Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1])),
-                };
+                    Film film = new()
+                    {
+                        Id = new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue),
+                        Adı = Film.Adı,
+                        Süre = Film.Süre,
+                        FilmTipi = FilmTipi,
+                        VideoYolu = Film.VideoYolu,
+                        ResimYolu = Film.ResimYolu,
+                        Oyuncular = Film.Oyuncular,
+                        Yönetmen = Film.Yönetmen,
+                        Renk = Film.Renk,
+                        FilmSaati = FilmSaatiniAl()
+                    };
 
-                SeçiliSalon?.Film.Add(film);
-                (parameter as Salonlar).Serialize();
-                Film.ResimYolu = null;
-                Film.VideoYolu = null;
-                Film.Adı = null;
+                    SeçiliSalon.Film.Add(film);
+                    (parameter as Salonlar).Serialize();
+                    Film.ResimYolu = null;
+                    Film.VideoYolu = null;
+                    Film.Adı = null;
+                }
+                else
+                {
+                    MessageBox.Show("Bu Saatte Bu Salon İçin Zaten Film Ayarlanmış Tarihi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }, parameter => SeçiliSalon is not null && !string.IsNullOrWhiteSpace(Film?.Adı) && DateTime.TryParseExact(Saat, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
             FilmVideoEkle = new RelayCommand<object>(parameter => ExtensionMethods.VideoEkle(Film), parameter => true);
@@ -168,5 +177,10 @@ namespace Sinema.ViewModel
         }
 
         public ICommand WebFilmResimAktar { get; }
+
+        private DateTime FilmSaatiniAl()
+        {
+            return Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1]));
+        }
     }
 }

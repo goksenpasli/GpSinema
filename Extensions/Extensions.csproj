@@ -54,7 +54,7 @@
     </Compile>
     <Compile Include="Converters\ReverseBooleanConverter.cs" />
     <Compile Include="Converters\StringNullableToBooleanConverter.cs" />
-    <Compile Include="Controls\FileGraphControl.cs" />
+    <Compile Include="Controls\GraphControl.cs" />
     <Compile Include="Converters\TimespanToSecondsConverter.cs" />
     <Compile Include="Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="GridViewSort.cs" />
