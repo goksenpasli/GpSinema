@@ -12,7 +12,6 @@ namespace Extensions
 
         public GraphControl()
         {
-            RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
                 Series = new ObservableCollection<Chart>
@@ -36,11 +35,11 @@ namespace Extensions
             {
                 double max = Series.Max(z => z.ChartValue);
                 Pen pen = null;
-                int i = 0;
                 DrawingGroup graph = null;
 
-                foreach (Chart item in Series)
+                for (int i = 0; i < Series.Count; i++)
                 {
+                    Chart item = Series[i];
                     pen = new Pen(item.ChartBrush, ActualWidth / Series.Count);
                     pen.Freeze();
 
@@ -61,7 +60,6 @@ namespace Extensions
 
                     drawingContext.DrawText(new FormattedText(item.Description, System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, item.ChartBrush), new Point(0, i * 16));
                     graph.Freeze();
-                    i++;
                 }
             }
         }
