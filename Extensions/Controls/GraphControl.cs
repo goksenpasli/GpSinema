@@ -49,7 +49,7 @@ namespace Extensions
                         Transform = new RotateTransform
                         {
                             Angle = 180,
-                            CenterX = ActualWidth / 2,
+                            CenterX = (ActualWidth - (pen.Thickness / 2)) / 2,
                             CenterY = ActualHeight / 2
                         }
                     };
