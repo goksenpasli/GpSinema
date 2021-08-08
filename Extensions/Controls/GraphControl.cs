@@ -49,22 +49,20 @@ namespace Extensions
                         Transform = new RotateTransform
                         {
                             Angle = 180,
-                            CenterX = ActualWidth / 2,
+                            CenterX = (ActualWidth - (pen.Thickness / 2)) / 2,
                             CenterY = ActualHeight / 2
                         }
                     };
-                    using DrawingContext dcgraph = graph.Open();
-                    Point point0 = new(i * ActualWidth / Series.Count, 0.0);
-                    Point point1 = new(i * ActualWidth / Series.Count, Series[i].ChartValue / max * ActualHeight);
+                    using (DrawingContext dcgraph = graph.Open())
+                    {
+                        dcgraph.DrawLine(pen, new Point(i * ActualWidth / Series.Count, 0.0), new Point(i * ActualWidth / Series.Count, Series[i].ChartValue / max * ActualHeight));
+                        drawingContext.DrawDrawing(graph);
+                    }
 
-                    dcgraph.DrawLine(pen, point0, point1);
-
-                    drawingContext.DrawDrawing(graph);
                     drawingContext.DrawText(new FormattedText(item.Description, System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, item.ChartBrush), new Point(0, i * 16));
-
+                    graph.Freeze();
                     i++;
                 }
-                graph.Freeze();
             }
         }
 
