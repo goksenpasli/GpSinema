@@ -2,13 +2,21 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Extensions
 {
-    public class GraphControl : FrameworkElement
+    public class GraphControl : Control
     {
         public static readonly DependencyProperty SeriesProperty = DependencyProperty.Register("Series", typeof(ObservableCollection<Chart>), typeof(GraphControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        private const string PART_Lb = "PART_Lb";
+
+        static GraphControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(typeof(GraphControl)));
+        }
 
         public GraphControl()
         {
@@ -23,10 +31,18 @@ namespace Extensions
             }
         }
 
+        public ItemsControl GraphText { get; private set; }
+
         public ObservableCollection<Chart> Series
         {
             get => (ObservableCollection<Chart>)GetValue(SeriesProperty);
             set => SetValue(SeriesProperty, value);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            GraphText = GetTemplateChild(PART_Lb) as ItemsControl;
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -57,10 +73,9 @@ namespace Extensions
                         dcgraph.DrawLine(pen, new Point(i * ActualWidth / Series.Count, 0.0), new Point(i * ActualWidth / Series.Count, Series[i].ChartValue / max * ActualHeight));
                         drawingContext.DrawDrawing(graph);
                     }
-
-                    drawingContext.DrawText(new FormattedText(item.Description, System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, item.ChartBrush), new Point(0, i * 16));
                     graph.Freeze();
                 }
+                GraphText.ItemsSource = Series.Reverse();
             }
         }
 

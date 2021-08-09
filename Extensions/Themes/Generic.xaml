@@ -662,4 +662,53 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="local:GraphControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:GraphControl">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10*" />
+                        </Grid.ColumnDefinitions>
+                        <local:ContentToggleButton Grid.Column="0"
+                            Width="16" Height="16"
+                            Background="{x:Null}"
+                            HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <local:ContentToggleButton.OverContent>
+                                <TextBlock Text="N" FontFamily="Webdings" />
+                            </local:ContentToggleButton.OverContent>
+                            <local:ContentToggleButton.Content>
+                                <ItemsControl x:Name="PART_Lb"
+                                    Width="250" Height="250"
+                                    ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    VirtualizingStackPanel.IsVirtualizing="True">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <Run Text="{Binding Description, Mode=OneWay}" Foreground="{Binding ChartBrush, Mode=OneWay}" />
+                                                <Run Text="{Binding ChartValue, Mode=OneWay}" Foreground="Black" />
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.Template>
+                                        <ControlTemplate TargetType="ItemsControl">
+                                            <ScrollViewer Padding="{TemplateBinding Padding}">
+                                                <ItemsPresenter />
+                                            </ScrollViewer>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                </ItemsControl>
+                            </local:ContentToggleButton.Content>
+                        </local:ContentToggleButton>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
