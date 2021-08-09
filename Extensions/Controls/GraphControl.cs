@@ -47,35 +47,27 @@ namespace Extensions
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if (Series is not null)
+            if (Series?.Any() == true)
             {
                 double max = Series.Max(z => z.ChartValue);
                 Pen pen = null;
                 DrawingGroup graph = null;
 
-                for (int i = 0; i < Series.Count; i++)
+                for (int i = 1; i <= Series.Count; i++)
                 {
-                    Chart item = Series[i];
+                    Chart item = Series[i - 1];
                     pen = new Pen(item.ChartBrush, ActualWidth / Series.Count);
                     pen.Freeze();
 
-                    graph = new()
-                    {
-                        Transform = new RotateTransform
-                        {
-                            Angle = 180,
-                            CenterX = (ActualWidth - (pen.Thickness / 2)) / 2,
-                            CenterY = ActualHeight / 2
-                        }
-                    };
+                    graph = new();
                     using (DrawingContext dcgraph = graph.Open())
                     {
-                        dcgraph.DrawLine(pen, new Point(i * ActualWidth / Series.Count, 0.0), new Point(i * ActualWidth / Series.Count, Series[i].ChartValue / max * ActualHeight));
+                        dcgraph.DrawLine(pen, new Point((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight), new Point((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight - (Series[i - 1].ChartValue / max * ActualHeight)));
                         drawingContext.DrawDrawing(graph);
                     }
                     graph.Freeze();
                 }
-                GraphText.ItemsSource = Series.Reverse();
+                GraphText.ItemsSource = Series;
             }
         }
 
