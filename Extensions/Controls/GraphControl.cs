@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace Extensions
 {
-    public class GraphControl : Control
+    public partial class GraphControl : Control
     {
         public static readonly DependencyProperty SeriesProperty = DependencyProperty.Register("Series", typeof(ObservableCollection<Chart>), typeof(GraphControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -16,19 +16,6 @@ namespace Extensions
         static GraphControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(typeof(GraphControl)));
-        }
-
-        public GraphControl()
-        {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                Series = new ObservableCollection<Chart>
-                {
-                    new Chart() { ChartBrush = Brushes.Red, ChartValue = 10, Description = "Data1" },
-                    new Chart() { ChartBrush = Brushes.Green, ChartValue = 20, Description = "Data2" },
-                    new Chart() { ChartBrush = Brushes.Orange, ChartValue = 15, Description = "Data3" }
-                };
-            }
         }
 
         public ItemsControl GraphText { get; private set; }
@@ -47,7 +34,7 @@ namespace Extensions
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            if (Series?.Any() == true)
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()) && Series?.Any() == true)
             {
                 double max = Series.Max(z => z.ChartValue);
                 Pen pen = null;
@@ -68,57 +55,6 @@ namespace Extensions
                     graph.Freeze();
                 }
                 GraphText.ItemsSource = Series;
-            }
-        }
-
-        public class Chart : InpcBase
-        {
-            private Brush chartBrush = Brushes.Gray;
-
-            private double chartValue;
-
-            private string description;
-
-            public Brush ChartBrush
-            {
-                get => chartBrush;
-
-                set
-                {
-                    if (chartBrush != value)
-                    {
-                        chartBrush = value;
-                        OnPropertyChanged(nameof(ChartBrush));
-                    }
-                }
-            }
-
-            public double ChartValue
-            {
-                get => chartValue;
-
-                set
-                {
-                    if (chartValue != value)
-                    {
-                        chartValue = value;
-                        OnPropertyChanged(nameof(ChartValue));
-                    }
-                }
-            }
-
-            public string Description
-            {
-                get => description;
-
-                set
-                {
-                    if (description != value)
-                    {
-                        description = value;
-                        OnPropertyChanged(nameof(Description));
-                    }
-                }
             }
         }
     }
