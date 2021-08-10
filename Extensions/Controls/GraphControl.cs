@@ -11,25 +11,15 @@ namespace Extensions
     {
         public static readonly DependencyProperty SeriesProperty = DependencyProperty.Register("Series", typeof(ObservableCollection<Chart>), typeof(GraphControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        private const string PART_Lb = "PART_Lb";
-
         static GraphControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(typeof(GraphControl)));
         }
 
-        public ItemsControl GraphText { get; private set; }
-
         public ObservableCollection<Chart> Series
         {
             get => (ObservableCollection<Chart>)GetValue(SeriesProperty);
             set => SetValue(SeriesProperty, value);
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            GraphText = GetTemplateChild(PART_Lb) as ItemsControl;
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -54,7 +44,6 @@ namespace Extensions
                     }
                     graph.Freeze();
                 }
-                GraphText.ItemsSource = Series;
             }
         }
     }

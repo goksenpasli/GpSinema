@@ -674,8 +674,8 @@
                                 <TextBlock Text="N" FontFamily="Webdings" />
                             </local:ContentToggleButton.OverContent>
                             <local:ContentToggleButton.Content>
-                                <ItemsControl x:Name="PART_Lb"
-                                    Width="250" Height="250"
+                                <ItemsControl Width="250" Height="250"
+                                    ItemsSource="{TemplateBinding Series}"
                                     ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
                                     VirtualizingStackPanel.IsVirtualizing="True">
                                     <ItemsControl.ItemTemplate>
