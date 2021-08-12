@@ -17,8 +17,11 @@ namespace Sinema
         public static IEnumerable<XElement> koltukrenkleri;
         public KoltukTipiIdToBrushConverter()
         {
-            brushconvert = new BrushConverter();
-            koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
+            if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                brushconvert = new BrushConverter();
+                koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
+            }
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

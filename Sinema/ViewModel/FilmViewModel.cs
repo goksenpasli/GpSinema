@@ -28,7 +28,7 @@ namespace Sinema.ViewModel
 
             FilmGirişiYap = new RelayCommand<object>(parameter =>
             {
-                if (SeçiliSalon.Film.Any(z => z.FilmSaati == FilmSaatiniAl()))
+                if (!SeçiliSalon.Film.Any(z => z.FilmSaati == FilmSaatiniAl()))
                 {
                     Film film = new()
                     {
