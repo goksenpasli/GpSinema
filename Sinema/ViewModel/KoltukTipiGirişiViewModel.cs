@@ -56,7 +56,7 @@ namespace Sinema.ViewModel
                 var SeçiliKoltukTipi = data[2] as KoltukTipi;
                 KoltukTipiIdToBrushConverter.koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
 
-                foreach (Koltuk koltuk in salon.Koltuklar)
+                foreach (var koltuk in salon.Koltuklar)
                 {
                     if (salon.SeçiliKoltukDüzeni == 0)
                     {
@@ -87,7 +87,7 @@ namespace Sinema.ViewModel
                     }
                     if (salon.SeçiliKoltukDüzeni == 3)
                     {
-                        foreach (Koltuk koltukaralık in salon.Koltuklar.Where(z => z.No >= salon.KoltukAltAralık && z.No <= salon.KoltukÜstAralık))
+                        foreach (var koltukaralık in salon.Koltuklar.Where(z => z.No >= salon.KoltukAltAralık && z.No <= salon.KoltukÜstAralık))
                         {
                             koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                             koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
@@ -103,7 +103,7 @@ namespace Sinema.ViewModel
                         {
                             for (var i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
                             {
-                                Koltuk koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
+                                var koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
                                 koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                                 koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
                                 if (salon.TopluKoltukGizle)
@@ -132,7 +132,7 @@ namespace Sinema.ViewModel
                 var data = parameter as object[];
                 var salon = data[0] as Salon;
                 var mainWindowViewModel = data[1] as MainWindowViewModel;
-                foreach (Koltuk item in salon.Koltuklar)
+                foreach (var item in salon.Koltuklar)
                 {
                     if (!item.Görünür)
                     {

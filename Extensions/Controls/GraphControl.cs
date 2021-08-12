@@ -32,12 +32,12 @@ namespace Extensions
 
                 for (var i = 1; i <= Series.Count; i++)
                 {
-                    Chart item = Series[i - 1];
+                    var item = Series[i - 1];
                     pen = new Pen(item.ChartBrush, ActualWidth / Series.Count);
                     pen.Freeze();
 
                     graph = new();
-                    using (DrawingContext dcgraph = graph.Open())
+                    using (var dcgraph = graph.Open())
                     {
                         dcgraph.DrawLine(pen, new Point((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight), new Point((pen.Thickness * i) - (pen.Thickness / 2), ActualHeight - (Series[i - 1].ChartValue / max * ActualHeight)));
                         drawingContext.DrawDrawing(graph);

@@ -49,7 +49,7 @@ namespace Sinema.ViewModel
                 var salonViewModel = data[1] as SalonViewModel;
                 var urun = data[2] as Urun;
 
-                Urun seçiliurun = salonViewModel.Salonlar.Urunler.Urun.FirstOrDefault(z => z.Id == urun.Id);
+                var seçiliurun = salonViewModel.Salonlar.Urunler.Urun.FirstOrDefault(z => z.Id == urun.Id);
                 if (Musteri.Siparis.UrunAdet <= seçiliurun.Adet)
                 {
                     Urun ürün = new()

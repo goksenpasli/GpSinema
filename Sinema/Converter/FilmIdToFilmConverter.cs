@@ -21,7 +21,7 @@ namespace Sinema
             }
             if (value is int filmid)
             {
-                IEnumerable<XElement> filmler = XElement.Load(MainWindowViewModel.xmldatapath)?.Descendants("Film");
+                var filmler = XElement.Load(MainWindowViewModel.xmldatapath)?.Descendants("Film");
                 return filmler.FirstOrDefault(z => z.Attribute("Id").Value == filmid.ToString()).DeSerialize<Film>();
             }
 

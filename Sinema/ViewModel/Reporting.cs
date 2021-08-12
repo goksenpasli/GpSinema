@@ -14,7 +14,7 @@ namespace Sinema.ViewModel
             var dosyaismi = Path.GetTempPath() + Guid.NewGuid() + ".xlsx";
             using (FileStream output = new(dosyaismi, FileMode.Create))
             {
-                using ITemplateDocument document = Configuration.Factory.Open(stream, output, "xlsx");
+                using var document = Configuration.Factory.Open(stream, output, "xlsx");
                 document.Process(new { Context = dbset });
             }
             Process.Start(dosyaismi);

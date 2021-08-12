@@ -30,7 +30,7 @@ namespace Extensions
 
         private static void ReSetSelectedItems(ListBox listBox)
         {
-            IList selectedItems = GetSelectedItems(listBox);
+            var selectedItems = GetSelectedItems(listBox);
             selectedItems.Clear();
             if (listBox.SelectedItems != null)
             {

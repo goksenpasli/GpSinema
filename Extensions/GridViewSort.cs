@@ -178,10 +178,10 @@ namespace Extensions
                 var propertyName = GetPropertyName(headerClicked.Column);
                 if (!string.IsNullOrEmpty(propertyName))
                 {
-                    ListView listView = GetAncestor<ListView>(headerClicked);
+                    var listView = GetAncestor<ListView>(headerClicked);
                     if (listView != null)
                     {
-                        ICommand command = GetCommand(listView);
+                        var command = GetCommand(listView);
                         if (command != null)
                         {
                             if (command.CanExecute(propertyName))
@@ -204,17 +204,17 @@ namespace Extensions
 
         public static void ApplySort(ICollectionView view, string propertyName, ListView listView, GridViewColumnHeader sortedColumnHeader)
         {
-            ListSortDirection direction = ListSortDirection.Ascending;
+            var direction = ListSortDirection.Ascending;
             if (view.SortDescriptions.Count > 0)
             {
-                SortDescription currentSort = view.SortDescriptions[0];
+                var currentSort = view.SortDescriptions[0];
                 if (currentSort.PropertyName == propertyName)
                 {
                     direction = currentSort.Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
                 }
                 view.SortDescriptions.Clear();
 
-                GridViewColumnHeader currentSortedColumnHeader = GetSortedColumnHeader(listView);
+                var currentSortedColumnHeader = GetSortedColumnHeader(listView);
                 if (currentSortedColumnHeader != null)
                 {
                     RemoveSortGlyph(currentSortedColumnHeader);
@@ -237,7 +237,7 @@ namespace Extensions
 
         public static T GetAncestor<T>(DependencyObject reference) where T : DependencyObject
         {
-            DependencyObject parent = VisualTreeHelper.GetParent(reference);
+            var parent = VisualTreeHelper.GetParent(reference);
             while (parent is not T)
             {
                 parent = VisualTreeHelper.GetParent(parent);
@@ -259,10 +259,10 @@ namespace Extensions
         private static void RemoveSortGlyph(GridViewColumnHeader columnHeader)
         {
             var adornerLayer = AdornerLayer.GetAdornerLayer(columnHeader);
-            Adorner[] adorners = adornerLayer.GetAdorners(columnHeader);
+            var adorners = adornerLayer.GetAdorners(columnHeader);
             if (adorners != null)
             {
-                foreach (Adorner adorner in adorners)
+                foreach (var adorner in adorners)
                 {
                     if (adorner is SortGlyphAdorner)
                     {

@@ -52,7 +52,7 @@ namespace Sinema.ViewModel
                 var seçilisalon = parameter as Salon;
 
                 var EnSonKoltukNo = seçilisalon.EnKoltukSayı * seçilisalon.BoyKoltukSayı;
-                IGrouping<int, int> group = seçilisalon.SeçiliSalonKoltukGrubu;
+                var group = seçilisalon.SeçiliSalonKoltukGrubu;
                 seçilisalon.EnKoltukSayı = group.ElementAt(0);
                 seçilisalon.BoyKoltukSayı = group.ElementAt(1);
                 for (var i = EnSonKoltukNo; i < EnSonKoltukNo + seçilisalon.İlaveKoltukSayısı; i++)
@@ -69,7 +69,7 @@ namespace Sinema.ViewModel
                 if (parameter is string aramametni && File.Exists(MainWindowViewModel.xmldatapath))
                 {
                     BulunanKişiler = new();
-                    foreach (XElement item in XElement.Load(MainWindowViewModel.xmldatapath)?.Descendants("Müşteri"))
+                    foreach (var item in XElement.Load(MainWindowViewModel.xmldatapath)?.Descendants("Müşteri"))
                     {
                         if (item.Attribute("Ad").Value.Contains(aramametni))
                         {
@@ -138,7 +138,7 @@ namespace Sinema.ViewModel
         {
             if (File.Exists(MainWindowViewModel.xmldatapath))
             {
-                foreach (XElement item in XDocument.Load(MainWindowViewModel.xmldatapath).Descendants("KoltukTipleri").Descendants("KoltukTipi"))
+                foreach (var item in XDocument.Load(MainWindowViewModel.xmldatapath).Descendants("KoltukTipleri").Descendants("KoltukTipi"))
                 {
                     Salonlar.KoltukTipleri.KoltukTipi?.Add(item?.DeSerialize<KoltukTipi>());
                 }
@@ -151,7 +151,7 @@ namespace Sinema.ViewModel
         {
             if (File.Exists(MainWindowViewModel.xmldatapath))
             {
-                foreach (XElement item in XDocument.Load(MainWindowViewModel.xmldatapath).Descendants("Urunler").Descendants("Urun"))
+                foreach (var item in XDocument.Load(MainWindowViewModel.xmldatapath).Descendants("Urunler").Descendants("Urun"))
                 {
                     Salonlar.Urunler.Urun?.Add(item?.DeSerialize<Urun>());
                 }

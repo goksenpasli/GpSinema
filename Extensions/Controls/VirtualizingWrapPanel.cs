@@ -124,7 +124,7 @@ namespace Extensions
                     continue;
                 }
 
-                Rect layout = _containerLayouts[index];
+                var layout = _containerLayouts[index];
                 layout.Offset(_offset.X * -1, _offset.Y * -1);
                 child.Arrange(layout);
             }
@@ -153,7 +153,7 @@ namespace Extensions
             Size maxSize = default;
             for (var i = 0; i < childrenCount; i++)
             {
-                Size childSize = ContainerSizeForIndex(i);
+                var childSize = ContainerSizeForIndex(i);
                 var isWrapped = isHorizontal ? lineSize.Width + childSize.Width > availableSize.Width : lineSize.Height + childSize.Height > availableSize.Height;
                 if (isWrapped)
                 {
@@ -165,7 +165,7 @@ namespace Extensions
                 Rect viewportRect = new(_offset, availableSize);
                 if (itemRect.IntersectsWith(viewportRect))
                 {
-                    UIElement child = generator.GetOrCreateChild(i);
+                    var child = generator.GetOrCreateChild(i);
                     child.Measure(childAvailable);
                     childSize = ContainerSizeForIndex(i);
                 }
@@ -217,7 +217,7 @@ namespace Extensions
                     return;
                 }
 
-                UIElementCollection children = _owner.InternalChildren;
+                var children = _owner.InternalChildren;
                 for (var i = children.Count - 1; i >= 0; i--)
                 {
                     GeneratorPosition childPos = new(i, 0);
@@ -311,7 +311,7 @@ namespace Extensions
             private void BeginGenerate(int index)
             {
                 _firstGeneratedIndex = index;
-                GeneratorPosition startPos = _generator.GeneratorPositionFromIndex(index);
+                var startPos = _generator.GeneratorPositionFromIndex(index);
                 _currentGenerateIndex = startPos.Offset == 0 ? startPos.Index : startPos.Index + 1;
                 _generatorTracker = _generator.StartAt(startPos, GeneratorDirection.Forward, true);
             }
@@ -372,7 +372,7 @@ namespace Extensions
 
                 return _prevSize;
             });
-            Size size = getSize(index);
+            var size = getSize(index);
             if (!double.IsNaN(ItemWidth))
             {
                 size.Width = ItemWidth;
@@ -551,7 +551,7 @@ namespace Extensions
         public Rect MakeVisible(Visual visual, Rect rectangle)
         {
             var idx = InternalChildren.IndexOf(visual as UIElement);
-            IItemContainerGenerator generator = ItemContainerGenerator;
+            var generator = ItemContainerGenerator;
             if (generator != null)
             {
                 GeneratorPosition pos = new(idx, 0);
@@ -568,7 +568,7 @@ namespace Extensions
                 return Rect.Empty;
             }
 
-            Rect layout = _containerLayouts[idx];
+            var layout = _containerLayouts[idx];
             if (HorizontalOffset + ViewportWidth < layout.X + layout.Width)
             {
                 SetHorizontalOffset(layout.X + layout.Width - ViewportWidth);

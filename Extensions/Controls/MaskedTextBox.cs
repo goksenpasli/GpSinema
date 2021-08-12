@@ -225,7 +225,7 @@ namespace Extensions
         private object ConvertTextToValue()
         {
             object convertedValue = null;
-            Type dataType = ValueType;
+            var dataType = ValueType;
             var valueToConvert = MaskProvider.ToString().Trim();
             try
             {
@@ -287,7 +287,7 @@ namespace Extensions
 
         private bool HandleKeyDownBack()
         {
-            ModifierKeys modifiers = Keyboard.Modifiers;
+            var modifiers = Keyboard.Modifiers;
             var handled = true;
             if (modifiers is ModifierKeys.None or ModifierKeys.Shift)
             {
@@ -328,7 +328,7 @@ namespace Extensions
 
         private bool HandleKeyDownDelete()
         {
-            ModifierKeys modifiers = Keyboard.Modifiers;
+            var modifiers = Keyboard.Modifiers;
             var handled = true;
             if (modifiers == ModifierKeys.None)
             {
@@ -440,7 +440,7 @@ namespace Extensions
         private void InsertText(string text)
         {
             var position = SelectionStart;
-            MaskedTextProvider provider = MaskProvider;
+            var provider = MaskProvider;
             var textRemoved = RemoveSelectedText();
             position = GetNextCharacterPosition(position);
             if (!textRemoved && Keyboard.IsKeyToggled(Key.Insert))
@@ -564,7 +564,7 @@ namespace Extensions
 
         private void UpdateText(int position)
         {
-            MaskedTextProvider provider = MaskProvider;
+            var provider = MaskProvider;
             if (provider == null)
             {
                 throw new InvalidOperationException();

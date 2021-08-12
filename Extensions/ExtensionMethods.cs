@@ -73,7 +73,7 @@ namespace Extensions
         {
             unsafe
             {
-                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
                 var bytesPerPixel = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
                 var heightInPixels = bitmapData.Height;
                 var widthInBytes = bitmapData.Width * bytesPerPixel;
@@ -184,7 +184,7 @@ namespace Extensions
                 }
                 SHFILEINFO shfi = new();
 
-                IntPtr res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
+                var res = SHGetFileInfo(path, FILE_ATTRIBUTE_NORMAL, out shfi, (uint)Marshal.SizeOf(shfi), flags);
 
                 if (res == IntPtr.Zero)
                 {
@@ -194,7 +194,7 @@ namespace Extensions
                 _ = Icon.FromHandle(shfi.hIcon);
                 using var icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
                 _ = DestroyIcon(shfi.hIcon);
-                BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                var bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 bitmapsource.Freeze();
                 return bitmapsource;
             }
@@ -206,10 +206,10 @@ namespace Extensions
             if (filepath != null)
             {
                 var defaultIcon = filepath;
-                IntPtr hIcon = hwnd.ExtractIcon(defaultIcon, iconindex);
+                var hIcon = hwnd.ExtractIcon(defaultIcon, iconindex);
                 if (hIcon != IntPtr.Zero)
                 {
-                    BitmapSource icon = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    var icon = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     _ = hIcon.DestroyIcon();
                     icon.Freeze();
                     return icon;
@@ -223,7 +223,7 @@ namespace Extensions
 
         public static void OpenFolderAndSelectItem(string folderPath, string file)
         {
-            SHParseDisplayName(folderPath, IntPtr.Zero, out IntPtr nativeFolder, 0, out _);
+            SHParseDisplayName(folderPath, IntPtr.Zero, out var nativeFolder, 0, out _);
 
             if (nativeFolder == IntPtr.Zero)
             {
@@ -231,7 +231,7 @@ namespace Extensions
                 return;
             }
 
-            SHParseDisplayName(Path.Combine(folderPath, file), IntPtr.Zero, out IntPtr nativeFile, 0, out _);
+            SHParseDisplayName(Path.Combine(folderPath, file), IntPtr.Zero, out var nativeFile, 0, out _);
 
             IntPtr[] fileArray;
             if (nativeFile == IntPtr.Zero)
@@ -257,23 +257,23 @@ namespace Extensions
         {
             if (value != null)
             {
-                RegistryKey keyForExt = Registry.ClassesRoot.OpenSubKey(value);
+                var keyForExt = Registry.ClassesRoot.OpenSubKey(value);
                 if (keyForExt == null)
                 {
                     return null;
                 }
 
                 var className = Convert.ToString(keyForExt.GetValue(null));
-                RegistryKey keyForClass = Registry.ClassesRoot.OpenSubKey(className);
+                var keyForClass = Registry.ClassesRoot.OpenSubKey(className);
                 if (keyForClass == null)
                 {
                     return null;
                 }
 
-                RegistryKey keyForIcon = keyForClass.OpenSubKey("DefaultIcon");
+                var keyForIcon = keyForClass.OpenSubKey("DefaultIcon");
                 if (keyForIcon == null)
                 {
-                    RegistryKey keyForCLSID = keyForClass.OpenSubKey("CLSID");
+                    var keyForCLSID = keyForClass.OpenSubKey("CLSID");
                     if (keyForCLSID != null)
                     {
                         var clsid = $"CLSID\\{Convert.ToString(keyForCLSID.GetValue(null))}\\DefaultIcon";
@@ -291,10 +291,10 @@ namespace Extensions
 
                 var defaultIcon = Convert.ToString(keyForIcon.GetValue(null)).Split(',');
                 var index = defaultIcon.Length > 1 ? int.Parse(defaultIcon[1]) : 0;
-                IntPtr hIcon = hwnd.ExtractIcon(defaultIcon[0], index);
+                var hIcon = hwnd.ExtractIcon(defaultIcon[0], index);
                 if (hIcon != IntPtr.Zero)
                 {
-                    BitmapSource icon = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    var icon = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     _ = hIcon.DestroyIcon();
                     icon.Freeze();
                     return icon;
@@ -370,7 +370,7 @@ namespace Extensions
         {
             var scale = resolution / 96d;
             uiElement.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
-            System.Windows.Size sz = uiElement.DesiredSize;
+            var sz = uiElement.DesiredSize;
             Rect rect = new(sz);
             uiElement.Arrange(rect);
             RenderTargetBitmap bmp = new((int)(scale * rect.Width), (int)(scale * rect.Height), scale * 96, scale * 96, PixelFormats.Default);

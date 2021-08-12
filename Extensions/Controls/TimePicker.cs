@@ -46,7 +46,7 @@ namespace Extensions
         private static void GenerateTime(int interval)
         {
             Saatler = new List<string>();
-            for (DateTime i = DateTime.Today; i < DateTime.Today.AddDays(1); i = i.AddMinutes(interval))
+            for (var i = DateTime.Today; i < DateTime.Today.AddDays(1); i = i.AddMinutes(interval))
             {
                 Saatler.Add(i.ToShortTimeString());
             }

@@ -66,9 +66,9 @@ namespace Sinema.ViewModel
                     var salonViewModel = data[1] as SalonViewModel;
                     var koltuk = data[2] as Koltuk;
 
-                    foreach (Urun müşterisipariş in Musteri?.Siparis?.Urun)
+                    foreach (var müşterisipariş in Musteri?.Siparis?.Urun)
                     {
-                        foreach (Urun depoürün in salonViewModel?.Salonlar?.Urunler?.Urun)
+                        foreach (var depoürün in salonViewModel?.Salonlar?.Urunler?.Urun)
                         {
                             if (müşterisipariş.Id == depoürün.Id)
                             {
@@ -90,7 +90,7 @@ namespace Sinema.ViewModel
                 var Musteri = data[0] as Musteri;
                 var kaynakkoltuk = data[2] as Koltuk;
                 var salon = data[3] as Salon;
-                Koltuk hedefkoltuk = salon.Koltuklar.FirstOrDefault(z => z.No == kaynakkoltuk.TaşınacakKoltukNo);
+                var hedefkoltuk = salon.Koltuklar.FirstOrDefault(z => z.No == kaynakkoltuk.TaşınacakKoltukNo);
 
                 if (!hedefkoltuk.Müşteri.Any(z => z.FilmId == Musteri.FilmId))
                 {
