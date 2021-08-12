@@ -74,16 +74,16 @@ namespace Extensions
             unsafe
             {
                 BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
-                int bytesPerPixel = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
-                int heightInPixels = bitmapData.Height;
-                int widthInBytes = bitmapData.Width * bytesPerPixel;
-                byte* ptrFirstPixel = (byte*)bitmapData.Scan0;
+                var bytesPerPixel = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+                var heightInPixels = bitmapData.Height;
+                var widthInBytes = bitmapData.Width * bytesPerPixel;
+                var ptrFirstPixel = (byte*)bitmapData.Scan0;
                 _ = Parallel.For(0, heightInPixels, y =>
                   {
-                      byte* currentLine = ptrFirstPixel + (y * bitmapData.Stride);
-                      for (int x = 0; x < widthInBytes; x += bytesPerPixel)
+                      var currentLine = ptrFirstPixel + (y * bitmapData.Stride);
+                      for (var x = 0; x < widthInBytes; x += bytesPerPixel)
                       {
-                          byte gray = (byte)((currentLine[x] * 0.299) + (currentLine[x + 1] * 0.587) + (currentLine[x + 2] * 0.114));
+                          var gray = (byte)((currentLine[x] * 0.299) + (currentLine[x + 1] * 0.587) + (currentLine[x + 2] * 0.114));
                           if (grayscale)
                           {
                               currentLine[x] = gray;
@@ -111,7 +111,7 @@ namespace Extensions
 
         public static System.Drawing.Color ConvertToColor(this System.Windows.Media.Brush color)
         {
-            SolidColorBrush sb = (SolidColorBrush)color;
+            var sb = (SolidColorBrush)color;
             return System.Drawing.Color.FromArgb(sb.Color.A, sb.Color.R, sb.Color.G, sb.Color.B);
         }
 
@@ -130,11 +130,11 @@ namespace Extensions
                 {
                     _ = pendingQueue.TryDequeue(out path);
 
-                    string[] files = Directory.GetFiles(path, pattern);
+                    var files = Directory.GetFiles(path, pattern);
 
                     _ = Parallel.ForEach(files, x => filesNames.Add(x));
 
-                    string[] directories = Directory.GetDirectories(path);
+                    var directories = Directory.GetDirectories(path);
 
                     _ = Parallel.ForEach(directories, (x) => pendingQueue.Enqueue(x));
                 }
@@ -172,7 +172,7 @@ namespace Extensions
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
-                uint flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES;
+                var flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES;
 
                 if (IconSize.Small == size)
                 {
@@ -192,7 +192,7 @@ namespace Extensions
                 }
 
                 _ = Icon.FromHandle(shfi.hIcon);
-                using Icon icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
+                using var icon = (Icon)Icon.FromHandle(shfi.hIcon).Clone();
                 _ = DestroyIcon(shfi.hIcon);
                 BitmapSource bitmapsource = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 bitmapsource.Freeze();
@@ -205,7 +205,7 @@ namespace Extensions
         {
             if (filepath != null)
             {
-                string defaultIcon = filepath;
+                var defaultIcon = filepath;
                 IntPtr hIcon = hwnd.ExtractIcon(defaultIcon, iconindex);
                 if (hIcon != IntPtr.Zero)
                 {
@@ -263,7 +263,7 @@ namespace Extensions
                     return null;
                 }
 
-                string className = Convert.ToString(keyForExt.GetValue(null));
+                var className = Convert.ToString(keyForExt.GetValue(null));
                 RegistryKey keyForClass = Registry.ClassesRoot.OpenSubKey(className);
                 if (keyForClass == null)
                 {
@@ -276,7 +276,7 @@ namespace Extensions
                     RegistryKey keyForCLSID = keyForClass.OpenSubKey("CLSID");
                     if (keyForCLSID != null)
                     {
-                        string clsid = $"CLSID\\{Convert.ToString(keyForCLSID.GetValue(null))}\\DefaultIcon";
+                        var clsid = $"CLSID\\{Convert.ToString(keyForCLSID.GetValue(null))}\\DefaultIcon";
                         keyForIcon = Registry.ClassesRoot.OpenSubKey(clsid);
                         if (keyForIcon == null)
                         {
@@ -289,8 +289,8 @@ namespace Extensions
                     }
                 }
 
-                string[] defaultIcon = Convert.ToString(keyForIcon.GetValue(null)).Split(',');
-                int index = defaultIcon.Length > 1 ? int.Parse(defaultIcon[1]) : 0;
+                var defaultIcon = Convert.ToString(keyForIcon.GetValue(null)).Split(',');
+                var index = defaultIcon.Length > 1 ? int.Parse(defaultIcon[1]) : 0;
                 IntPtr hIcon = hwnd.ExtractIcon(defaultIcon[0], index);
                 if (hIcon != IntPtr.Zero)
                 {
@@ -368,7 +368,7 @@ namespace Extensions
 
         public static RenderTargetBitmap ToRenderTargetBitmap(this UIElement uiElement, double resolution = 96)
         {
-            double scale = resolution / 96d;
+            var scale = resolution / 96d;
             uiElement.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
             System.Windows.Size sz = uiElement.DesiredSize;
             Rect rect = new(sz);

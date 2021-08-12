@@ -15,7 +15,7 @@ namespace Sinema
             {
                 return null;
             }
-            object[] data = values;
+            var data = values;
             return data[0] is int koltukno && data[1] is int bölen ? ExtensionMethods.HarfeDöndür((koltukno - 1) % bölen) + koltukno : 0;
         }
 

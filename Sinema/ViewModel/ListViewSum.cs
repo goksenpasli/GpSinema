@@ -36,7 +36,7 @@ namespace Sinema.ViewModel
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()) && d is DependencyObject listView && e.NewValue is not null)
             {
-                double toplam = (e.NewValue as ObservableCollection<Urun>).Sum(z => z.ToplamFiyat);
+                var toplam = (e.NewValue as ObservableCollection<Urun>).Sum(z => z.ToplamFiyat);
                 SetSum(listView, toplam.ToString());
             }
         }

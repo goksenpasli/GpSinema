@@ -62,7 +62,7 @@ namespace Sinema.ViewModel
 
             FilmResimGüncelle = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
+                var data = parameter as object[];
                 ExtensionMethods.ResimEkle(data[0] as Film);
                 (data[1] as Salonlar).Serialize();
             }, parameter => true);
@@ -71,14 +71,14 @@ namespace Sinema.ViewModel
             {
                 try
                 {
-                    object[] data = parameter as object[];
-                    string filename = $"{Guid.NewGuid()}.jpg";
+                    var data = parameter as object[];
+                    var filename = $"{Guid.NewGuid()}.jpg";
                     using WebClient client = new();
                     if (File.Exists(MainWindowViewModel.xmldatapath))
                     {
-                        string webimageadress = data[1] as string;
+                        var webimageadress = data[1] as string;
                         client.DownloadFile(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
-                        Film film = data[0] as Film;
+                        var film = data[0] as Film;
                         film.ResimYolu = filename;
                         (data[2] as Salonlar).Serialize();
                     }
@@ -90,7 +90,7 @@ namespace Sinema.ViewModel
 
             FilmVideoGüncelle = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
+                var data = parameter as object[];
                 ExtensionMethods.VideoEkle(data[0] as Film);
                 (data[1] as Salonlar).Serialize();
             }, parameter => true);

@@ -67,7 +67,7 @@ namespace Extensions.Controls
             {
                 try
                 {
-                    string uriString = (string)e.NewValue;
+                    var uriString = (string)e.NewValue;
                     viewer.Player.Source = new Uri(uriString);
                     viewer.Player.MediaOpened += (f, g) =>
                     {
@@ -111,8 +111,8 @@ namespace Extensions.Controls
         {
             if (Player.NaturalVideoWidth > 0)
             {
-                string picturesfolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                byte[] data = Player.ToRenderTargetBitmap().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg);
+                var picturesfolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                var data = Player.ToRenderTargetBitmap().ToTiffJpegByteArray(ExtensionMethods.Format.Jpg);
                 File.WriteAllBytes(picturesfolder.SetUniqueFile("Resim", "jpg"), data);
             }
         }
@@ -142,8 +142,8 @@ namespace Extensions.Controls
 
         private double PixelsToValue(double pixels, double minValue, double maxValue, double width)
         {
-            double range = maxValue - minValue;
-            double percentage = pixels / width * 100;
+            var range = maxValue - minValue;
+            var percentage = pixels / width * 100;
             return (percentage / 100 * range) + minValue;
         }
 
@@ -198,12 +198,12 @@ namespace Extensions.Controls
                     {
                         Dispatcher.BeginInvoke((Action)(() =>
                         {
-                            double oran = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
+                            var oran = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
                             tooltip.Width = 96 * oran;
                             tooltip.Height = 96;
                             tooltip.PlacementTarget = Sld;
                             tooltip.Placement = PlacementMode.Mouse;
-                            double predictedValue = PixelsToValue(e.GetPosition(Sld).X, Sld.Minimum, Sld.Maximum, Sld.ActualWidth);
+                            var predictedValue = PixelsToValue(e.GetPosition(Sld).X, Sld.Minimum, Sld.Maximum, Sld.ActualWidth);
                             mediaElement.IsMuted = true;
                             mediaElement.Source = Player.Source;
                             mediaElement.Height = tooltip.Height;

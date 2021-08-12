@@ -34,7 +34,7 @@ namespace Sinema.ViewModel
 
             ÜrünGüncelle = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
+                var data = parameter as object[];
                 if (data[0] is Urun urun && data[1] is MainWindowViewModel mainWindowViewModel)
                 {
                     urun.BirimFiyat = Math.Round(urun.BirimFiyat, 2);
@@ -44,10 +44,10 @@ namespace Sinema.ViewModel
 
             MusteriÜrünGirişiYap = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
-                Musteri Musteri = data[0] as Musteri;
-                SalonViewModel salonViewModel = data[1] as SalonViewModel;
-                Urun urun = data[2] as Urun;
+                var data = parameter as object[];
+                var Musteri = data[0] as Musteri;
+                var salonViewModel = data[1] as SalonViewModel;
+                var urun = data[2] as Urun;
 
                 Urun seçiliurun = salonViewModel.Salonlar.Urunler.Urun.FirstOrDefault(z => z.Id == urun.Id);
                 if (Musteri.Siparis.UrunAdet <= seçiliurun.Adet)

@@ -59,7 +59,7 @@ namespace Extensions
 
         private static bool IsValidInterval(object value)
         {
-            int v = (int)value;
+            var v = (int)value;
             return v is > 0 and <= 1440;
         }
     }

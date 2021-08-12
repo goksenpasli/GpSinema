@@ -41,7 +41,7 @@
                             Value="{Binding Yas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </HeaderedContentControl>
                     <HeaderedContentControl Header="FİLM SEÇ">
-                        <ComboBox x:Name="Cb" ItemsSource="{Binding SelectedItem.Film, ElementName=TabCtrl}">
+                        <ComboBox x:Name="Cb" ItemsSource="{Binding SelectedItem.Film, ElementName=TabCtrl}" SelectedItem="{Binding SeçiliFilm}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type model:Film}">
                                     <StackPanel>
@@ -87,7 +87,6 @@
                                 <Binding Mode="OneWay" />
                                 <Binding ElementName="grid" Path="DataContext.SalonViewModel" />
                                 <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
-                                <Binding ElementName="Cb" Path="SelectedItem" />
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>

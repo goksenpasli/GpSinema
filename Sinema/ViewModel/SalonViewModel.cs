@@ -38,7 +38,7 @@ namespace Sinema.ViewModel
                     EnKoltukSayı = Salon.EnKoltukSayı,
                     BoyKoltukSayı = Salon.BoyKoltukSayı
                 };
-                for (int i = 0; i < Salon.BoyKoltukSayı * Salon.EnKoltukSayı; i++)
+                for (var i = 0; i < Salon.BoyKoltukSayı * Salon.EnKoltukSayı; i++)
                 {
                     salon.Koltuklar.Add(new Koltuk() { KoltukEtkin = true, Görünür = true, No = i + 1 });
                 }
@@ -49,13 +49,13 @@ namespace Sinema.ViewModel
 
             SalonGenişlet = new RelayCommand<object>(parameter =>
             {
-                Salon seçilisalon = parameter as Salon;
+                var seçilisalon = parameter as Salon;
 
-                int EnSonKoltukNo = seçilisalon.EnKoltukSayı * seçilisalon.BoyKoltukSayı;
+                var EnSonKoltukNo = seçilisalon.EnKoltukSayı * seçilisalon.BoyKoltukSayı;
                 IGrouping<int, int> group = seçilisalon.SeçiliSalonKoltukGrubu;
                 seçilisalon.EnKoltukSayı = group.ElementAt(0);
                 seçilisalon.BoyKoltukSayı = group.ElementAt(1);
-                for (int i = EnSonKoltukNo; i < EnSonKoltukNo + seçilisalon.İlaveKoltukSayısı; i++)
+                for (var i = EnSonKoltukNo; i < EnSonKoltukNo + seçilisalon.İlaveKoltukSayısı; i++)
                 {
                     seçilisalon.Koltuklar.Add(new Koltuk() { KoltukEtkin = true, Görünür = true, No = i + 1 });
                 }
@@ -73,8 +73,8 @@ namespace Sinema.ViewModel
                     {
                         if (item.Attribute("Ad").Value.Contains(aramametni))
                         {
-                            string koltuk = item.Parent.Attribute("No").Value;
-                            string salon = item.Parent.Parent.Parent.Attribute("Adı").Value;
+                            var koltuk = item.Parent.Attribute("No").Value;
+                            var salon = item.Parent.Parent.Parent.Attribute("Adı").Value;
                             BulunanKişiler.Add(salon + " " + koltuk + " nolu koltuk");
                         }
                     }

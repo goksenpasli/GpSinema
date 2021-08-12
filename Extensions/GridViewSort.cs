@@ -25,8 +25,8 @@ namespace Extensions
                         {
                             if (GetCommand(listView) == null) // Don't change click handler if a command is set
                             {
-                                bool oldValue = (bool)e.OldValue;
-                                bool newValue = (bool)e.NewValue;
+                                var oldValue = (bool)e.OldValue;
+                                var newValue = (bool)e.NewValue;
                                 if (oldValue && !newValue)
                                 {
                                     listView.RemoveHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
@@ -175,7 +175,7 @@ namespace Extensions
         {
             if (e.OriginalSource is GridViewColumnHeader headerClicked && headerClicked.Column != null)
             {
-                string propertyName = GetPropertyName(headerClicked.Column);
+                var propertyName = GetPropertyName(headerClicked.Column);
                 if (!string.IsNullOrEmpty(propertyName))
                 {
                     ListView listView = GetAncestor<ListView>(headerClicked);
@@ -247,7 +247,7 @@ namespace Extensions
 
         private static void AddSortGlyph(GridViewColumnHeader columnHeader, ListSortDirection direction, ImageSource sortGlyph)
         {
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(columnHeader);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(columnHeader);
             adornerLayer.Add(
                 new SortGlyphAdorner(
                     columnHeader,
@@ -258,7 +258,7 @@ namespace Extensions
 
         private static void RemoveSortGlyph(GridViewColumnHeader columnHeader)
         {
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(columnHeader);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(columnHeader);
             Adorner[] adorners = adornerLayer.GetAdorners(columnHeader);
             if (adorners != null)
             {
@@ -298,8 +298,8 @@ namespace Extensions
 
                 if (_sortGlyph != null)
                 {
-                    double x = _columnHeader.ActualWidth - 13;
-                    double y = _columnHeader.ActualHeight / 2 - 5;
+                    var x = _columnHeader.ActualWidth - 13;
+                    var y = _columnHeader.ActualHeight / 2 - 5;
                     Rect rect = new(x, y, 10, 10);
                     drawingContext.DrawImage(_sortGlyph, rect);
                 }
@@ -311,15 +311,15 @@ namespace Extensions
 
             private Geometry GetDefaultGlyph()
             {
-                double x1 = _columnHeader.ActualWidth - 13;
-                double x2 = x1 + 10;
-                double x3 = x1 + 5;
-                double y1 = _columnHeader.ActualHeight / 2 - 3;
-                double y2 = y1 + 5;
+                var x1 = _columnHeader.ActualWidth - 13;
+                var x2 = x1 + 10;
+                var x3 = x1 + 5;
+                var y1 = _columnHeader.ActualHeight / 2 - 3;
+                var y2 = y1 + 5;
 
                 if (_direction == ListSortDirection.Ascending)
                 {
-                    double tmp = y1;
+                    var tmp = y1;
                     y1 = y2;
                     y2 = tmp;
                 }

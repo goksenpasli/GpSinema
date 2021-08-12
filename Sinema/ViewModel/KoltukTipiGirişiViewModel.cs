@@ -35,10 +35,10 @@ namespace Sinema.ViewModel
 
             KoltukAyarla = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
-                Koltuk koltuk = data[0] as Koltuk;
-                MainWindowViewModel mainWindowViewModel = data[1] as MainWindowViewModel;
-                KoltukTipi SeçiliKoltukTipi = data[2] as KoltukTipi;
+                var data = parameter as object[];
+                var koltuk = data[0] as Koltuk;
+                var mainWindowViewModel = data[1] as MainWindowViewModel;
+                var SeçiliKoltukTipi = data[2] as KoltukTipi;
                 if (SeçiliKoltukTipi is not null)
                 {
                     koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
@@ -50,10 +50,10 @@ namespace Sinema.ViewModel
 
             KoltuklarıAyarla = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
-                Salon salon = data[0] as Salon;
-                MainWindowViewModel mainWindowViewModel = data[1] as MainWindowViewModel;
-                KoltukTipi SeçiliKoltukTipi = data[2] as KoltukTipi;
+                var data = parameter as object[];
+                var salon = data[0] as Salon;
+                var mainWindowViewModel = data[1] as MainWindowViewModel;
+                var SeçiliKoltukTipi = data[2] as KoltukTipi;
                 KoltukTipiIdToBrushConverter.koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
 
                 foreach (Koltuk koltuk in salon.Koltuklar)
@@ -99,9 +99,9 @@ namespace Sinema.ViewModel
                     }
                     if (salon.SeçiliKoltukDüzeni == 4)
                     {
-                        for (int j = 0; j <= (salon.KoltukÜstAralık - salon.KoltukAltAralık) / salon.EnKoltukSayı; j++)
+                        for (var j = 0; j <= (salon.KoltukÜstAralık - salon.KoltukAltAralık) / salon.EnKoltukSayı; j++)
                         {
-                            for (int i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
+                            for (var i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
                             {
                                 Koltuk koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
                                 koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
@@ -120,8 +120,8 @@ namespace Sinema.ViewModel
             {
                 if (parameter is not null)
                 {
-                    object[] data = parameter as object[];
-                    Salon salon = data[0] as Salon;
+                    var data = parameter as object[];
+                    var salon = data[0] as Salon;
                     return salon?.KoltukAltAralık <= salon?.KoltukÜstAralık && salon?.KoltukÜstAralık <= salon?.EnKoltukSayı * salon?.BoyKoltukSayı;
                 }
                 return false;
@@ -129,9 +129,9 @@ namespace Sinema.ViewModel
 
             TümKoltuklarıGöster = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
-                Salon salon = data[0] as Salon;
-                MainWindowViewModel mainWindowViewModel = data[1] as MainWindowViewModel;
+                var data = parameter as object[];
+                var salon = data[0] as Salon;
+                var mainWindowViewModel = data[1] as MainWindowViewModel;
                 foreach (Koltuk item in salon.Koltuklar)
                 {
                     if (!item.Görünür)

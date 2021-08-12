@@ -17,7 +17,7 @@ namespace Sinema
             {
                 BitmapImage image = new();
                 image.BeginInit();
-                image.DecodePixelHeight = int.TryParse((string)parameter, out int res) ? res : 96;
+                image.DecodePixelHeight = int.TryParse((string)parameter, out var res) ? res : 96;
                 image.CacheOption = BitmapCacheOption.None;//onload to bypass file lock
                 image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
                 image.UriSource = new Uri($"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");

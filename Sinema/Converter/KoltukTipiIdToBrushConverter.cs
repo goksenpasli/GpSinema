@@ -32,7 +32,7 @@ namespace Sinema
             }
             if (value is int Id)
             {
-                string renk = koltukrenkleri?.Where(z => (int)z.Attribute("Id") == Id).Select(z => z.Attribute("KoltukRenk").Value).FirstOrDefault();
+                var renk = koltukrenkleri?.Where(z => (int)z.Attribute("Id") == Id).Select(z => z.Attribute("KoltukRenk").Value).FirstOrDefault();
                 return !string.IsNullOrEmpty(renk) ? brushconvert.ConvertFromString(renk) : Brushes.Transparent;
             }
 

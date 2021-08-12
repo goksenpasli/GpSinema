@@ -81,7 +81,7 @@ namespace Extensions
 
         private static bool IsWidthHeightValid(object value)
         {
-            double d = (double)value;
+            var d = (double)value;
             return double.IsNaN(d) || (d >= 0 && !double.IsPositiveInfinity(d));
         }
 
@@ -117,8 +117,8 @@ namespace Extensions
         {
             foreach (UIElement child in InternalChildren)
             {
-                ItemContainerGenerator gen = ItemContainerGenerator as ItemContainerGenerator;
-                int index = gen?.IndexFromContainer(child) ?? InternalChildren.IndexOf(child);
+                var gen = ItemContainerGenerator as ItemContainerGenerator;
+                var index = gen?.IndexFromContainer(child) ?? InternalChildren.IndexOf(child);
                 if (!_containerLayouts.ContainsKey(index))
                 {
                     continue;
@@ -135,26 +135,26 @@ namespace Extensions
         protected override Size MeasureOverride(Size availableSize)
         {
             _containerLayouts.Clear();
-            bool isAutoWidth = double.IsNaN(ItemWidth);
-            bool isAutoHeight = double.IsNaN(ItemHeight);
+            var isAutoWidth = double.IsNaN(ItemWidth);
+            var isAutoHeight = double.IsNaN(ItemHeight);
             Size childAvailable = new(isAutoWidth ? double.PositiveInfinity : ItemWidth, isAutoHeight ? double.PositiveInfinity : ItemHeight);
-            bool isHorizontal = Orientation == Orientation.Horizontal;
-            int childrenCount = InternalChildren.Count;
-            ItemsControl itemsControl = ItemsControl.GetItemsOwner(this);
+            var isHorizontal = Orientation == Orientation.Horizontal;
+            var childrenCount = InternalChildren.Count;
+            var itemsControl = ItemsControl.GetItemsOwner(this);
             if (itemsControl != null)
             {
                 childrenCount = itemsControl.Items.Count;
             }
 
             using ChildGenerator generator = new(this);
-            double x = 0.0;
-            double y = 0.0;
+            var x = 0.0;
+            var y = 0.0;
             Size lineSize = default;
             Size maxSize = default;
-            for (int i = 0; i < childrenCount; i++)
+            for (var i = 0; i < childrenCount; i++)
             {
                 Size childSize = ContainerSizeForIndex(i);
-                bool isWrapped = isHorizontal ? lineSize.Width + childSize.Width > availableSize.Width : lineSize.Height + childSize.Height > availableSize.Height;
+                var isWrapped = isHorizontal ? lineSize.Width + childSize.Width > availableSize.Width : lineSize.Height + childSize.Height > availableSize.Height;
                 if (isWrapped)
                 {
                     x = isHorizontal ? 0 : x + lineSize.Width;
@@ -218,10 +218,10 @@ namespace Extensions
                 }
 
                 UIElementCollection children = _owner.InternalChildren;
-                for (int i = children.Count - 1; i >= 0; i--)
+                for (var i = children.Count - 1; i >= 0; i--)
                 {
                     GeneratorPosition childPos = new(i, 0);
-                    int index = _generator.IndexFromGeneratorPosition(childPos);
+                    var index = _generator.IndexFromGeneratorPosition(childPos);
                     if (index >= _firstGeneratedIndex && index <= _lastGeneratedIndex)
                     {
                         continue;
@@ -285,7 +285,7 @@ namespace Extensions
                     BeginGenerate(index);
                 }
 
-                UIElement child = _generator.GenerateNext(out bool newlyRealized) as UIElement;
+                var child = _generator.GenerateNext(out var newlyRealized) as UIElement;
                 if (newlyRealized)
                 {
                     if (_currentGenerateIndex >= _owner.InternalChildren.Count)
@@ -332,7 +332,7 @@ namespace Extensions
             Func<int, Size> getSize = new(idx =>
             {
                 UIElement item = null;
-                ItemsControl itemsOwner = ItemsControl.GetItemsOwner(this);
+                var itemsOwner = ItemsControl.GetItemsOwner(this);
                 if (itemsOwner == null || ItemContainerGenerator is not ItemContainerGenerator generator)
                 {
                     if (InternalChildren.Count > idx)
@@ -550,7 +550,7 @@ namespace Extensions
 
         public Rect MakeVisible(Visual visual, Rect rectangle)
         {
-            int idx = InternalChildren.IndexOf(visual as UIElement);
+            var idx = InternalChildren.IndexOf(visual as UIElement);
             IItemContainerGenerator generator = ItemContainerGenerator;
             if (generator != null)
             {

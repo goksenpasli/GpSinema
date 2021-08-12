@@ -14,45 +14,45 @@ namespace Sinema.ViewModel
         {
             MusteriGirişiYap = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
-                Koltuk koltuk = data[2] as Koltuk;
+                var data = parameter as object[];
+                var koltuk = data[2] as Koltuk;
                 if (koltuk.KoltukTipiId == 0)
                 {
                     MessageBox.Show("Koltuk Tipi Ayarlanmamış Sağ Tıklayıp Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
-                Film film = data[3] as Film;
-                if (koltuk.Müşteri.Any(z => z.FilmId == film.Id))
+                var Musteri = data[0] as Musteri;
+                if (koltuk.Müşteri.Any(z => z.FilmId == Musteri.SeçiliFilm.Id))
                 {
-                    MessageBox.Show($"Bu Filme {koltuk.Müşteri.FirstOrDefault(z => z.FilmId == film.Id).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show($"Bu Filme {koltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.SeçiliFilm.Id).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
 
-                string koltukfiyatı = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi")?.Where(z => (int)z.Attribute("Id") == koltuk.KoltukTipiId).Select(z => z.Attribute("KoltukFiyatı").Value).FirstOrDefault();
-
-                Musteri Musteri = data[0] as Musteri;
                 Musteri musteri = new()
                 {
                     Id = new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue),
                     Ad = Musteri.Ad,
                     Soyad = Musteri.Soyad,
                     Yas = Musteri.Yas,
-                    FilmId = film.Id,
-                    BiletFiyat = Convert.ToDouble(koltukfiyatı)
+                    FilmId = Musteri.SeçiliFilm.Id,
+                    BiletFiyat = Convert.ToDouble(KoltukFiyatıAl(koltuk))
                 };
                 koltuk.KoltukDolu = false;
                 koltuk.Müşteri.Add(musteri);
                 koltuk.KoltukDolu = true;
-                SalonViewModel salonViewModel = data[1] as SalonViewModel;
+                var salonViewModel = data[1] as SalonViewModel;
                 salonViewModel.Salonlar.Serialize();
+
+                Musteri.Ad = null;
+                Musteri.Soyad = null;
+                Musteri.SeçiliFilm = null;
             }, parameter =>
             {
                 if (parameter is not null)
                 {
-                    object[] data = parameter as object[];
-                    Musteri Musteri = data[0] as Musteri;
-                    Film film = data[3] as Film;
-                    return !string.IsNullOrWhiteSpace(Musteri?.Soyad) && !string.IsNullOrWhiteSpace(Musteri?.Ad) && film is not null;
+                    var data = parameter as object[];
+                    var Musteri = data[0] as Musteri;
+                    return !string.IsNullOrWhiteSpace(Musteri?.Soyad) && !string.IsNullOrWhiteSpace(Musteri?.Ad) && Musteri?.SeçiliFilm is not null;
                 }
                 return false;
             });
@@ -61,10 +61,10 @@ namespace Sinema.ViewModel
             {
                 if (MessageBox.Show("Seçili Müşteriyi Silmek İstiyor Musun?", "SİNEMA", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    object[] data = parameter as object[];
-                    Musteri Musteri = data[0] as Musteri;
-                    SalonViewModel salonViewModel = data[1] as SalonViewModel;
-                    Koltuk koltuk = data[2] as Koltuk;
+                    var data = parameter as object[];
+                    var Musteri = data[0] as Musteri;
+                    var salonViewModel = data[1] as SalonViewModel;
+                    var koltuk = data[2] as Koltuk;
 
                     foreach (Urun müşterisipariş in Musteri?.Siparis?.Urun)
                     {
@@ -86,10 +86,10 @@ namespace Sinema.ViewModel
 
             MusteriTaşı = new RelayCommand<object>(parameter =>
             {
-                object[] data = parameter as object[];
-                Musteri Musteri = data[0] as Musteri;
-                Koltuk kaynakkoltuk = data[2] as Koltuk;
-                Salon salon = data[3] as Salon;
+                var data = parameter as object[];
+                var Musteri = data[0] as Musteri;
+                var kaynakkoltuk = data[2] as Koltuk;
+                var salon = data[3] as Salon;
                 Koltuk hedefkoltuk = salon.Koltuklar.FirstOrDefault(z => z.No == kaynakkoltuk.TaşınacakKoltukNo);
 
                 if (!hedefkoltuk.Müşteri.Any(z => z.FilmId == Musteri.FilmId))
@@ -102,7 +102,7 @@ namespace Sinema.ViewModel
                     kaynakkoltuk.Müşteri.Remove(Musteri);
                     kaynakkoltuk.KoltukDolu = false;
 
-                    SalonViewModel salonViewModel = data[1] as SalonViewModel;
+                    var salonViewModel = data[1] as SalonViewModel;
                     salonViewModel.Salonlar.Serialize();
                 }
                 else
@@ -117,5 +117,10 @@ namespace Sinema.ViewModel
         public ICommand MusteriSil { get; }
 
         public ICommand MusteriTaşı { get; }
+
+        private string KoltukFiyatıAl(Koltuk koltuk)
+        {
+            return XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi")?.Where(z => (int)z.Attribute("Id") == koltuk.KoltukTipiId).Select(z => z.Attribute("KoltukFiyatı").Value).FirstOrDefault();
+        }
     }
 }

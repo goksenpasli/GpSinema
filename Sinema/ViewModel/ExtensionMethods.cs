@@ -30,7 +30,7 @@ namespace Sinema.ViewModel
         public static IEnumerable<int> Bölenler(this int x)
         {
             List<int> List = new();
-            for (int i = 1; i <= x; i++)
+            for (var i = 1; i <= x; i++)
             {
                 if (x % i == 0)
                 {
@@ -71,7 +71,7 @@ namespace Sinema.ViewModel
             OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
             if (openFileDialog.ShowDialog() == true)
             {
-                string filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
+                var filename = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
                 File.Copy(openFileDialog.FileName, $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
                 dc.ResimYolu = filename;
             }
@@ -80,7 +80,7 @@ namespace Sinema.ViewModel
         public static ObservableCollection<string> SalonHarfleri(int max)
         {
             ObservableCollection<string> list = new();
-            for (int i = 0; i < max; i++)
+            for (var i = 0; i < max; i++)
             {
                 list.Add(HarfeDöndür(i));
             }

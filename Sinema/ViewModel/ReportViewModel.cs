@@ -19,7 +19,7 @@ namespace Sinema.ViewModel
                 const string filepath = @"\Raporlar\KişiSiparişRapor.xlsx";
                 if (File.Exists(ExeFolder + filepath))
                 {
-                    CollectionView veri = parameter as CollectionView;
+                    var veri = parameter as CollectionView;
                     veri.CreateReport(ExeFolder + filepath);
                 }
             }, parameter => parameter is not null);
@@ -29,7 +29,7 @@ namespace Sinema.ViewModel
                 const string filepath = @"\Raporlar\SalonRapor.xlsx";
                 if (File.Exists(ExeFolder + filepath))
                 {
-                    Salon veri = parameter as Salon;
+                    var veri = parameter as Salon;
 
                     veri.Koltuklar.Where(z => z.Müşteri.Any()).CreateReport(ExeFolder + filepath);
                 }

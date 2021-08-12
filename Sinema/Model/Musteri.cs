@@ -14,6 +14,8 @@ namespace Sinema.Model
 
         private int ıd;
 
+        private Film seçiliFilm;
+
         private Musteri seçiliMusteri;
 
         private Siparis siparis = new();
@@ -78,6 +80,21 @@ namespace Sinema.Model
                 {
                     ıd = value;
                     OnPropertyChanged(nameof(Id));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public Film SeçiliFilm
+        {
+            get => seçiliFilm;
+
+            set
+            {
+                if (seçiliFilm != value)
+                {
+                    seçiliFilm = value;
+                    OnPropertyChanged(nameof(SeçiliFilm));
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace Extensions
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            TimeSpan timeSpan = (TimeSpan)value;
+            var timeSpan = (TimeSpan)value;
             return timeSpan.TotalSeconds;
         }
 

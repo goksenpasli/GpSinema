@@ -26,11 +26,11 @@ namespace Extensions
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()) && Series?.Any() == true)
             {
-                double max = Series.Max(z => z.ChartValue);
+                var max = Series.Max(z => z.ChartValue);
                 Pen pen = null;
                 DrawingGroup graph = null;
 
-                for (int i = 1; i <= Series.Count; i++)
+                for (var i = 1; i <= Series.Count; i++)
                 {
                     Chart item = Series[i - 1];
                     pen = new Pen(item.ChartBrush, ActualWidth / Series.Count);

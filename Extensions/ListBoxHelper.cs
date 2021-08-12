@@ -20,7 +20,7 @@ namespace Extensions
 
         private static void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ListBox listBox = (ListBox)d;
+            var listBox = (ListBox)d;
             ReSetSelectedItems(listBox);
             listBox.SelectionChanged += delegate
             {
@@ -34,7 +34,7 @@ namespace Extensions
             selectedItems.Clear();
             if (listBox.SelectedItems != null)
             {
-                foreach (object item in listBox.SelectedItems)
+                foreach (var item in listBox.SelectedItems)
                 {
                     _ = selectedItems.Add(item);
                 }

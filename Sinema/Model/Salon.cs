@@ -37,6 +37,8 @@ namespace Sinema.Model
 
         private IEnumerable<int> salonÖnizleme;
 
+        private ObservableCollection<string> salonSayıları;
+
         private Film seçiliFilm;
 
         private int seçiliKoltukDüzeni;
@@ -46,7 +48,6 @@ namespace Sinema.Model
         private IGrouping<int, int> seçiliSalonKoltukGrubu;
 
         private bool topluKoltukGizle;
-        private ObservableCollection<string> salonSayıları;
 
         [XmlAttribute(AttributeName = "Adı")]
         public string Adı
@@ -241,29 +242,6 @@ namespace Sinema.Model
                 }
             }
         }
-        [XmlIgnore]
-
-        public ObservableCollection<string> SalonSayıları
-        {
-            get
-            {
-                salonSayıları = new();
-                for (int i = 1; i <= BoyKoltukSayı; i++)
-                {
-                    salonSayıları.Add(i.ToString());
-                }
-                return salonSayıları;
-            }
-
-            set
-            {
-                if (salonSayıları != value)
-                {
-                    salonSayıları = value;
-                    OnPropertyChanged(nameof(SalonSayıları));
-                }
-            }
-        }
 
         [XmlIgnore]
         public IEnumerable<int> SalonÖnizleme
@@ -280,6 +258,29 @@ namespace Sinema.Model
                 {
                     salonÖnizleme = value;
                     OnPropertyChanged(nameof(SalonÖnizleme));
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public ObservableCollection<string> SalonSayıları
+        {
+            get
+            {
+                salonSayıları = new();
+                for (var i = 1; i <= BoyKoltukSayı; i++)
+                {
+                    salonSayıları.Add(i.ToString());
+                }
+                return salonSayıları;
+            }
+
+            set
+            {
+                if (salonSayıları != value)
+                {
+                    salonSayıları = value;
+                    OnPropertyChanged(nameof(SalonSayıları));
                 }
             }
         }
