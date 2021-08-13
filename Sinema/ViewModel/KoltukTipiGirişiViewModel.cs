@@ -31,7 +31,7 @@ namespace Sinema.ViewModel
                     mainWindowViewModel.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi.Add(koltuktipi);
                     mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
                 }
-            }, parameter => !string.IsNullOrWhiteSpace(KoltukTipi.KoltukRenk) && !string.IsNullOrWhiteSpace(KoltukTipi.KoltukAçıklama));
+            }, parameter =>  !string.IsNullOrWhiteSpace(KoltukTipi.KoltukAçıklama));
 
             KoltukAyarla = new RelayCommand<object>(parameter =>
             {

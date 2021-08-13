@@ -41,7 +41,7 @@
                 <ComponentModel:SortDescription Direction="Ascending" PropertyName="FilmSaati" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <Style x:Key="ComboBoxColorBlockStyle" TargetType="{x:Type ComboBoxItem}">
+        <Style x:Key="ListColorBlockStyle" TargetType="{x:Type ListBoxItem}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Name}" Value="Black">
                     <Setter Property="IsEnabled" Value="False" />
@@ -90,6 +90,15 @@
                 </TextBlock>
             </Grid>
         </DataTemplate>
+        <ItemsPanelTemplate x:Key="ColorPanelTTemplate">
+            <UniformGrid Columns="8" />
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="ColorItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Rectangle Width="16" Height="16" Fill="{Binding Name}" />
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
     <Grid x:Name="grid" d:DataContext="{d:DesignInstance Type={x:Type viewmodel:MainWindowViewModel}}">
         <Grid.ColumnDefinitions>
@@ -120,8 +129,8 @@
                                 </Extensions:NumericUpDownControl.ToolTip>
                             </Extensions:NumericUpDownControl>
                         </HeaderedContentControl>
-                        <Button Command="{Binding SalonViewModel.SalonOluştur, Mode=OneWay}">
-                            <StackPanel Orientation="Horizontal">
+                        <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding SalonViewModel.SalonOluştur, Mode=OneWay}">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Image Width="32" Height="32">
                                     <Image.Source>
                                         <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -132,7 +141,15 @@
                                 </Image>
                                 <TextBlock Text="OLUŞTUR" VerticalAlignment="Center" />
                             </StackPanel>
-                        </Button>
+                            <Extensions:SplitButton.InternalContent>
+                                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                    ItemContainerStyle="{StaticResource ListColorBlockStyle}"
+                                    ItemTemplate="{StaticResource ColorItemTemplate}"
+                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                    SelectedValue="{Binding SalonViewModel.Salon.Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Name" />
+                            </Extensions:SplitButton.InternalContent>
+                        </Extensions:SplitButton>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox DataContext="{Binding FilmViewModel}">
@@ -173,24 +190,6 @@
                         <HeaderedContentControl Header="FİLM TİPİ">
                             <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedItem="{Binding FilmTipi}" />
                         </HeaderedContentControl>
-                        <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
-                            ItemContainerStyle="{StaticResource ComboBoxColorBlockStyle}"
-                            SelectedValue="{Binding Film.Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedValuePath="Name">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Rectangle Width="16" Height="16" Fill="{Binding Name}" />
-                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                            <ComboBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel />
-                                </ItemsPanelTemplate>
-                            </ComboBox.ItemsPanel>
-                        </ComboBox>
                         <HeaderedContentControl Header="YÖNETMEN" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
@@ -225,8 +224,8 @@
                                 </StackPanel>
                             </Button>
                         </UniformGrid>
-                        <Button Command="{Binding FilmGirişiYap}" CommandParameter="{Binding DataContext.SalonViewModel.Salonlar, ElementName=grid}">
-                            <StackPanel Orientation="Horizontal">
+                        <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding FilmGirişiYap}" CommandParameter="{Binding DataContext.SalonViewModel.Salonlar, ElementName=grid}">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Image Width="32" Height="32">
                                     <Image.Source>
                                         <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -237,7 +236,15 @@
                                 </Image>
                                 <TextBlock Text="FİLM EKLE" VerticalAlignment="Center" />
                             </StackPanel>
-                        </Button>
+                            <Extensions:SplitButton.InternalContent>
+                                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                    ItemContainerStyle="{StaticResource ListColorBlockStyle}"
+                                    ItemTemplate="{StaticResource ColorItemTemplate}"
+                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                    SelectedValue="{Binding Film.Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedValuePath="Name" />
+                            </Extensions:SplitButton.InternalContent>
+                        </Extensions:SplitButton>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="ÜRÜN GİRİŞİ">
@@ -323,26 +330,8 @@
                             <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
                                 Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
-                            ItemContainerStyle="{StaticResource ComboBoxColorBlockStyle}"
-                            SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}"
-                            SelectedValuePath="Name">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Rectangle Width="16" Height="16" Fill="{Binding Name}" />
-                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                            <ComboBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel />
-                                </ItemsPanelTemplate>
-                            </ComboBox.ItemsPanel>
-                        </ComboBox>
-                        <Button Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
-                            <StackPanel Orientation="Horizontal">
+                        <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Image Width="32" Height="32">
                                     <Image.Source>
                                         <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -353,7 +342,15 @@
                                 </Image>
                                 <TextBlock Text="GİRİŞ YAP" VerticalAlignment="Center" />
                             </StackPanel>
-                        </Button>
+                            <Extensions:SplitButton.InternalContent>
+                                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                    ItemContainerStyle="{StaticResource ListColorBlockStyle}"
+                                    ItemTemplate="{StaticResource ColorItemTemplate}"
+                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                    SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}"
+                                    SelectedValuePath="Name" />
+                            </Extensions:SplitButton.InternalContent>
+                        </Extensions:SplitButton>
                     </StackPanel>
                 </GroupBox>
                 <Button Content="UYGULAMA HAKKINDA" Command="{Binding SalonViewModel.Hakkında}" IsTabStop="False" />
