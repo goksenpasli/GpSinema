@@ -36,7 +36,8 @@ namespace Sinema.ViewModel
                     Adı = Salon.Adı,
                     Aktif = true,
                     EnKoltukSayı = Salon.EnKoltukSayı,
-                    BoyKoltukSayı = Salon.BoyKoltukSayı
+                    BoyKoltukSayı = Salon.BoyKoltukSayı,
+                    Renk = Salon.Renk
                 };
                 for (var i = 0; i < Salon.BoyKoltukSayı * Salon.EnKoltukSayı; i++)
                 {

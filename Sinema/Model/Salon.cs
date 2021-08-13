@@ -1,8 +1,10 @@
 ﻿using Extensions;
 using Sinema.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using System.Xml.Serialization;
 using ExtensionMethods = Sinema.ViewModel.ExtensionMethods;
 
@@ -31,13 +33,15 @@ namespace Sinema.Model
 
         private double koltukÜstAralık = 1;
 
+        private string renk = typeof(Colors).GetProperties().Select(z => z.Name.Replace("System.Windows.Media.Colors ", "")).Where(z => z is not "Black" and not "White" and not "Transparent").OrderBy(_ => Guid.NewGuid()).Take(1).First();
+
         private IEnumerable<IGrouping<int, int>> salonEnBoyYapısı;
 
         private ObservableCollection<string> salonHarfleri = new();
 
         private IEnumerable<int> salonÖnizleme;
 
-        private ObservableCollection<string> salonSayıları;
+        private ObservableCollection<int> salonSayıları;
 
         private Film seçiliFilm;
 
@@ -205,6 +209,21 @@ namespace Sinema.Model
             }
         }
 
+        [XmlAttribute(AttributeName = "Renk")]
+        public string Renk
+        {
+            get => renk;
+
+            set
+            {
+                if (renk != value)
+                {
+                    renk = value;
+                    OnPropertyChanged(nameof(Renk));
+                }
+            }
+        }
+
         [XmlIgnore]
         public IEnumerable<IGrouping<int, int>> SalonEnBoyYapısı
         {
@@ -263,14 +282,14 @@ namespace Sinema.Model
         }
 
         [XmlIgnore]
-        public ObservableCollection<string> SalonSayıları
+        public ObservableCollection<int> SalonSayıları
         {
             get
             {
                 salonSayıları = new();
                 for (var i = 1; i <= BoyKoltukSayı; i++)
                 {
-                    salonSayıları.Add(i.ToString());
+                    salonSayıları.Add(i);
                 }
                 return salonSayıları;
             }

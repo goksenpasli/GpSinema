@@ -16,6 +16,7 @@
     <Window.Resources>
         <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
         <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
+        <local:KoltukNoToOturanConverter x:Key="KoltukNoToOturanConverter" />
         <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
         <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <local:KoltukTipiIdToBrushConverter x:Key="KoltukTipiIdToBrushConverter" />
@@ -67,10 +68,32 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
+        <DataTemplate x:Key="ListboxToolTipMusteriTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" Orientation="Horizontal">
+                    <StackPanel.Background>
+                        <Binding Converter="{StaticResource StringToBrushConverter}" Mode="OneWay" Path="Renk" />
+                    </StackPanel.Background>
+                    <Image HorizontalAlignment="Left" Source="{Binding ResimYolu, ConverterParameter=32, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
+                    <TextBlock Text="{Binding Adı}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Grid.Column="1"
+                    Margin="25,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Run Text="{Binding Ad}" />
+                    <LineBreak />
+                    <Run Text="{Binding Soyad}" />
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     <Grid x:Name="grid" d:DataContext="{d:DesignInstance Type={x:Type viewmodel:MainWindowViewModel}}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="257.6" />
             <ColumnDefinition />
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
@@ -171,40 +194,37 @@
                         <HeaderedContentControl Header="YÖNETMEN" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="OYUNCULAR">
+                        <HeaderedContentControl Header="OYUNCULAR" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding Film.Oyuncular, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="FİLM RESİM-VİDEO">
-                            <UniformGrid Columns="2">
-                                <Button Command="{Binding FilmResimEkle, Mode=OneWay}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Height="16">
-                                            <Image.Source>
-                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                    <Binding Source="Shell32.dll" />
-                                                    <Binding Source="117" />
-                                                </MultiBinding>
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock Text="RESİM EKLE" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                                <Button Command="{Binding FilmVideoEkle, Mode=OneWay}" ToolTip="Video Kopyalanmaz. Bu Nedenle Konumu Değişirse Yürütülmez.">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Height="16">
-                                            <Image.Source>
-                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                                    <Binding Source="Shell32.dll" />
-                                                    <Binding Source="115" />
-                                                </MultiBinding>
-                                            </Image.Source>
-                                        </Image>
-                                        <TextBlock Text="VİDEO EKLE" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
-                            </UniformGrid>
-                        </HeaderedContentControl>
-
+                        <UniformGrid Columns="2">
+                            <Button Command="{Binding FilmResimEkle, Mode=OneWay}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="117" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="RESİM EKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding FilmVideoEkle, Mode=OneWay}" ToolTip="Video Kopyalanmaz. Bu Nedenle Konumu Değişirse Yürütülmez.">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="115" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="VİDEO EKLE" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </UniformGrid>
                         <Button Command="{Binding FilmGirişiYap}" CommandParameter="{Binding DataContext.SalonViewModel.Salonlar, ElementName=grid}">
                             <StackPanel Orientation="Horizontal">
                                 <Image Width="32" Height="32">
@@ -440,47 +460,52 @@
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="55">
+                            <GridViewColumn Width="70">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock VerticalAlignment="Center" FontSize="18" FontWeight="Bold">
-                                            <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmResimGüncelle, ElementName=grid}" TextDecorations="None">
-                                                <Hyperlink.Style>
-                                                    <Style TargetType="Hyperlink">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding ResimYolu, Converter={StaticResource StringNullableToBooleanConverter}}" Value="true">
-                                                                <Setter Property="Foreground" Value="Green" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Hyperlink.Style>
-                                                <Hyperlink.CommandParameter>
-                                                    <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                        <Binding Mode="OneWay" />
-                                                        <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
-                                                    </MultiBinding>
-                                                </Hyperlink.CommandParameter>
-                                                <Run Text="µ" FontFamily="Webdings" />
-                                            </Hyperlink>
-                                            <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmVideoGüncelle, ElementName=grid}" TextDecorations="None">
-                                                <Hyperlink.Style>
-                                                    <Style TargetType="Hyperlink">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding VideoYolu, Converter={StaticResource StringNullableToBooleanConverter}}" Value="true">
-                                                                <Setter Property="Foreground" Value="Green" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Hyperlink.Style>
-                                                <Hyperlink.CommandParameter>
-                                                    <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                        <Binding Mode="OneWay" />
-                                                        <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
-                                                    </MultiBinding>
-                                                </Hyperlink.CommandParameter>
-                                                <Run Text="·" FontFamily="Webdings" />
-                                            </Hyperlink>
-                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Rectangle Width="16" Height="16"
+                                                Fill="{Binding Renk, Converter={StaticResource StringToBrushConverter}}"
+                                                RadiusX="2" RadiusY="2" />
+                                            <TextBlock VerticalAlignment="Center" FontSize="18" FontWeight="Bold">
+                                                <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmResimGüncelle, ElementName=grid}" TextDecorations="None">
+                                                    <Hyperlink.Style>
+                                                        <Style TargetType="Hyperlink">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ResimYolu, Converter={StaticResource StringNullableToBooleanConverter}}" Value="true">
+                                                                    <Setter Property="Foreground" Value="Green" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Hyperlink.Style>
+                                                    <Hyperlink.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                            <Binding Mode="OneWay" />
+                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
+                                                        </MultiBinding>
+                                                    </Hyperlink.CommandParameter>
+                                                    <Run Text="µ" FontFamily="Webdings" />
+                                                </Hyperlink>
+                                                <Hyperlink Command="{Binding DataContext.FilmViewModel.FilmVideoGüncelle, ElementName=grid}" TextDecorations="None">
+                                                    <Hyperlink.Style>
+                                                        <Style TargetType="Hyperlink">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding VideoYolu, Converter={StaticResource StringNullableToBooleanConverter}}" Value="true">
+                                                                    <Setter Property="Foreground" Value="Green" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Hyperlink.Style>
+                                                    <Hyperlink.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                            <Binding Mode="OneWay" />
+                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
+                                                        </MultiBinding>
+                                                    </Hyperlink.CommandParameter>
+                                                    <Run Text="·" FontFamily="Webdings" />
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -499,7 +524,6 @@
                     </ListView.View>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
-                            <Setter Property="Background" Value="{Binding Renk, Converter={StaticResource StringToBrushConverter}}" />
                             <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -522,6 +546,11 @@
                 Background="{StaticResource BorderBackground}"
                 ItemsSource="{Binding SalonViewModel.Salonlar.Salon}"
                 SelectedItem="{Binding SalonViewModel.Salon.SeçiliSalon}">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Background" Value="{Binding Renk, Converter={StaticResource StringToBrushConverter}}" />
+                    </Style>
+                </TabControl.Resources>
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -550,8 +579,7 @@
                             <Extensions:NumericUpDownControl Grid.Row="1"
                                 Maximum="2500" Minimum="0" SmallChange="1" ToolTip="İlave Koltuk Ekleyin Ve Dizilimini Seçin."
                                 Value="{Binding İlaveKoltukSayısı, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                            <ComboBox x:Name="Cb"
-                                Grid.Row="1" Grid.Column="1"
+                            <ComboBox Grid.Row="1" Grid.Column="1"
                                 ItemsSource="{Binding SalonEnBoyYapısı}"
                                 SelectedItem="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=SeçiliSalonKoltukGrubu}">
                                 <ComboBox.ItemTemplate>
@@ -567,7 +595,7 @@
                                 </ComboBox.ItemContainerStyle>
                             </ComboBox>
                             <Button Grid.Row="1" Grid.Column="2"
-                                IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}"
+                                IsEnabled="{Binding SeçiliSalonKoltukGrubu, Converter={StaticResource NullableToBooleanConverter}}"
                                 Command="{Binding DataContext.SalonViewModel.SalonGenişlet, Mode=OneWay, ElementName=grid}"
                                 CommandParameter="{Binding Mode=OneWay}"
                                 FontSize="14">
@@ -603,7 +631,7 @@
                                         VerticalContentAlignment="Center"
                                         ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, ElementName=grid}"
                                         ItemTemplate="{DynamicResource KoltukTipiColorTemplate}" />
-                                    <Extensions:ContentToggleButton x:Name="Ctb" IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" OverContent="KOLTUK&#xA;AYARLA">
+                                    <Extensions:ContentToggleButton IsEnabled="{Binding SelectedItem, Converter={StaticResource NullableToBooleanConverter}, ElementName=Cb}" OverContent="KOLTUK&#xA;AYARLA">
                                         <Extensions:ContentToggleButton.Content>
                                             <GroupBox>
                                                 <GroupBox.Header>
@@ -683,7 +711,6 @@
                                                                 <Binding Mode="OneWay" />
                                                                 <Binding ElementName="grid" Path="DataContext" />
                                                                 <Binding ElementName="Cb" Path="SelectedItem" />
-                                                                <Binding ElementName="Cb" Path="SelectedItem" />
                                                             </MultiBinding>
                                                         </Button.CommandParameter>
                                                     </Button>
@@ -759,41 +786,20 @@
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </ToolTip.Style>
-                                                                <ListBox ItemsSource="{Binding Müşteri}" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                                                <ListBox ItemsSource="{Binding Müşteri}" ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}" VirtualizingStackPanel.VirtualizationMode="Recycling">
                                                                     <ListBox.ItemContainerStyle>
                                                                         <Style TargetType="ListBoxItem">
                                                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                                             <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
                                                                         </Style>
                                                                     </ListBox.ItemContainerStyle>
-                                                                    <ListBox.ItemTemplate>
-                                                                        <DataTemplate>
-                                                                            <Grid>
-                                                                                <Grid.ColumnDefinitions>
-                                                                                    <ColumnDefinition Width="Auto" />
-                                                                                    <ColumnDefinition />
-                                                                                </Grid.ColumnDefinitions>
-                                                                                <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" Orientation="Horizontal">
-                                                                                    <Image HorizontalAlignment="Left" Source="{Binding ResimYolu, ConverterParameter=32, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
-                                                                                    <TextBlock Text="{Binding Adı}" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                                                                </StackPanel>
-                                                                                <TextBlock Grid.Column="1"
-                                                                                    Margin="25,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                                                    FontWeight="Bold">
-                                                                                    <Run Text="{Binding Ad}" />
-                                                                                    <LineBreak />
-                                                                                    <Run Text="{Binding Soyad}" />
-                                                                                </TextBlock>
-                                                                            </Grid>
-                                                                        </DataTemplate>
-                                                                    </ListBox.ItemTemplate>
                                                                 </ListBox>
                                                             </ToolTip>
                                                         </Extensions:ContentToggleButton.ToolTip>
                                                         <Extensions:ContentToggleButton.OverContent>
                                                             <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
                                                                 <Binding Path="No" />
-                                                                <Binding ElementName="Cb" Path="DataContext.SalonHarfleri.Count" />
+                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.SalonHarfleri.Count" />
                                                             </MultiBinding>
                                                         </Extensions:ContentToggleButton.OverContent>
                                                         <Extensions:ContentToggleButton.ContextMenu>
@@ -822,10 +828,25 @@
                                         <ItemsControl Grid.Column="0" ItemsSource="{Binding SalonSayıları}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}"
-                                                        TextTrimming="CharacterEllipsis"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="10" FontWeight="Bold" />
+                                                    <Extensions:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}" OverContent="{Binding}">
+                                                        <Extensions:ContentToggleButton.Content>
+                                                            <Extensions:ResizablePanel Width="640" Height="480" MinWidth="640" MinHeight="480">
+                                                                <ListBox ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}">
+                                                                    <ListBox.ItemsSource>
+                                                                        <MultiBinding Converter="{StaticResource KoltukNoToOturanConverter}">
+                                                                            <Binding Mode="OneWay" />
+                                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.EnKoltukSayı" />
+                                                                        </MultiBinding>
+                                                                    </ListBox.ItemsSource>
+                                                                    <ListBox.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <Extensions:VirtualizingWrapPanel />
+                                                                        </ItemsPanelTemplate>
+                                                                    </ListBox.ItemsPanel>
+                                                                </ListBox>
+                                                            </Extensions:ResizablePanel>
+                                                        </Extensions:ContentToggleButton.Content>
+                                                    </Extensions:ContentToggleButton>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                             <ItemsControl.ItemsPanel>

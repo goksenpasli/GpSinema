@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Sinema.Model
 {
-    [XmlRoot(ElementName = "Musteri")]
+    [XmlRoot(ElementName = "Müşteri")]
     public class Musteri : InpcBase
     {
         private string ad;
