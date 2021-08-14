@@ -22,7 +22,10 @@
                     <CheckBox Content="KOLTUK ETKİN" IsChecked="{Binding KoltukEtkin}" IsTabStop="False" />
                     <CheckBox Content="KOLTUK GÖRÜNÜR" IsChecked="{Binding Görünür}" IsTabStop="False" />
                     <HeaderedContentControl Header="KOLTUK TİPİ">
-                        <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}" ItemTemplate="{StaticResource KoltukTipiColorTemplate}" SelectedValue="{Binding SeçiliKoltukTipi}" />
+                        <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}"
+                            ItemTemplate="{StaticResource KoltukTipiColorTemplate}"
+                            SelectedValue="{Binding DataContext.KoltukTipiId, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}"
+                            SelectedValuePath="Id" />
                     </HeaderedContentControl>
                     <Button Command="{Binding Tag.KoltukTipiGirişiViewModel.KoltukAyarla, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}">
                         <StackPanel Orientation="Horizontal">
