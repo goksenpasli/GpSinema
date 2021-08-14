@@ -31,7 +31,17 @@ namespace Sinema.ViewModel
                     mainWindowViewModel.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi.Add(koltuktipi);
                     mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
                 }
-            }, parameter =>  !string.IsNullOrWhiteSpace(KoltukTipi.KoltukAçıklama));
+            }, parameter => !string.IsNullOrWhiteSpace(KoltukTipi.KoltukAçıklama));
+
+            KoltukFiyatGüncelle = new RelayCommand<object>(parameter =>
+            {
+                var data = parameter as object[];
+                if (data[0] is KoltukTipi koltukTipi && data[1] is MainWindowViewModel mainWindowViewModel)
+                {
+                    KoltukTipi.KoltukFiyatı = koltukTipi.KoltukFiyatı;
+                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                }
+            }, parameter => true);
 
             KoltukAyarla = new RelayCommand<object>(parameter =>
             {
@@ -160,6 +170,8 @@ namespace Sinema.ViewModel
         }
 
         public ICommand KoltukAyarla { get; }
+
+        public ICommand KoltukFiyatGüncelle { get; }
 
         public ICommand KoltuklarıAyarla { get; }
 

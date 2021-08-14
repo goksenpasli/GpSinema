@@ -55,8 +55,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Width="20" Height="20"
-                        BorderBrush="Red" BorderThickness="1">
+                        Background="Black" BorderBrush="Red" BorderThickness="1">
                         <TextBlock Text="{Binding Mode=OneWay}"
+                            Foreground="White"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             FontSize="10" />
                     </Border>
@@ -99,6 +100,9 @@
                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
             </StackPanel>
         </DataTemplate>
+        <Style TargetType="Extensions:NumericUpDownControl">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
     </Window.Resources>
     <Grid x:Name="grid" d:DataContext="{d:DesignInstance Type={x:Type viewmodel:MainWindowViewModel}}">
         <Grid.ColumnDefinitions>
@@ -107,13 +111,13 @@
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel Background="{StaticResource BorderBackground}">
                 <GroupBox Header="SALON OLUŞTUR">
                     <StackPanel>
                         <HeaderedContentControl Header="ADI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding SalonViewModel.Salon.Adı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="SALON EN KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                        <HeaderedContentControl Header="EN KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="50" Minimum="1" SmallChange="1"
                                 Value="{Binding SalonViewModel.Salon.EnKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <Extensions:NumericUpDownControl.ToolTip>
@@ -121,7 +125,7 @@
                                 </Extensions:NumericUpDownControl.ToolTip>
                             </Extensions:NumericUpDownControl>
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="SALON BOY KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                        <HeaderedContentControl Header="BOY KOLTUK SAYISI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <Extensions:NumericUpDownControl Maximum="50" Minimum="1" SmallChange="1"
                                 Value="{Binding SalonViewModel.Salon.BoyKoltukSayı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <Extensions:NumericUpDownControl.ToolTip>
@@ -187,7 +191,7 @@
                             <Extensions:NumericUpDownControl Maximum="500" Minimum="0" SmallChange="1"
                                 Value="{Binding Film.Süre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
-                        <HeaderedContentControl Header="FİLM TİPİ">
+                        <HeaderedContentControl Header="FİLM TİPİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedItem="{Binding FilmTipi}" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="YÖNETMEN" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
@@ -278,7 +282,7 @@
                             </StackPanel>
                         </TabItem>
                         <TabItem Header="GÜNCELLE">
-                            <ListView Height="75" ItemsSource="{Binding SalonViewModel.Salonlar.Urunler.Urun}">
+                            <ListView Height="150" ItemsSource="{Binding SalonViewModel.Salonlar.Urunler.Urun}">
                                 <ListView.View>
                                     <GridView>
                                         <GridView.Columns>
@@ -322,36 +326,99 @@
                     </TabControl>
                 </GroupBox>
                 <GroupBox Header="KOLTUK GİRİŞİ">
-                    <StackPanel>
-                        <HeaderedContentControl Header="KOLTUK TİPİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                            <ComboBox Text="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukAçıklama, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource KoltukÇeşidi}}" IsEditable="True" />
-                        </HeaderedContentControl>
-                        <HeaderedContentControl Header="KOLTUK FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                            <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
-                                Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </HeaderedContentControl>
-                        <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Image Width="32" Height="32">
-                                    <Image.Source>
-                                        <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
-                                            <Binding Source="Shell32.dll" />
-                                            <Binding Source="144" />
-                                        </MultiBinding>
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="GİRİŞ YAP" VerticalAlignment="Center" />
+                    <TabControl>
+                        <TabItem Header="GİRİŞ">
+                            <StackPanel>
+                                <HeaderedContentControl Header="KOLTUK TİPİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                    <ComboBox Text="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukAçıklama, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource KoltukÇeşidi}}" IsEditable="True" />
+                                </HeaderedContentControl>
+                                <HeaderedContentControl Header="KOLTUK FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                    <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
+                                        Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </HeaderedContentControl>
+                                <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <Image Width="32" Height="32">
+                                            <Image.Source>
+                                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                    <Binding Source="Shell32.dll" />
+                                                    <Binding Source="144" />
+                                                </MultiBinding>
+                                            </Image.Source>
+                                        </Image>
+                                        <TextBlock Text="GİRİŞ YAP" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <Extensions:SplitButton.InternalContent>
+                                        <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                            ItemContainerStyle="{StaticResource ListColorBlockStyle}"
+                                            ItemTemplate="{StaticResource ColorItemTemplate}"
+                                            ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                            SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}"
+                                            SelectedValuePath="Name" />
+                                    </Extensions:SplitButton.InternalContent>
+                                </Extensions:SplitButton>
                             </StackPanel>
-                            <Extensions:SplitButton.InternalContent>
-                                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
-                                    ItemContainerStyle="{StaticResource ListColorBlockStyle}"
-                                    ItemTemplate="{StaticResource ColorItemTemplate}"
-                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
-                                    SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}"
-                                    SelectedValuePath="Name" />
-                            </Extensions:SplitButton.InternalContent>
-                        </Extensions:SplitButton>
-                    </StackPanel>
+                        </TabItem>
+                        <TabItem Header="GÜNCELLE">
+                            <ListView Height="100" ItemsSource="{Binding SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+                                            <GridViewColumn Header="KOLTUK" Width="75">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Extensions:ContentToggleButton Width="16" Height="16"
+                                                                Background="{Binding KoltukRenk, Converter={StaticResource StringToBrushConverter}}"
+                                                                BorderBrush="{x:Null}">
+                                                                <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
+                                                                    ItemContainerStyle="{StaticResource ListColorBlockStyle}"
+                                                                    ItemTemplate="{StaticResource ColorItemTemplate}"
+                                                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                                                    SelectedValue="{Binding KoltukRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                    SelectedValuePath="Name" />
+                                                            </Extensions:ContentToggleButton>
+                                                            <TextBlock Text="{Binding KoltukAçıklama}" VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="BİRİM &#xA;FİYAT" Width="75">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="5000" Minimum="1"
+                                                            Value="{Binding KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="32">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltukFiyatGüncelle, Mode=OneWay, ElementName=grid}">
+                                                            <Image Width="16" Height="16">
+                                                                <Image.Source>
+                                                                    <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                                        <Binding Source="Shell32.dll" />
+                                                                        <Binding Source="144" />
+                                                                    </MultiBinding>
+                                                                </Image.Source>
+                                                            </Image>
+                                                            <Button.CommandParameter>
+                                                                <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                                    <Binding Mode="OneWay" />
+                                                                    <Binding ElementName="grid" Path="DataContext" />
+                                                                </MultiBinding>
+                                                            </Button.CommandParameter>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </TabItem>
+                    </TabControl>
                 </GroupBox>
                 <Button Content="UYGULAMA HAKKINDA" Command="{Binding SalonViewModel.Hakkında}" IsTabStop="False" />
             </StackPanel>
@@ -507,7 +574,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="ADI"
-                                Width="160"
+                                Width="150"
                                 Extensions:GridViewSort.PropertyName="Adı"
                                 DisplayMemberBinding="{Binding Adı}" />
                             <GridViewColumn Header="FİLM&#xA;SAATİ" Width="115" Extensions:GridViewSort.PropertyName="FilmSaati">
@@ -825,7 +892,12 @@
                                         <ItemsControl Grid.Column="0" ItemsSource="{Binding SalonSayıları}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Extensions:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}" OverContent="{Binding}">
+                                                    <Extensions:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}">
+                                                        <Extensions:ContentToggleButton.OverContent>
+                                                            <TextBlock Text="{Binding Mode=OneWay}"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="10" FontWeight="Bold" />
+                                                        </Extensions:ContentToggleButton.OverContent>
                                                         <Extensions:ContentToggleButton.Content>
                                                             <Extensions:ResizablePanel Width="640" Height="480" MinWidth="640" MinHeight="480">
                                                                 <ListBox ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}">
