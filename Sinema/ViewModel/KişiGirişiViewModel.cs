@@ -35,7 +35,7 @@ namespace Sinema.ViewModel
                     Soyad = Musteri.Soyad,
                     Yas = Musteri.Yas,
                     FilmId = Musteri.SeçiliFilm.Id,
-                    BiletFiyat = Convert.ToDouble(KoltukFiyatıAl(koltuk))
+                    BiletFiyat = KoltukFiyatıAl(koltuk)
                 };
                 koltuk.KoltukDolu = false;
                 koltuk.Müşteri.Add(musteri);
@@ -118,9 +118,9 @@ namespace Sinema.ViewModel
 
         public ICommand MusteriTaşı { get; }
 
-        private string KoltukFiyatıAl(Koltuk koltuk)
+        private double KoltukFiyatıAl(Koltuk koltuk)
         {
-            return XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi")?.Where(z => (int)z.Attribute("Id") == koltuk.KoltukTipiId).Select(z => z.Attribute("KoltukFiyatı").Value).FirstOrDefault();
+            return (double)(XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi")?.Where(z => (int)z.Attribute("Id") == koltuk.KoltukTipiId).Select(z => z.Attribute("KoltukFiyatı")).FirstOrDefault());
         }
     }
 }

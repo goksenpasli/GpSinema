@@ -386,7 +386,7 @@
                                             <GridViewColumn Header="BİRİM &#xA;FİYAT" Width="75">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="5000" Minimum="1"
+                                                        <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="5000" Minimum="1" SmallChange="1"
                                                             Value="{Binding KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
