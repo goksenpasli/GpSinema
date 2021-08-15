@@ -70,12 +70,12 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
         <DataTemplate x:Key="ListboxToolTipMusteriTemplate">
-            <Grid>
+            <Grid d:DataContext="{d:DesignInstance Type=model:Musteri}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" Orientation="Horizontal">
+                <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" d:DataContext="{d:DesignInstance Type=model:Film}" Orientation="Horizontal">
                     <StackPanel.Background>
                         <Binding Converter="{StaticResource StringToBrushConverter}" Mode="OneWay" Path="Renk" />
                     </StackPanel.Background>
@@ -577,7 +577,10 @@
                                 Width="150"
                                 Extensions:GridViewSort.PropertyName="Adı"
                                 DisplayMemberBinding="{Binding Adı}" />
-                            <GridViewColumn Header="FİLM&#xA;SAATİ" Width="115" Extensions:GridViewSort.PropertyName="FilmSaati">
+                            <GridViewColumn Width="115" Extensions:GridViewSort.PropertyName="FilmSaati">
+                                <GridViewColumn.Header>
+                                    <CheckBox Content="FİLM SAATİ" IsChecked="{Binding FilmViewModel.TarihiGeçenFilmleriGizle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding FilmSaati, StringFormat=\{0:g\}}" />
@@ -586,11 +589,6 @@
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
                 </ListView>
             </Grid>
         </GroupBox>
@@ -827,7 +825,7 @@
                                                 <DataTemplate>
                                                     <Extensions:ContentToggleButton IsEnabled="{Binding KoltukEtkin}"
                                                         Visibility="{Binding Görünür, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                        BorderBrush="{Binding KoltukTipiId, Converter={StaticResource KoltukTipiIdToBrushConverter}}"
+                                                        BorderBrush="{Binding KoltukTipiId, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource KoltukTipiIdToBrushConverter}}"
                                                         BorderThickness="2"
                                                         Margin="1"
                                                         ContextMenuService.ShowOnDisabled="True"

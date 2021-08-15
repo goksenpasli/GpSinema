@@ -1,17 +1,21 @@
 ﻿using Extensions;
 using Sinema.Model;
 using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Sinema.ViewModel
 {
     public class FilmViewModel : InpcBase
     {
+        private static readonly CollectionViewSource cvsfilmler = (CollectionViewSource)Application.Current?.MainWindow?.TryFindResource("Filmler");
+
         private Film film;
 
         private string filmTipi;
@@ -21,6 +25,8 @@ namespace Sinema.ViewModel
         private Salon seçiliSalon;
 
         private DateTime tarih = DateTime.Today;
+
+        private bool tarihiGeçenFilmleriGizle = true;
 
         public FilmViewModel()
         {
@@ -94,6 +100,13 @@ namespace Sinema.ViewModel
                 ExtensionMethods.VideoEkle(data[0] as Film);
                 (data[1] as Salonlar).Serialize();
             }, parameter => true);
+
+            if (cvsfilmler is not null)
+            {
+                cvsfilmler.Filter += (s, e) => e.Accepted = (e.Item as Film)?.FilmSaati >= DateTime.Now;
+            }
+
+            PropertyChanged += FilmViewModel_PropertyChanged;
         }
 
         public Film Film
@@ -176,11 +189,40 @@ namespace Sinema.ViewModel
             }
         }
 
+        public bool TarihiGeçenFilmleriGizle
+        {
+            get => tarihiGeçenFilmleriGizle;
+
+            set
+            {
+                if (tarihiGeçenFilmleriGizle != value)
+                {
+                    tarihiGeçenFilmleriGizle = value;
+                    OnPropertyChanged(nameof(TarihiGeçenFilmleriGizle));
+                }
+            }
+        }
+
         public ICommand WebFilmResimAktar { get; }
 
         private DateTime FilmSaatiniAl()
         {
             return Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1]));
+        }
+
+        private void FilmViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName is "TarihiGeçenFilmleriGizle")
+            {
+                if (TarihiGeçenFilmleriGizle)
+                {
+                    cvsfilmler.Filter += (s, e) => e.Accepted = (e.Item as Film)?.FilmSaati > DateTime.Now;
+                }
+                else
+                {
+                    cvsfilmler.View.Filter = null;
+                }
+            }
         }
     }
 }

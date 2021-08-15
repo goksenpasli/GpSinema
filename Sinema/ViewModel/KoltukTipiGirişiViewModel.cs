@@ -35,8 +35,7 @@ namespace Sinema.ViewModel
 
             KoltukFiyatGüncelle = new RelayCommand<object>(parameter =>
             {
-                var data = parameter as object[];
-                if (data[0] is KoltukTipi koltukTipi && data[1] is MainWindowViewModel mainWindowViewModel)
+                if (parameter is object[] data && data[0] is KoltukTipi koltukTipi && data[1] is MainWindowViewModel mainWindowViewModel)
                 {
                     KoltukTipi.KoltukFiyatı = koltukTipi.KoltukFiyatı;
                     mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
@@ -45,75 +44,57 @@ namespace Sinema.ViewModel
 
             KoltukAyarla = new RelayCommand<object>(parameter =>
             {
-                var data = parameter as object[];
-                var koltuk = data[0] as Koltuk;
-                var mainWindowViewModel = data[1] as MainWindowViewModel;
-                var SeçiliKoltukTipi = data[2] as KoltukTipi;
-                if (SeçiliKoltukTipi is not null)
+                if (parameter is object[] data && data[0] is Koltuk koltuk && data[1] is MainWindowViewModel mainWindowViewModel)
                 {
-                    koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                    koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                    var SeçiliKoltukTipi = data[2] as KoltukTipi;
+                    if (SeçiliKoltukTipi is not null)
+                    {
+                        koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                        koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                    }
+                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
                 }
-
-                mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
             }, parameter => true);
 
             KoltuklarıAyarla = new RelayCommand<object>(parameter =>
             {
-                var data = parameter as object[];
-                var salon = data[0] as Salon;
-                var mainWindowViewModel = data[1] as MainWindowViewModel;
-                var SeçiliKoltukTipi = data[2] as KoltukTipi;
-                KoltukTipiIdToBrushConverter.koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
-
-                foreach (var koltuk in salon.Koltuklar)
+                if (parameter is object[] data && data[0] is Salon salon && data[1] is MainWindowViewModel mainWindowViewModel && data[2] is KoltukTipi SeçiliKoltukTipi)
                 {
-                    if (salon.SeçiliKoltukDüzeni == 0)
+                    KoltukTipiIdToBrushConverter.koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
+
+                    foreach (var koltuk in salon.Koltuklar)
                     {
-                        koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                        koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                        if (salon.TopluKoltukGizle)
+                        if (salon.SeçiliKoltukDüzeni == 0)
                         {
-                            koltuk.Görünür = false;
-                        }
-                    }
-                    if (salon.SeçiliKoltukDüzeni == 1 && koltuk.No % 2 == 1)
-                    {
-                        koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                        koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                        if (salon.TopluKoltukGizle)
-                        {
-                            koltuk.Görünür = false;
-                        }
-                    }
-                    if (salon.SeçiliKoltukDüzeni == 2 && koltuk.No % 2 == 0)
-                    {
-                        koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                        koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                        if (salon.TopluKoltukGizle)
-                        {
-                            koltuk.Görünür = false;
-                        }
-                    }
-                    if (salon.SeçiliKoltukDüzeni == 3)
-                    {
-                        foreach (var koltukaralık in salon.Koltuklar.Where(z => z.No >= salon.KoltukAltAralık && z.No <= salon.KoltukÜstAralık))
-                        {
-                            koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                            koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                            koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                            koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                             if (salon.TopluKoltukGizle)
                             {
-                                koltukaralık.Görünür = false;
+                                koltuk.Görünür = false;
                             }
                         }
-                    }
-                    if (salon.SeçiliKoltukDüzeni == 4)
-                    {
-                        for (var j = 0; j <= (salon.KoltukÜstAralık - salon.KoltukAltAralık) / salon.EnKoltukSayı; j++)
+                        if (salon?.SeçiliKoltukDüzeni == 1 && koltuk.No % 2 == 1)
                         {
-                            for (var i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
+                            koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                            koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                            if (salon.TopluKoltukGizle)
                             {
-                                var koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
+                                koltuk.Görünür = false;
+                            }
+                        }
+                        if (salon?.SeçiliKoltukDüzeni == 2 && koltuk.No % 2 == 0)
+                        {
+                            koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                            koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                            if (salon.TopluKoltukGizle)
+                            {
+                                koltuk.Görünür = false;
+                            }
+                        }
+                        if (salon?.SeçiliKoltukDüzeni == 3)
+                        {
+                            foreach (var koltukaralık in salon.Koltuklar.Where(z => z.No >= salon.KoltukAltAralık && z.No <= salon.KoltukÜstAralık))
+                            {
                                 koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                                 koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
                                 if (salon.TopluKoltukGizle)
@@ -122,34 +103,41 @@ namespace Sinema.ViewModel
                                 }
                             }
                         }
+                        if (salon?.SeçiliKoltukDüzeni == 4)
+                        {
+                            for (var j = 0; j <= (salon.KoltukÜstAralık - salon.KoltukAltAralık) / salon.EnKoltukSayı; j++)
+                            {
+                                for (var i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
+                                {
+                                    var koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
+                                    koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
+                                    koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                                    if (salon.TopluKoltukGizle)
+                                    {
+                                        koltukaralık.Görünür = false;
+                                    }
+                                }
+                            }
+                        }
                     }
-                }
 
-                mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
-            }, parameter =>
-            {
-                if (parameter is not null)
-                {
-                    var data = parameter as object[];
-                    var salon = data[0] as Salon;
-                    return salon?.KoltukAltAralık <= salon?.KoltukÜstAralık && salon?.KoltukÜstAralık <= salon?.EnKoltukSayı * salon?.BoyKoltukSayı;
+                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
                 }
-                return false;
-            });
+            }, parameter => parameter is not null && parameter is object[] data && data[0] is Salon salon && salon?.KoltukAltAralık <= salon?.KoltukÜstAralık && salon?.KoltukÜstAralık <= salon?.EnKoltukSayı * salon?.BoyKoltukSayı);
 
             TümKoltuklarıGöster = new RelayCommand<object>(parameter =>
             {
-                var data = parameter as object[];
-                var salon = data[0] as Salon;
-                var mainWindowViewModel = data[1] as MainWindowViewModel;
-                foreach (var item in salon.Koltuklar)
+                if (parameter is object[] data && data[0] is Salon salon && data[1] is MainWindowViewModel mainWindowViewModel)
                 {
-                    if (!item.Görünür)
+                    foreach (var item in salon.Koltuklar)
                     {
-                        item.Görünür = true;
+                        if (!item.Görünür)
+                        {
+                            item.Görünür = true;
+                        }
                     }
+                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
                 }
-                mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
             }, parameter => true);
         }
 

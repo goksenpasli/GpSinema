@@ -1,7 +1,6 @@
 ﻿using Sinema.Model;
 using Sinema.ViewModel;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
