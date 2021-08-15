@@ -18,6 +18,8 @@ namespace Sinema.ViewModel
 
         private Film film;
 
+        private string filmAramaMetni;
+
         private string filmTipi;
 
         private string saat = "00:00";
@@ -123,6 +125,20 @@ namespace Sinema.ViewModel
             }
         }
 
+        public string FilmAramaMetni
+        {
+            get => filmAramaMetni;
+
+            set
+            {
+                if (filmAramaMetni != value)
+                {
+                    filmAramaMetni = value;
+                    OnPropertyChanged(nameof(FilmAramaMetni));
+                }
+            }
+        }
+
         public ICommand FilmGirişiYap { get; }
 
         public ICommand FilmResimEkle { get; }
@@ -212,15 +228,20 @@ namespace Sinema.ViewModel
 
         private void FilmViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName is "TarihiGeçenFilmleriGizle")
+            if (cvsfilmler.View != null)
             {
-                if (TarihiGeçenFilmleriGizle)
+                if (e.PropertyName is "TarihiGeçenFilmleriGizle")
                 {
-                    cvsfilmler.Filter += (s, e) => e.Accepted = (e.Item as Film)?.FilmSaati > DateTime.Now;
+                    cvsfilmler.View.Filter = TarihiGeçenFilmleriGizle ? new Predicate<object>(film => (film as Film)?.FilmSaati > DateTime.Now) : null;
                 }
-                else
+
+                if (e.PropertyName is "FilmAramaMetni")
                 {
-                    cvsfilmler.View.Filter = null;
+                    if (!string.IsNullOrEmpty(FilmAramaMetni))
+                    {
+                        TarihiGeçenFilmleriGizle = false;
+                    }
+                    cvsfilmler.View.Filter = !string.IsNullOrEmpty(FilmAramaMetni) ? new Predicate<object>(film => (film as Film)?.Adı.Contains(FilmAramaMetni) == true) : null;
                 }
             }
         }

@@ -435,9 +435,9 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="63*" />
+                        <ColumnDefinition Width="94*" />
+                        <ColumnDefinition Width="33.6" />
                     </Grid.ColumnDefinitions>
                     <Extensions:ContentToggleButton Grid.ColumnSpan="3"
                         Background="{x:Null}"
@@ -496,7 +496,7 @@
                     <Extensions:ContentToggleButton Grid.Column="2"
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
-                        StayOpenCheckBoxVisibility="Visible">
+                        StaysOpen="True">
                         <Extensions:ContentToggleButton.OverContent>
                             <StackPanel Orientation="Horizontal">
                                 <Image Width="32" Height="32">
@@ -573,10 +573,14 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="ADI"
-                                Width="150"
-                                Extensions:GridViewSort.PropertyName="Adı"
-                                DisplayMemberBinding="{Binding Adı}" />
+                            <GridViewColumn Width="150" Extensions:GridViewSort.PropertyName="Adı" DisplayMemberBinding="{Binding Adı}">
+                                <GridViewColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="ADI" VerticalAlignment="Center" />
+                                        <TextBox Text="{Binding FilmViewModel.FilmAramaMetni, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="75" />
+                                    </StackPanel>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
                             <GridViewColumn Width="115" Extensions:GridViewSort.PropertyName="FilmSaati">
                                 <GridViewColumn.Header>
                                     <CheckBox Content="FİLM SAATİ" IsChecked="{Binding FilmViewModel.TarihiGeçenFilmleriGizle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />

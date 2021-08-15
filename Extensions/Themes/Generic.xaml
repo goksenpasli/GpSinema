@@ -183,29 +183,16 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
                             <ContentPresenter Content="{TemplateBinding OverContent}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Focusable="False" RecognizesAccessKey="True" />
-                            <CheckBox x:Name="Cb"
-                                Grid.Column="1"
-                                Visibility="{TemplateBinding StayOpenCheckBoxVisibility}"
-                                Width="16"
-                                Background="{x:Null}"
-                                BorderBrush="{x:Null}"
-                                VerticalAlignment="Center"
-                                IsChecked="{TemplateBinding StaysOpen}" />
-                            <Popup x:Name="Popup"
-                                AllowsTransparency="True"
+                            <Popup AllowsTransparency="True"
                                 IsOpen="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
                                 Placement="{TemplateBinding PlacementMode}"
                                 PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
                                 PopupAnimation="Slide"
-                                StaysOpen="{Binding IsChecked, ElementName=Cb}">
+                                StaysOpen="{Binding StaysOpen, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
                                 <ContentPresenter Content="{TemplateBinding Content}" />
                             </Popup>
                         </Grid>

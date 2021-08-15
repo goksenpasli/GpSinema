@@ -11,8 +11,6 @@ namespace Extensions
 
         public static readonly DependencyProperty PlacementModeProperty = DependencyProperty.Register("PlacementMode", typeof(PlacementMode), typeof(ContentToggleButton), new PropertyMetadata(PlacementMode.Bottom));
 
-        public static readonly DependencyProperty StayOpenCheckBoxVisibilityProperty = DependencyProperty.Register("StayOpenCheckBoxVisibility", typeof(Visibility), typeof(ContentToggleButton), new PropertyMetadata(Visibility.Collapsed));
-
         public static readonly DependencyProperty StaysOpenProperty = DependencyProperty.Register("StaysOpen", typeof(bool), typeof(ContentToggleButton), new PropertyMetadata(false));
 
         static ContentToggleButton()
@@ -36,12 +34,6 @@ namespace Extensions
         {
             get => (PlacementMode)GetValue(PlacementModeProperty);
             set => SetValue(PlacementModeProperty, value);
-        }
-
-        public Visibility StayOpenCheckBoxVisibility
-        {
-            get => (Visibility)GetValue(StayOpenCheckBoxVisibilityProperty);
-            set => SetValue(StayOpenCheckBoxVisibilityProperty, value);
         }
 
         public bool StaysOpen
