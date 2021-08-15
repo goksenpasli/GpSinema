@@ -118,9 +118,6 @@ namespace Sinema.ViewModel
 
         public ICommand MusteriTaşı { get; }
 
-        private double KoltukFiyatıAl(Koltuk koltuk)
-        {
-            return (double)(XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi")?.Where(z => (int)z.Attribute("Id") == koltuk.KoltukTipiId).Select(z => z.Attribute("KoltukFiyatı")).FirstOrDefault());
-        }
+        private double KoltukFiyatıAl(Koltuk koltuk) => (double)(XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi")?.Where(z => (int)z.Attribute("Id") == koltuk.KoltukTipiId).Select(z => z.Attribute("KoltukFiyatı")).FirstOrDefault());
     }
 }

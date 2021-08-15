@@ -59,14 +59,8 @@ namespace Extensions
             base.OnKeyDown(e);
         }
 
-        private void NumericUpDownControl_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            (e.OriginalSource as TextBox)?.SelectAll();
-        }
+        private void NumericUpDownControl_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => (e.OriginalSource as TextBox)?.SelectAll();
 
-        private void NumericUpDownControl_GotMouseCapture(object sender, MouseEventArgs e)
-        {
-            (e.OriginalSource as TextBox)?.SelectAll();
-        }
+        private void NumericUpDownControl_GotMouseCapture(object sender, MouseEventArgs e) => (e.OriginalSource as TextBox)?.SelectAll();
     }
 }

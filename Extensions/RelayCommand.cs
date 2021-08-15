@@ -26,10 +26,7 @@ namespace Extensions
 
         public bool IsExecuting => isExecuting;
 
-        public override bool CanExecute(object parameter)
-        {
-            return base.CanExecute(parameter) && (!isExecuting);
-        }
+        public override bool CanExecute(object parameter) => base.CanExecute(parameter) && (!isExecuting);
 
         public override void Execute(object parameter)
         {
@@ -85,15 +82,9 @@ namespace Extensions
         }
 
         [DebuggerStepThrough]
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute == null || _canExecute((T)parameter);
-        }
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute((T)parameter);
 
-        public void Execute(object parameter)
-        {
-            _execute((T)parameter);
-        }
+        public void Execute(object parameter) => _execute((T)parameter);
     }
 
     public class RelayCommand : ICommand
@@ -132,14 +123,8 @@ namespace Extensions
             }
         }
 
-        public virtual bool CanExecute(object parameter)
-        {
-            return canExecute == null || canExecute();
-        }
+        public virtual bool CanExecute(object parameter) => canExecute == null || canExecute();
 
-        public virtual void Execute(object parameter)
-        {
-            execute();
-        }
+        public virtual void Execute(object parameter) => execute();
     }
 }

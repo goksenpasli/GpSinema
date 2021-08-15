@@ -19,9 +19,6 @@ namespace Sinema
             return data[0] is int koltukno && data[1] is int bölen ? ExtensionMethods.HarfeDöndür((koltukno - 1) % bölen) + koltukno : 0;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

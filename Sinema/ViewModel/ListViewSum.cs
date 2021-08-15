@@ -12,25 +12,13 @@ namespace Sinema.ViewModel
 
         public static readonly DependencyProperty Urunler = DependencyProperty.RegisterAttached("Urunler", typeof(ObservableCollection<Urun>), typeof(ListViewSum), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Changed));
 
-        public static string GetSum(DependencyObject obj)
-        {
-            return (string)obj.GetValue(SumProperty);
-        }
+        public static string GetSum(DependencyObject obj) => (string)obj.GetValue(SumProperty);
 
-        public static ObservableCollection<Urun> GetUrunler(DependencyObject obj)
-        {
-            return (ObservableCollection<Urun>)obj.GetValue(Urunler);
-        }
+        public static ObservableCollection<Urun> GetUrunler(DependencyObject obj) => (ObservableCollection<Urun>)obj.GetValue(Urunler);
 
-        public static void SetSum(DependencyObject obj, string value)
-        {
-            obj.SetValue(SumProperty, value);
-        }
+        public static void SetSum(DependencyObject obj, string value) => obj.SetValue(SumProperty, value);
 
-        public static void SetUrunler(DependencyObject obj, ObservableCollection<Urun> value)
-        {
-            obj.SetValue(Urunler, value);
-        }
+        public static void SetUrunler(DependencyObject obj, ObservableCollection<Urun> value) => obj.SetValue(Urunler, value);
 
         private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

@@ -52,10 +52,7 @@ namespace Extensions
             }
         }
 
-        private static void IntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            GenerateTime(Convert.ToInt32(e.NewValue));
-        }
+        private static void IntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => GenerateTime(Convert.ToInt32(e.NewValue));
 
         private static bool IsValidInterval(object value)
         {

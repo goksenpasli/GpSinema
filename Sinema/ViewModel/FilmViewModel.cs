@@ -221,10 +221,7 @@ namespace Sinema.ViewModel
 
         public ICommand WebFilmResimAktar { get; }
 
-        private DateTime FilmSaatiniAl()
-        {
-            return Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1]));
-        }
+        private DateTime FilmSaatiniAl() => Tarih.AddHours(Convert.ToDouble(Saat.Split(':')[0])).AddMinutes(Convert.ToDouble(Saat.Split(':')[1]));
 
         private void FilmViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
