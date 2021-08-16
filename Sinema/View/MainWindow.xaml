@@ -592,6 +592,7 @@
                                                         <Button.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                                                 <Binding Mode="OneWay" />
+                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon" />
                                                                 <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
                                                             </MultiBinding>
                                                         </Button.CommandParameter>

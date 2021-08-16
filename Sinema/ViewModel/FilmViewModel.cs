@@ -9,6 +9,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace Sinema.ViewModel
 {
@@ -72,7 +73,15 @@ namespace Sinema.ViewModel
             {
                 var data = parameter as object[];
                 var film = data[0] as Film;
-                (data[1] as Salonlar).Serialize();
+                var seçilisalon = data[1] as Salon;
+                if (!XDocument.Load(MainWindowViewModel.xmldatapath).Descendants("Salon").Where(z => (int)z.Attribute("Id") == seçilisalon.Id).Descendants("Film").Select(z => z.Attribute("FilmSaati")).Any(z => DateTime.Parse(z.Value) == film.FilmSaati))
+                {
+                    (data[2] as Salonlar).Serialize();
+                }
+                else
+                {
+                    MessageBox.Show("Bu Saatte Bu Salon İçin Zaten Film Ayarlanmış Tarihi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }, parameter => true);
 
             FilmResimGüncelle = new RelayCommand<object>(parameter =>
