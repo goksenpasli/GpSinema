@@ -587,7 +587,7 @@
                                         <Extensions:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}" OverContent="{Binding FilmSaati, StringFormat=\{0:f\}}">
                                             <GroupBox Header="GÜNCELLE">
                                                 <StackPanel>
-                                                    <Extensions:NumericUpDownControl DateValue="{Binding FilmSaati, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ShowMode="DateTimeMode" />
+                                                    <Extensions:NumericUpDownControl DateValue="{Binding FilmSaati, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ShowMode="DateTimeMode" />
                                                     <Button Content="GÜNCELLE" Command="{Binding DataContext.FilmViewModel.FilmTarihGüncelle, ElementName=grid}">
                                                         <Button.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
@@ -616,6 +616,16 @@
                     <Extensions:SplitButton Content="KİŞİ ARA" Command="{Binding SalonViewModel.SalonKişiAra, Mode=OneWay}" CommandParameter="{Binding ElementName=Tb, Path=Text}">
                         <Extensions:SplitButton.InternalContent>
                             <ListBox Width="200" Height="200" ItemsSource="{Binding SalonViewModel.BulunanKişiler}" />
+                        </Extensions:SplitButton.InternalContent>
+                    </Extensions:SplitButton>
+                    <Extensions:SplitButton Command="{Binding DataContext.ReportViewModel.SalonFilmTutarRaporla, ElementName=grid}">
+                        <Extensions:SplitButton.Content>
+                            <Image Width="16" Height="16" Source="{Binding Converter={StaticResource FilePathToIconConverter}, Source=.xlsx}" />
+                        </Extensions:SplitButton.Content>
+                        <Extensions:SplitButton.InternalContent>
+                            <GroupBox Header="FİLM DURUMLARI" Width="640" Height="480">
+                                <Extensions:GraphControl Series="{Binding ReportViewModel.GraphData}" />
+                            </GroupBox>
                         </Extensions:SplitButton.InternalContent>
                     </Extensions:SplitButton>
                 </StackPanel>

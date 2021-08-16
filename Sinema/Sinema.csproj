@@ -179,6 +179,9 @@
     <None Include="Raporlar\KişiSiparişRapor.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Raporlar\SalonFilmlerTutar.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Raporlar\SalonRapor.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
