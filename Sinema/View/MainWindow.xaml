@@ -14,6 +14,7 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Window.Resources>
+        <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
         <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
         <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
         <local:KoltukNoToOturanConverter x:Key="KoltukNoToOturanConverter" />
@@ -70,25 +71,21 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
         <DataTemplate x:Key="ListboxToolTipMusteriTemplate">
-            <Grid d:DataContext="{d:DesignInstance Type=model:Musteri}">
+            <Grid d:DataContext="{d:DesignInstance Type={x:Type model:Musteri}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" d:DataContext="{d:DesignInstance Type=model:Film}" Orientation="Horizontal">
-                    <StackPanel.Background>
-                        <Binding Converter="{StaticResource StringToBrushConverter}" Mode="OneWay" Path="Renk" />
-                    </StackPanel.Background>
+                <StackPanel Background="{Binding Renk, Converter={StaticResource StringToBrushConverter}, Mode=OneWay}"
+                    DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}"
+                    d:DataContext="{d:DesignInstance Type={x:Type model:Film}}"
+                    Orientation="Horizontal">
                     <Image HorizontalAlignment="Left" Source="{Binding ResimYolu, ConverterParameter=32, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
                     <TextBlock Text="{Binding Adı}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 </StackPanel>
                 <TextBlock Grid.Column="1"
                     Margin="25,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Run Text="{Binding Ad}" />
-                    <LineBreak />
-                    <Run Text="{Binding Soyad}" />
-                </TextBlock>
+                    FontWeight="Bold"><Run Text="{Binding Ad}" /><LineBreak /><Run Text="{Binding Soyad}" /></TextBlock>
             </Grid>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ColorPanelTTemplate">
@@ -100,7 +97,7 @@
                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
             </StackPanel>
         </DataTemplate>
-        <Style TargetType="Extensions:NumericUpDownControl">
+        <Style TargetType="{x:Type Extensions:NumericUpDownControl}">
             <Setter Property="Orientation" Value="Horizontal" />
         </Style>
     </Window.Resources>
@@ -259,7 +256,7 @@
                                     <TextBox Text="{Binding ÜrünGirişiViewModel.Urun.ÜrünAdi, UpdateSourceTrigger=PropertyChanged}" />
                                 </HeaderedContentControl>
                                 <HeaderedContentControl Header="ÜRÜN BİRİM FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                                    <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
+                                    <Extensions:NumericUpDownControl Maximum="10000" Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
                                         Value="{Binding ÜrünGirişiViewModel.Urun.BirimFiyat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </HeaderedContentControl>
                                 <HeaderedContentControl Header="ÜRÜN ADETİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
@@ -290,7 +287,7 @@
                                             <GridViewColumn Header="BİRİM &#xA;FİYAT">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="5000" Minimum="1"
+                                                        <Extensions:NumericUpDownControl Maximum="5000" Minimum="1" ShowMode="CurrencyMode"
                                                             Value="{Binding BirimFiyat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -333,7 +330,7 @@
                                     <ComboBox Text="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukAçıklama, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Mode=OneWay, Source={StaticResource KoltukÇeşidi}}" IsEditable="True" />
                                 </HeaderedContentControl>
                                 <HeaderedContentControl Header="KOLTUK FİYATI" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                                    <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="10000" Minimum="1" SmallChange="1"
+                                    <Extensions:NumericUpDownControl Maximum="10000" Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
                                         Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </HeaderedContentControl>
                                 <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
@@ -386,7 +383,7 @@
                                             <GridViewColumn Header="BİRİM &#xA;FİYAT" Width="75">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Extensions:NumericUpDownControl CurrencyMode="True" Maximum="5000" Minimum="1" SmallChange="1"
+                                                        <Extensions:NumericUpDownControl Maximum="5000" Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
                                                             Value="{Binding KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -573,7 +570,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="150" Extensions:GridViewSort.PropertyName="Adı" DisplayMemberBinding="{Binding Adı}">
+                            <GridViewColumn Width="125" Extensions:GridViewSort.PropertyName="Adı" DisplayMemberBinding="{Binding Adı}">
                                 <GridViewColumn.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="ADI" VerticalAlignment="Center" />
@@ -581,13 +578,27 @@
                                     </StackPanel>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
-                            <GridViewColumn Width="115" Extensions:GridViewSort.PropertyName="FilmSaati">
+                            <GridViewColumn Width="140" Extensions:GridViewSort.PropertyName="FilmSaati">
                                 <GridViewColumn.Header>
                                     <CheckBox Content="FİLM SAATİ" IsChecked="{Binding FilmViewModel.TarihiGeçenFilmleriGizle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                                 </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding FilmSaati, StringFormat=\{0:g\}}" />
+                                        <Extensions:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}" OverContent="{Binding FilmSaati, StringFormat=\{0:f\}}">
+                                            <GroupBox Header="GÜNCELLE">
+                                                <StackPanel>
+                                                    <Extensions:NumericUpDownControl DateValue="{Binding FilmSaati, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ShowMode="DateTimeMode" />
+                                                    <Button Content="GÜNCELLE" Command="{Binding DataContext.FilmViewModel.FilmTarihGüncelle, ElementName=grid}">
+                                                        <Button.CommandParameter>
+                                                            <MultiBinding Converter="{StaticResource CloneConverter}">
+                                                                <Binding Mode="OneWay" />
+                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
+                                                            </MultiBinding>
+                                                        </Button.CommandParameter>
+                                                    </Button>
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </Extensions:ContentToggleButton>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

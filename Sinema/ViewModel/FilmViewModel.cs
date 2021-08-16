@@ -68,6 +68,13 @@ namespace Sinema.ViewModel
 
             FilmResimEkle = new RelayCommand<object>(parameter => ExtensionMethods.ResimEkle(Film), parameter => true);
 
+            FilmTarihGüncelle = new RelayCommand<object>(parameter =>
+            {
+                var data = parameter as object[];
+                var film = data[0] as Film;
+                (data[1] as Salonlar).Serialize();
+            }, parameter => true);
+
             FilmResimGüncelle = new RelayCommand<object>(parameter =>
             {
                 var data = parameter as object[];
@@ -144,6 +151,8 @@ namespace Sinema.ViewModel
         public ICommand FilmResimEkle { get; }
 
         public ICommand FilmResimGüncelle { get; }
+
+        public ICommand FilmTarihGüncelle { get; }
 
         public string FilmTipi
         {

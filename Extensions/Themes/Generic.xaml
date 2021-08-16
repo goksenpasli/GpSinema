@@ -308,10 +308,15 @@
                     VerticalContentAlignment="Center">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
-                            <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding CurrencyMode, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
-                                    <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:C\}}" />
+                                <DataTrigger Binding="{Binding ShowMode, RelativeSource={RelativeSource TemplatedParent}}" Value="CurrencyMode">
+                                    <Setter Property="Text" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:C\}}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowMode, RelativeSource={RelativeSource TemplatedParent}}" Value="DateTimeMode">
+                                    <Setter Property="Text" Value="{Binding DateValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowMode, RelativeSource={RelativeSource TemplatedParent}}" Value="NumberMode">
+                                    <Setter Property="Text" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -381,10 +386,15 @@
                     VerticalContentAlignment="Center">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
-                            <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding CurrencyMode, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
-                                    <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:C\}}" />
+                                <DataTrigger Binding="{Binding ShowMode, RelativeSource={RelativeSource TemplatedParent}}" Value="CurrencyMode">
+                                    <Setter Property="Text" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, StringFormat=\{0:C\}}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowMode, RelativeSource={RelativeSource TemplatedParent}}" Value="DateTimeMode">
+                                    <Setter Property="Text" Value="{Binding DateValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowMode, RelativeSource={RelativeSource TemplatedParent}}" Value="NumberMode">
+                                    <Setter Property="Text" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
