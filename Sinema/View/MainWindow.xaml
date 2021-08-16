@@ -76,10 +76,10 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel Background="{Binding Renk, Converter={StaticResource StringToBrushConverter}, Mode=OneWay}"
-                    DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}"
-                    d:DataContext="{d:DesignInstance Type={x:Type model:Film}}"
-                    Orientation="Horizontal">
+                <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" d:DataContext="{d:DesignInstance Type={x:Type model:Film}}" Orientation="Horizontal">
+                    <StackPanel.Background>
+                        <Binding Converter="{StaticResource StringToBrushConverter}" Path="Renk" />
+                    </StackPanel.Background>
                     <Image HorizontalAlignment="Left" Source="{Binding ResimYolu, ConverterParameter=32, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
                     <TextBlock Text="{Binding Adı}" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 </StackPanel>
@@ -323,7 +323,7 @@
                     </TabControl>
                 </GroupBox>
                 <GroupBox Header="KOLTUK GİRİŞİ">
-                    <TabControl>
+                    <TabControl Background="{StaticResource BorderBackground}">
                         <TabItem Header="GİRİŞ">
                             <StackPanel>
                                 <HeaderedContentControl Header="KOLTUK TİPİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
