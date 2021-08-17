@@ -116,52 +116,53 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SplitButton">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="14" />
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="btn" Content="{TemplateBinding Content}"
-                            Grid.Column="0"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Command="{TemplateBinding Command}"
-                            CommandParameter="{TemplateBinding CommandParameter}"
-                            IsTabStop="{TemplateBinding IsTabStop}" />
-                        <ToggleButton x:Name="Tb"
-                            Grid.Column="1"
-                            IsEnabled="{TemplateBinding SplitContentPartIsEnabled}"
-                            IsTabStop="{TemplateBinding IsTabStop}">
-                            <Path x:Name="path"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                Data="{StaticResource ArrowGeometry}"
-                                Focusable="False">
-                                <Path.Style>
-                                    <Style TargetType="Path">
-                                        <Setter Property="Fill" Value="Black" />
-                                        <Style.Triggers>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" Value="#FF838383" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Path.Style>
-                            </Path>
-                        </ToggleButton>
-                        <Popup x:Name="PART_Popup"
-                            Grid.ColumnSpan="2"
-                            AllowsTransparency="True" Focusable="False"
-                            IsOpen="{Binding IsChecked, ElementName=Tb}"
-                            Placement="{TemplateBinding PlacementMode}"
-                            PopupAnimation="Slide"
-                            StaysOpen="{TemplateBinding StayOpen}">
-                            <ContentPresenter Content="{TemplateBinding InternalContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                        </Popup>
-                    </Grid>
+                    <Button x:Name="btn"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Command="{TemplateBinding Command}"
+                        CommandParameter="{TemplateBinding CommandParameter}"
+                        IsTabStop="{TemplateBinding IsTabStop}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="14" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="0" />
+                            <ToggleButton x:Name="Tb"
+                                Grid.Column="1"
+                                IsEnabled="{TemplateBinding SplitContentPartIsEnabled}"
+                                IsTabStop="{TemplateBinding IsTabStop}">
+                                <Path x:Name="path"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Data="{StaticResource ArrowGeometry}"
+                                    Focusable="False">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Fill" Value="Black" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="#FF838383" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                            </ToggleButton>
+                            <Popup x:Name="PART_Popup"
+                                Grid.ColumnSpan="2"
+                                AllowsTransparency="True" Focusable="False"
+                                IsOpen="{Binding IsChecked, ElementName=Tb}"
+                                Placement="{TemplateBinding PlacementMode}"
+                                PopupAnimation="Slide"
+                                StaysOpen="{TemplateBinding StayOpen}">
+                                <ContentPresenter Content="{TemplateBinding InternalContent}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Popup>
+                        </Grid>
+                    </Button>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="btn" Property="Background" Value="#F4F4F4" />
