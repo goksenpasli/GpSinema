@@ -109,7 +109,15 @@ namespace Sinema.ViewModel
                 {
                     MessageBox.Show($"Bu Filmde Taşınacak Koltukta {hedefkoltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.FilmId).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
-            }, parameter => true);
+            }, parameter =>
+            {
+                if (parameter is not null)
+                {
+                    var koltuk = (parameter as object[])?[2] as Koltuk;
+                    return koltuk?.No != koltuk?.TaşınacakKoltukNo;
+                }
+                return false;
+            });
         }
 
         public ICommand MusteriGirişiYap { get; }

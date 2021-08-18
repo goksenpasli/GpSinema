@@ -61,11 +61,14 @@ namespace Sinema.ViewModel
                 }
             }, parameter => true);
 
-            foreach (var item in FilmTutarlarınıAl())
+            if (File.Exists(MainWindowViewModel.xmldatapath))
             {
-                var rand = new Random(Guid.NewGuid().GetHashCode());
-                var brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(0, 256), (byte)rand.Next(0, 256), (byte)rand.Next(0, 256)));
-                GraphData.Add(new GraphControl.Chart() { Description = item.Adı, ChartValue = item.Fiyat, ChartBrush = brush});
+                foreach (var item in FilmTutarlarınıAl())
+                {
+                    var rand = new Random(Guid.NewGuid().GetHashCode());
+                    var brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(0, 256), (byte)rand.Next(0, 256), (byte)rand.Next(0, 256)));
+                    GraphData.Add(new GraphControl.Chart() { Description = item.Adı, ChartValue = item.Fiyat, ChartBrush = brush });
+                }
             }
         }
 
