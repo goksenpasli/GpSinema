@@ -29,30 +29,30 @@ namespace Sinema.ViewModel
                     };
 
                     mainWindowViewModel.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi.Add(koltuktipi);
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => !string.IsNullOrWhiteSpace(KoltukTipi.KoltukAçıklama));
 
             KoltukFiyatGüncelle = new RelayCommand<object>(parameter =>
             {
-                if (parameter is object[] data && data[0] is KoltukTipi koltukTipi && data[1] is MainWindowViewModel mainWindowViewModel)
+                if (parameter is object[] data && data[0] is KoltukTipi koltukTipi)
                 {
                     KoltukTipi.KoltukFiyatı = koltukTipi.KoltukFiyatı;
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => true);
 
             KoltukAyarla = new RelayCommand<object>(parameter =>
             {
-                if (parameter is object[] data && data[0] is Koltuk koltuk && data[1] is MainWindowViewModel mainWindowViewModel)
+                if (parameter is object[] data && data[0] is Koltuk koltuk)
                 {
-                    var SeçiliKoltukTipi = data[2] as KoltukTipi;
+                    var SeçiliKoltukTipi = data[1] as KoltukTipi;
                     if (SeçiliKoltukTipi is not null)
                     {
                         koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                         koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                     }
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => true);
 
@@ -121,13 +121,13 @@ namespace Sinema.ViewModel
                         }
                     }
 
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => parameter is not null && parameter is object[] data && data[0] is Salon salon && salon?.KoltukAltAralık <= salon?.KoltukÜstAralık && salon?.KoltukÜstAralık <= salon?.EnKoltukSayı * salon?.BoyKoltukSayı);
 
             TümKoltuklarıGöster = new RelayCommand<object>(parameter =>
             {
-                if (parameter is object[] data && data[0] is Salon salon && data[1] is MainWindowViewModel mainWindowViewModel)
+                if (parameter is object[] data && data[0] is Salon salon)
                 {
                     foreach (var item in salon.Koltuklar)
                     {
@@ -136,7 +136,7 @@ namespace Sinema.ViewModel
                             item.Görünür = true;
                         }
                     }
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => true);
         }

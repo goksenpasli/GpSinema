@@ -44,7 +44,7 @@ namespace Sinema.ViewModel
                     salon.Koltuklar.Add(new Koltuk() { KoltukEtkin = true, Görünür = true, No = i + 1 });
                 }
                 Salonlar.Salon.Add(salon);
-                Salonlar.Serialize();
+                DatabaseSave.Execute(null);
                 Salon.Adı = null;
             }, parameter => !string.IsNullOrWhiteSpace(Salon.Adı));
 
@@ -61,7 +61,7 @@ namespace Sinema.ViewModel
                     seçilisalon.Koltuklar.Add(new Koltuk() { KoltukEtkin = true, Görünür = true, No = i + 1 });
                 }
 
-                Salonlar.Serialize();
+                DatabaseSave.Execute(null);
                 seçilisalon.İlaveKoltukSayısı = 0;
             }, parameter => true);
 
@@ -82,8 +82,12 @@ namespace Sinema.ViewModel
                 }
             }, parameter => parameter is string aramametni && !string.IsNullOrWhiteSpace(aramametni));
 
+            DatabaseSave = new RelayCommand<object>(parameter => Salonlar.Serialize());
+
             Hakkında = new RelayCommand<object>(parameter => new Hakkında().ShowDialog(), parameter => true);
         }
+
+        public static ICommand DatabaseSave { get; set; }
 
         public ObservableCollection<string> BulunanKişiler
         {

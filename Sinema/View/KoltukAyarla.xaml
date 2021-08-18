@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Sinema.View.KoltukAyarla"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions" xmlns:Sinema="clr-namespace:Sinema"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Sinema.View"
+    xmlns:Extensions="clr-namespace:Extensions;assembly=Extensions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Sinema.Model"
     d:DataContext="{d:DesignInstance Type={x:Type model:Koltuk}}"
@@ -42,7 +42,6 @@
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                 <Binding Mode="OneWay" />
-                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
                                 <Binding Path="SeçiliKoltukTipi" />
                             </MultiBinding>
                         </Button.CommandParameter>
@@ -89,7 +88,6 @@
                                             <Button.CommandParameter>
                                                 <MultiBinding Converter="{StaticResource CloneConverter}">
                                                     <Binding Mode="OneWay" />
-                                                    <Binding Path="Tag.SalonViewModel" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
                                                     <Binding Mode="OneWay" Path="DataContext" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                                                     <Binding Mode="OneWay" Path="Tag" RelativeSource="{RelativeSource AncestorType=ListView}" />
                                                 </MultiBinding>

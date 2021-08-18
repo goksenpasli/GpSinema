@@ -54,7 +54,7 @@ namespace Sinema.ViewModel
                     };
 
                     SeçiliSalon.Film.Add(film);
-                    (parameter as Salonlar).Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                     Film.ResimYolu = null;
                     Film.VideoYolu = null;
                     Film.Adı = null;
@@ -76,7 +76,7 @@ namespace Sinema.ViewModel
                 var seçilisalon = data[1] as Salon;
                 if (!XDocument.Load(MainWindowViewModel.xmldatapath).Descendants("Salon").Where(z => (int)z.Attribute("Id") == seçilisalon.Id).Descendants("Film").Select(z => z.Attribute("FilmSaati")).Any(z => DateTime.Parse(z.Value) == film.FilmSaati))
                 {
-                    (data[2] as Salonlar).Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
                 else
                 {
@@ -88,7 +88,7 @@ namespace Sinema.ViewModel
             {
                 var data = parameter as object[];
                 ExtensionMethods.ResimEkle(data[0] as Film);
-                (data[1] as Salonlar).Serialize();
+                SalonViewModel.DatabaseSave.Execute(null);
             }, parameter => true);
 
             WebFilmResimAktar = new RelayCommand<object>(parameter =>
@@ -104,7 +104,7 @@ namespace Sinema.ViewModel
                         client.DownloadFile(new Uri(webimageadress), $"{Path.GetDirectoryName(MainWindowViewModel.xmldatapath)}\\{filename}");
                         var film = data[0] as Film;
                         film.ResimYolu = filename;
-                        (data[2] as Salonlar).Serialize();
+                        SalonViewModel.DatabaseSave.Execute(null);
                     }
                 }
                 catch (Exception)
@@ -116,7 +116,7 @@ namespace Sinema.ViewModel
             {
                 var data = parameter as object[];
                 ExtensionMethods.VideoEkle(data[0] as Film);
-                (data[1] as Salonlar).Serialize();
+                SalonViewModel.DatabaseSave.Execute(null);
             }, parameter => true);
 
             if (cvsfilmler is not null)

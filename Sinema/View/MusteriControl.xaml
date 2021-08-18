@@ -85,7 +85,6 @@
                         <Button.CommandParameter>
                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                 <Binding Mode="OneWay" />
-                                <Binding ElementName="grid" Path="DataContext.SalonViewModel" />
                                 <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}" />
                             </MultiBinding>
                         </Button.CommandParameter>

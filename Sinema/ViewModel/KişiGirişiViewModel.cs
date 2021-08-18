@@ -15,7 +15,7 @@ namespace Sinema.ViewModel
             MusteriGirişiYap = new RelayCommand<object>(parameter =>
             {
                 var data = parameter as object[];
-                var koltuk = data[2] as Koltuk;
+                var koltuk = data[1] as Koltuk;
                 if (koltuk.KoltukTipiId == 0)
                 {
                     MessageBox.Show("Koltuk Tipi Ayarlanmamış Sağ Tıklayıp Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -40,8 +40,8 @@ namespace Sinema.ViewModel
                 koltuk.KoltukDolu = false;
                 koltuk.Müşteri.Add(musteri);
                 koltuk.KoltukDolu = true;
-                var salonViewModel = data[1] as SalonViewModel;
-                salonViewModel.Salonlar.Serialize();
+                SalonViewModel.DatabaseSave.Execute(null);
+
 
                 Musteri.Ad = null;
                 Musteri.Soyad = null;
@@ -80,7 +80,7 @@ namespace Sinema.ViewModel
                     koltuk.KoltukDolu = true;
                     koltuk.Müşteri.Remove(Musteri);
                     koltuk.KoltukDolu = false;
-                    salonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => true);
 
@@ -88,8 +88,8 @@ namespace Sinema.ViewModel
             {
                 var data = parameter as object[];
                 var Musteri = data[0] as Musteri;
-                var kaynakkoltuk = data[2] as Koltuk;
-                var salon = data[3] as Salon;
+                var kaynakkoltuk = data[1] as Koltuk;
+                var salon = data[2] as Salon;
                 var hedefkoltuk = salon.Koltuklar.FirstOrDefault(z => z.No == kaynakkoltuk.TaşınacakKoltukNo);
 
                 if (!hedefkoltuk.Müşteri.Any(z => z.FilmId == Musteri.FilmId))
@@ -102,8 +102,7 @@ namespace Sinema.ViewModel
                     kaynakkoltuk.Müşteri.Remove(Musteri);
                     kaynakkoltuk.KoltukDolu = false;
 
-                    var salonViewModel = data[1] as SalonViewModel;
-                    salonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
                 else
                 {
@@ -113,7 +112,7 @@ namespace Sinema.ViewModel
             {
                 if (parameter is not null)
                 {
-                    var koltuk = (parameter as object[])?[2] as Koltuk;
+                    var koltuk = (parameter as object[])?[1] as Koltuk;
                     return koltuk?.No != koltuk?.TaşınacakKoltukNo;
                 }
                 return false;

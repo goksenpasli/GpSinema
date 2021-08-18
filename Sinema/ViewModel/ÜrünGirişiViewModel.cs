@@ -27,7 +27,7 @@ namespace Sinema.ViewModel
                     };
 
                     mainWindowViewModel.SalonViewModel.Salonlar.Urunler.Urun.Add(ürün);
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                     Urun.ÜrünAdi = null;
                 }
             }, parameter => !string.IsNullOrWhiteSpace(Urun.ÜrünAdi));
@@ -35,10 +35,10 @@ namespace Sinema.ViewModel
             ÜrünGüncelle = new RelayCommand<object>(parameter =>
             {
                 var data = parameter as object[];
-                if (data[0] is Urun urun && data[1] is MainWindowViewModel mainWindowViewModel)
+                if (data[0] is Urun urun)
                 {
                     urun.BirimFiyat = Math.Round(urun.BirimFiyat, 2);
-                    mainWindowViewModel.SalonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => true);
 
@@ -65,7 +65,7 @@ namespace Sinema.ViewModel
                     Musteri.Siparis.ToplamTutar = Musteri.Siparis.Urun.Sum(z => z.ToplamFiyat);
                     seçiliurun.Adet -= Musteri.Siparis.UrunAdet;
 
-                    salonViewModel.Salonlar.Serialize();
+                    SalonViewModel.DatabaseSave.Execute(null);
                 }
                 else
                 {
