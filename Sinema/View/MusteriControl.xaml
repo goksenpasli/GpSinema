@@ -155,9 +155,18 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Canvas Width="16" Height="16" DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}">
+                                            <Rectangle Width="16" Height="16" Fill="{Binding Renk}" />
+                                        </Canvas>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="AD" Extensions:GridViewSort.PropertyName="Ad" DisplayMemberBinding="{Binding Ad}" />
                             <GridViewColumn Header="SOYAD" Extensions:GridViewSort.PropertyName="Soyad" DisplayMemberBinding="{Binding Soyad}" />
-                            <GridViewColumn>
+                            <GridViewColumn Width="85">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock>

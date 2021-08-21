@@ -27,6 +27,7 @@
             <Extensions:FilePathToIconConverter x:Key="FilePathToIconConverter" />
             <local:DataImageFilePathImageUriConverter x:Key="DataImageFilePathImageUriConverter" />
             <local:FilmIdToFilmVisibilityConverter x:Key="FilmIdToFilmVisibilityConverter" />
+            <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
             <Style TargetType="{x:Type GroupBox}">
                 <Setter Property="Background" Value="{StaticResource GroupBoxBackGround}" />
                 <Setter Property="BorderBrush" Value="Black" />

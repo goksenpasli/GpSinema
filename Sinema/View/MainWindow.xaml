@@ -167,12 +167,20 @@
                     </GroupBox.Header>
                     <StackPanel>
                         <HeaderedContentControl Header="SALON SEÇ">
-                            <ComboBox ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.Salon, ElementName=grid}" DisplayMemberPath="Adı" SelectedItem="{Binding SeçiliSalon}">
+                            <ComboBox ItemsSource="{Binding DataContext.SalonViewModel.Salonlar.Salon, ElementName=grid}" SelectedItem="{Binding SeçiliSalon}">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel />
                                     </ItemsPanelTemplate>
                                 </ComboBox.ItemsPanel>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Rectangle Width="16" Height="16" Fill="{Binding Renk, Converter={StaticResource StringToBrushConverter}}" />
+                                            <TextBlock Text="{Binding Adı}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="ADI">
@@ -415,7 +423,19 @@
                         </TabItem>
                     </TabControl>
                 </GroupBox>
-                <Button Content="UYGULAMA HAKKINDA" Command="{Binding SalonViewModel.Hakkında}" IsTabStop="False" />
+                <Button Command="{Binding SalonViewModel.Hakkında}" IsTabStop="False">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Image Width="32" Height="32">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                    <Binding Source="Shell32.dll" />
+                                    <Binding Source="135" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="UYGULAMA HAKKINDA" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </ScrollViewer>
         <GroupBox Header="SEANS" Grid.Column="2">
@@ -911,15 +931,14 @@
                                         <ItemsControl Grid.Column="0" ItemsSource="{Binding SalonSayıları}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Extensions:ContentToggleButton Background="{x:Null}" BorderBrush="{x:Null}">
-                                                        <Extensions:ContentToggleButton.OverContent>
-                                                            <TextBlock Text="{Binding Mode=OneWay}"
-                                                                VerticalAlignment="Center"
-                                                                FontSize="10" FontWeight="Bold" />
-                                                        </Extensions:ContentToggleButton.OverContent>
+                                                    <Extensions:ContentToggleButton Background="{x:Null}"
+                                                        BorderBrush="{x:Null}"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="10" FontWeight="Bold"
+                                                        OverContent="{Binding Mode=OneWay}">
                                                         <Extensions:ContentToggleButton.Content>
                                                             <Extensions:ResizablePanel Width="640" Height="480" MinWidth="640" MinHeight="480">
-                                                                <ListBox ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}">
+                                                                <ListBox FontSize="12" FontWeight="Normal" ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}">
                                                                     <ListBox.ItemsSource>
                                                                         <MultiBinding Converter="{StaticResource KoltukNoToOturanConverter}">
                                                                             <Binding Mode="OneWay" />

@@ -59,6 +59,15 @@
                     </ListView.ItemContainerStyle>
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="FİLM &#xA;ADI">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel DataContext="{Binding FilmId, Converter={StaticResource FilmIdToFilmConverter}}" d:DataContext="{d:DesignInstance Type=model:Film}" Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Adı}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="AD" DisplayMemberBinding="{Binding Ad}" />
                             <GridViewColumn Header="SOYAD" DisplayMemberBinding="{Binding Soyad}" />
                             <GridViewColumn Header="KOLTUK&#xA;NO">

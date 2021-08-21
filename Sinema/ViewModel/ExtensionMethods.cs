@@ -110,7 +110,7 @@ namespace Sinema.ViewModel
 
         public static void VideoEkle(Film dc)
         {
-            OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4)|*.mp4" };
+            OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4;*.avi;*.mov;*.wmv;*.mpg)|*.mp4;*.avi;*.mov;*.wmv;*.mpg" };
             if (openFileDialog.ShowDialog() == true)
             {
                 dc.VideoYolu = openFileDialog.FileName;
