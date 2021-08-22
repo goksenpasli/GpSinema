@@ -10,7 +10,6 @@
     d:DesignHeight="430" d:DesignWidth="680" UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
         <CollectionViewSource x:Key="CvsSipariş" Source="{Binding SeçiliMusteri.Siparis.Urun}" />
         <CollectionViewSource x:Key="CvsMüşteri" d:DesignSource="{d:DesignInstance {x:Type model:Musteri}, CreateList=True}" Source="{Binding DataContext.Müşteri, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}" />
     </UserControl.Resources>

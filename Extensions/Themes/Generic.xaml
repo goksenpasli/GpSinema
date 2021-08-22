@@ -166,10 +166,9 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="btn" Property="Background" Value="#F4F4F4" />
                             <Setter TargetName="btn" Property="BorderBrush" Value="#ADB2B5" />
-                            <Setter Property="TextElement.Foreground" Value="#838383" />
                         </Trigger>
                         <Trigger SourceName="PART_Popup" Property="IsOpen" Value="true">
-                            <Setter Property="IsHitTestVisible" Value="False" />
+                            <Setter Property="IsEnabled" Value="False" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

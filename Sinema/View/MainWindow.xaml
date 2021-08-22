@@ -13,17 +13,7 @@
     d:DesignHeight="850" d:DesignWidth="1024" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
-    <Window.Resources>
-        <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
-        <local:FilmIdToFilmConverter x:Key="FilmIdToFilmConverter" />
-        <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
-        <local:KoltukNoToOturanConverter x:Key="KoltukNoToOturanConverter" />
-        <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
-        <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
-        <local:KoltukTipiIdToBrushConverter x:Key="KoltukTipiIdToBrushConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <local:SeçiliFilmtoKoltukRenkConverter x:Key="SeçiliFilmtoKoltukRenkConverter" />
-        <local:CloneConverter x:Key="CloneConverter" />
+    <Window.Resources>      
         <DataTemplate x:Key="MüşteriWindow">
             <view:MusteriControl>
                 <view:MusteriControl.DataContext>
@@ -909,7 +899,7 @@
                                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}" Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}">
                                                                 <ContextMenu.Template>
                                                                     <ControlTemplate>
-                                                                        <view:KoltukAyarla Width="400" />
+                                                                        <view:KoltukAyarla Width="500" />
                                                                     </ControlTemplate>
                                                                 </ContextMenu.Template>
                                                             </ContextMenu>

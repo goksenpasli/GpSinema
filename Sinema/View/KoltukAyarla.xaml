@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Sinema.Model"
     d:DataContext="{d:DesignInstance Type={x:Type model:Koltuk}}"
-    d:DesignHeight="275" d:DesignWidth="400" UseLayoutRounding="True"
+    d:DesignHeight="275" d:DesignWidth="500" UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>
         <GroupBox Background="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}">
