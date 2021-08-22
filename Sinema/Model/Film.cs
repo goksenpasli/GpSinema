@@ -13,7 +13,7 @@ namespace Sinema.Model
 
         private DateTime filmSaati;
 
-        private string filmTipi;
+        private int filmTipi = -1;
 
         private int ıd;
 
@@ -60,7 +60,7 @@ namespace Sinema.Model
         }
 
         [XmlAttribute(AttributeName = "FilmTipi")]
-        public string FilmTipi
+        public int FilmTipi
         {
             get => filmTipi;
 

@@ -13,7 +13,7 @@
     d:DesignHeight="850" d:DesignWidth="1024" UseLayoutRounding="True" WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
-    <Window.Resources>      
+    <Window.Resources>
         <DataTemplate x:Key="MüşteriWindow">
             <view:MusteriControl>
                 <view:MusteriControl.DataContext>
@@ -187,7 +187,7 @@
                                 Value="{Binding Film.Süre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="FİLM TİPİ" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
-                            <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedItem="{Binding FilmTipi}" />
+                            <ComboBox ItemsSource="{StaticResource FilmTipleri}" SelectedIndex="{Binding FilmTipi}" />
                         </HeaderedContentControl>
                         <HeaderedContentControl Header="YÖNETMEN" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
                             <TextBox Text="{Binding Film.Yönetmen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -485,17 +485,21 @@
                             <LineBreak />
                             <Run Text="{Binding FilmSaati, StringFormat=\{0:H:mm\}}" Language="tr-tr" />
                         </TextBlock>
-                        <TextBlock Text="{Binding FilmTipi}"
-                            TextTrimming="CharacterEllipsis"
-                            Padding="3,0,0,0"
-                            FontSize="16" FontStyle="Italic" />
+                        <ComboBox IsEnabled="False" IsReadOnly="True"
+                            Background="{x:Null}"
+                            BorderBrush="{x:Null}"
+                            Margin="2"
+                            ItemsSource="{StaticResource FilmTipleri}"
+                            FontSize="16" FontStyle="Italic"
+                            IsEditable="True"
+                            SelectedIndex="{Binding FilmTipi}" />
                         <TextBlock Text="{Binding Yönetmen}"
                             TextTrimming="CharacterEllipsis"
-                            Padding="3,0,0,0"
+                            Margin="2"
                             FontSize="16" FontStyle="Italic" />
                         <TextBlock Text="{Binding Oyuncular}"
                             TextTrimming="CharacterEllipsis"
-                            Padding="3,0,0,0"
+                            Margin="2"
                             FontSize="16" FontStyle="Italic" FontWeight="Bold" />
                     </StackPanel>
                     <Extensions:ContentToggleButton Grid.Column="2"
@@ -672,7 +676,8 @@
                                 <Run Text="{Binding BoyKoltukSayı}" />
                             </TextBlock>
                             <Extensions:NumericUpDownControl Grid.Row="1"
-                                Maximum="2500" Minimum="0" SmallChange="1" ToolTip="İlave Koltuk Ekleyin Ve Dizilimini Seçin."
+                                Maximum="2500" Minimum="0" Orientation="Vertical" SmallChange="1"
+                                ToolTip="İlave Koltuk Ekleyin Ve Dizilimini Seçin."
                                 Value="{Binding İlaveKoltukSayısı, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             <ComboBox Grid.Row="1" Grid.Column="1"
                                 ItemsSource="{Binding SalonEnBoyYapısı}"

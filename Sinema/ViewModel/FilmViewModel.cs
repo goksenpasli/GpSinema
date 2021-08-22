@@ -21,7 +21,7 @@ namespace Sinema.ViewModel
 
         private string filmAramaMetni;
 
-        private string filmTipi;
+        private int filmTipi = -1;
 
         private string saat = "00:00";
 
@@ -163,7 +163,7 @@ namespace Sinema.ViewModel
 
         public ICommand FilmTarihGüncelle { get; }
 
-        public string FilmTipi
+        public int FilmTipi
         {
             get => filmTipi;
 
