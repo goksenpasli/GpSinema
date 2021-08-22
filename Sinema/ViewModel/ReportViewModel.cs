@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
@@ -63,11 +64,11 @@ namespace Sinema.ViewModel
 
             if (File.Exists(MainWindowViewModel.xmldatapath))
             {
+                var stringtobrushconverter = new StringToBrushConverter();
                 foreach (var item in FilmTutarlarınıAl())
                 {
                     var rand = new Random(Guid.NewGuid().GetHashCode());
-                    var brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(0, 256), (byte)rand.Next(0, 256), (byte)rand.Next(0, 256)));
-                    GraphData.Add(new GraphControl.Chart() { Description = item.Adı, ChartValue = item.Fiyat, ChartBrush = brush });
+                    GraphData.Add(new GraphControl.Chart() { Description = item.Adı, ChartValue = item.Fiyat, ChartBrush = (Brush)stringtobrushconverter.Convert(item.Renk, null, null, CultureInfo.CurrentUICulture) });
                 }
             }
         }
@@ -103,7 +104,8 @@ namespace Sinema.ViewModel
             {
                 Adı = document.Descendants("Film").FirstOrDefault(d => (int)d.Attribute("Id") == (int)z.Attribute("FilmId"))?.Attribute("Adı").Value,
                 FilmSaati = (DateTime)document.Descendants("Film").FirstOrDefault(d => (int)d.Attribute("Id") == (int)z.Attribute("FilmId"))?.Attribute("FilmSaati"),
-                Fiyat = (double)z.Attribute("BiletFiyat")
+                Fiyat = (double)z.Attribute("BiletFiyat"),
+                Renk = (string)document.Descendants("Film").FirstOrDefault(d => (int)d.Attribute("Id") == (int)z.Attribute("FilmId"))?.Attribute("Renk")
             });
         }
     }
