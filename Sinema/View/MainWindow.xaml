@@ -90,6 +90,16 @@
         <Style TargetType="{x:Type Extensions:NumericUpDownControl}">
             <Setter Property="Orientation" Value="Horizontal" />
         </Style>
+        <Style x:Key="ComboBoxItemTopluGirişStyle" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="IsEnabled">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource TopluGirişKoltukConverter}">
+                        <Binding Mode="OneWay" />
+                        <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliFilm" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid x:Name="grid" d:DataContext="{d:DesignInstance Type={x:Type viewmodel:MainWindowViewModel}}">
         <Grid.ColumnDefinitions>
@@ -433,6 +443,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200" />
                     <RowDefinition />
+                    <RowDefinition Height="130.4" />
                 </Grid.RowDefinitions>
                 <Grid DataContext="{Binding SelectedItem, ElementName=Lv}" d:DataContext="{d:DesignInstance Type={x:Type model:Film}}">
                     <Grid.RowDefinitions>
@@ -617,6 +628,59 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+                <GroupBox Header="TOPLU GİRİŞ" Grid.Row="2">
+                    <Grid IsEnabled="{Binding SalonViewModel.Salon.SeçiliSalon, Converter={StaticResource NullableToBooleanConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <HeaderedContentControl Header="FİLM" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                <ComboBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource Filmler}}"
+                                    DisplayMemberPath="Adı" IsSynchronizedWithCurrentItem="False"
+                                    SelectedItem="{Binding SalonViewModel.Salon.SeçiliFilm}">
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="ComboBoxItem">
+                                            <Setter Property="Background" Value="{Binding Renk, Converter={StaticResource StringToBrushConverter}}" />
+                                            <Setter Property="Visibility" Value="{Binding Id, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
+                            </HeaderedContentControl>
+                            <HeaderedContentControl Header="BAŞLANGIÇ KOLTUK" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                <ComboBox IsEnabled="{Binding SalonViewModel.Salon.SeçiliFilm, Converter={StaticResource NullableToBooleanConverter}}"
+                                    ItemsSource="{Binding SalonViewModel.Salon.SeçiliSalon.Koltuklar}"
+                                    DisplayMemberPath="No"
+                                    ItemContainerStyle="{StaticResource ComboBoxItemTopluGirişStyle}"
+                                    SelectedItem="{Binding KişiGirişiViewModel.TopluGirişBaşlangıçKoltuk}" />
+                            </HeaderedContentControl>
+                            <HeaderedContentControl Header="BİTİŞ KOLTUK" Template="{StaticResource HorizontalHeaderedContentControlControlTemplate}">
+                                <ComboBox IsEnabled="{Binding SalonViewModel.Salon.SeçiliFilm, Converter={StaticResource NullableToBooleanConverter}}"
+                                    ItemsSource="{Binding SalonViewModel.Salon.SeçiliSalon.Koltuklar}"
+                                    DisplayMemberPath="No"
+                                    ItemContainerStyle="{StaticResource ComboBoxItemTopluGirişStyle}"
+                                    SelectedItem="{Binding KişiGirişiViewModel.TopluGirişBitişKoltuk}" />
+                            </HeaderedContentControl>
+                            <Button Command="{Binding KişiGirişiViewModel.TopluMusteriGirişiYap, Mode=OneWay}" CommandParameter="{Binding SalonViewModel.Salon}">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Image Width="32" Height="32">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                                <Binding Source="Shell32.dll" />
+                                                <Binding Source="144" />
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                    <TextBlock Text="GİRİŞ YAP" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <TextBox Text="{Binding KişiGirişiViewModel.TopluGirişİsimListesi, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Grid.Column="1"
+                            AcceptsReturn="True" TextWrapping="Wrap" ToolTip="Ad Soyad Alt Alta Giriş Yapın."
+                            VerticalScrollBarVisibility="Auto" />
+                    </Grid>
+                </GroupBox>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="1">

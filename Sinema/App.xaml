@@ -29,6 +29,7 @@
             <Extensions:ReverseBooleanConverter x:Key="ReverseBooleanConverter" />
             <local:SalonGroupingConverter x:Key="SalonGroupingConverter" />
             <local:KoltukNoToOturanConverter x:Key="KoltukNoToOturanConverter" />
+            <local:TopluGirişKoltukConverter x:Key="TopluGirişKoltukConverter" />
             <Extensions:StringNullableToBooleanConverter x:Key="StringNullableToBooleanConverter" />
             <Extensions:NullableToBooleanConverter x:Key="NullableToBooleanConverter" />
             <local:KoltukTipiIdToBrushConverter x:Key="KoltukTipiIdToBrushConverter" />

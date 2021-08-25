@@ -26,7 +26,7 @@ namespace Sinema
 
         private static void KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && (sender as TextBox)?.AcceptsReturn == false)
             {
                 MoveToNextUiElement(e);
             }
