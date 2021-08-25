@@ -77,14 +77,15 @@ namespace Sinema.ViewModel
                         return;
                     }
 
+                    var isimler = TopluGirişİsimListesi?.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     for (var i = TopluGirişBaşlangıçKoltuk.No; i <= TopluGirişBitişKoltuk.No; i++)
                     {
                         var koltuk = salon.SeçiliSalon.Koltuklar.FirstOrDefault(z => z.No == i);
                         Musteri musteri = new()
                         {
                             Id = new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue),
-                            Ad = TopluGirişİsimListesi?.Split('\r')[j]?.Split(' ')[0],
-                            Soyad = TopluGirişİsimListesi?.Split('\r')[j]?.Split(' ')[1],
+                            Ad = isimler[j]?.Split(' ')[0],
+                            Soyad = isimler[j]?.Split(' ')[1],
                             Yas = 18,
                             FilmId = salon.SeçiliFilm.Id,
                             BiletFiyat = KoltukFiyatıAl(koltuk)
