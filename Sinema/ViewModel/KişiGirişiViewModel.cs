@@ -11,12 +11,13 @@ namespace Sinema.ViewModel
 {
     public class KişiGirişiViewModel : InpcBase
     {
+        private Regex regex;
+
         private Koltuk topluGirişBaşlangıçKoltuk;
 
         private Koltuk topluGirişBitişKoltuk;
 
         private string topluGirişİsimListesi;
-        private Regex regex;
 
         public KişiGirişiViewModel()
         {
@@ -70,6 +71,23 @@ namespace Sinema.ViewModel
                 {
                     var j = 0;
                     double toplamtutar = 0;
+                    var dolu = false;
+                    if (salon?.SeçiliSalon?.Koltuklar?.Any(z => z.No >= TopluGirişBaşlangıçKoltuk.No && z.No <= TopluGirişBitişKoltuk.No && z.KoltukTipiId == 0) == true)
+                    {
+                        MessageBox.Show("Bu Salonda Halen Koltuk Tipi Ayarlanmamış Koltuk Var Sağ Tıklayıp Ayarlayın Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
+                    foreach (var _ in (salon?.SeçiliSalon.Koltuklar).Where(koltuk => koltuk.No >= TopluGirişBaşlangıçKoltuk.No && koltuk.No <= TopluGirişBitişKoltuk.No && koltuk.Müşteri.Any(z => z.FilmId == salon.SeçiliFilm.Id)).Select(_ => new { }))
+                    {
+                        dolu = true;
+                    }
+
+                    if (dolu)
+                    {
+                        MessageBox.Show("Belirtilen Aralıkta Dolu Koltuk Var Seçimi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
 
                     if (salon?.SeçiliSalon?.Koltuklar?.Any(z => z.No >= TopluGirişBaşlangıçKoltuk.No && z.No <= TopluGirişBitişKoltuk.No && z.KoltukTipiId == 0) == true)
                     {
