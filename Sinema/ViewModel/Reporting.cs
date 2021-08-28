@@ -15,9 +15,9 @@ namespace Sinema.ViewModel
             using (FileStream output = new(dosyaismi, FileMode.Create))
             {
                 using var document = Configuration.Factory.Open(stream, output, "xlsx");
-                document.Process(new { Context = dbset });
+                _ = document.Process(new { Context = dbset });
             }
-            Process.Start(dosyaismi);
+            _ = Process.Start(dosyaismi);
         }
     }
 }

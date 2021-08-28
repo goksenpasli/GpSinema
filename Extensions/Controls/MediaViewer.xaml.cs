@@ -81,7 +81,7 @@ namespace Extensions.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _ = MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace Extensions.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _ = MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -182,34 +182,34 @@ namespace Extensions.Controls
             {
                 try
                 {
-                    Task.Factory.StartNew(() =>
-                    {
-                        Dispatcher.BeginInvoke((Action)(() =>
-                        {
-                            var oran = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
-                            tooltip.Width = 96 * oran;
-                            tooltip.Height = 96;
-                            tooltip.PlacementTarget = Sld;
-                            tooltip.Placement = PlacementMode.Mouse;
-                            var predictedValue = PixelsToValue(e.GetPosition(Sld).X, Sld.Minimum, Sld.Maximum, Sld.ActualWidth);
-                            mediaElement.IsMuted = true;
-                            mediaElement.Source = Player.Source;
-                            mediaElement.Height = tooltip.Height;
-                            mediaElement.Width = tooltip.Width;
-                            mediaElement.Pause();
-                            mediaElement.Position = TimeSpan.FromSeconds(predictedValue);
-                            image.Source = mediaElement.ToRenderTargetBitmap();
-                            tooltip.Content = image;
-                            if (!tooltip.IsOpen)
-                            {
-                                tooltip.IsOpen = true;
-                            }
-                        }));
-                    }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+                    _ = Task.Factory.StartNew(() =>
+                      {
+                          _ = Dispatcher.BeginInvoke((Action)(() =>
+                          {
+                              var oran = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
+                              tooltip.Width = 96 * oran;
+                              tooltip.Height = 96;
+                              tooltip.PlacementTarget = Sld;
+                              tooltip.Placement = PlacementMode.Mouse;
+                              var predictedValue = PixelsToValue(e.GetPosition(Sld).X, Sld.Minimum, Sld.Maximum, Sld.ActualWidth);
+                              mediaElement.IsMuted = true;
+                              mediaElement.Source = Player.Source;
+                              mediaElement.Height = tooltip.Height;
+                              mediaElement.Width = tooltip.Width;
+                              mediaElement.Pause();
+                              mediaElement.Position = TimeSpan.FromSeconds(predictedValue);
+                              image.Source = mediaElement.ToRenderTargetBitmap();
+                              tooltip.Content = image;
+                              if (!tooltip.IsOpen)
+                              {
+                                  tooltip.IsOpen = true;
+                              }
+                          }));
+                      }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _ = MessageBox.Show(ex.Message, "EBYS", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

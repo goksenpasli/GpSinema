@@ -17,7 +17,7 @@ namespace Sinema.View
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Close();
-            Process.Start("https://github.com/goksenpasli/GpSinema");
+            _ = Process.Start("https://github.com/goksenpasli/GpSinema");
         }
     }
 }

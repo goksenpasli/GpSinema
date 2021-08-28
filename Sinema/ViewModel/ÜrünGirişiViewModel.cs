@@ -69,7 +69,7 @@ namespace Sinema.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("Depoda Yeterli Ürün Yok.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _ = MessageBox.Show("Depoda Yeterli Ürün Yok.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }, parameter => parameter is not null && (parameter as object[])?[2] is Urun && (parameter as object[])?[0] is Musteri);
         }

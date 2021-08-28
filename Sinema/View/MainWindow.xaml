@@ -96,6 +96,7 @@
                     <MultiBinding Converter="{StaticResource TopluGirişKoltukConverter}">
                         <Binding Mode="OneWay" />
                         <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliFilm" />
+                        <Binding Path="KoltukDolu" />
                     </MultiBinding>
                 </Setter.Value>
             </Setter>

@@ -27,13 +27,13 @@ namespace Sinema.ViewModel
                 var koltuk = data[1] as Koltuk;
                 if (koltuk.KoltukTipiId == 0)
                 {
-                    MessageBox.Show("Koltuk Tipi Ayarlanmamış Sağ Tıklayıp Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _ = MessageBox.Show("Koltuk Tipi Ayarlanmamış Sağ Tıklayıp Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
                 var Musteri = data[0] as Musteri;
                 if (koltuk.Müşteri.Any(z => z.FilmId == Musteri.SeçiliFilm.Id))
                 {
-                    MessageBox.Show($"Bu Filme {koltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.SeçiliFilm.Id).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _ = MessageBox.Show($"Bu Filme {koltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.SeçiliFilm.Id).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
 
@@ -54,6 +54,8 @@ namespace Sinema.ViewModel
                 Musteri.Ad = null;
                 Musteri.Soyad = null;
                 Musteri.SeçiliFilm = null;
+                TopluGirişBaşlangıçKoltuk = null;
+                TopluGirişBitişKoltuk = null;
             }, parameter =>
             {
                 if (parameter is not null)
@@ -71,27 +73,27 @@ namespace Sinema.ViewModel
                 {
                     var j = 0;
                     double toplamtutar = 0;
-                    var dolu = false;
+                    var koltukdolu = false;
                     if (salon?.SeçiliSalon?.Koltuklar?.Any(z => z.No >= TopluGirişBaşlangıçKoltuk.No && z.No <= TopluGirişBitişKoltuk.No && z.KoltukTipiId == 0) == true)
                     {
-                        MessageBox.Show("Bu Salonda Halen Koltuk Tipi Ayarlanmamış Koltuk Var Sağ Tıklayıp Ayarlayın Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        _ = MessageBox.Show("Bu Salonda Halen Koltuk Tipi Ayarlanmamış Koltuk Var Sağ Tıklayıp Ayarlayın Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;
                     }
 
-                    foreach (var _ in (salon?.SeçiliSalon.Koltuklar).Where(koltuk => koltuk.No >= TopluGirişBaşlangıçKoltuk.No && koltuk.No <= TopluGirişBitişKoltuk.No && koltuk.Müşteri.Any(z => z.FilmId == salon.SeçiliFilm.Id)).Select(_ => new { }))
+                    foreach (var _ in (salon?.SeçiliSalon.Koltuklar).Where(koltuk => koltuk.No >= TopluGirişBaşlangıçKoltuk.No && koltuk.No <= TopluGirişBitişKoltuk.No && koltuk.Müşteri.Any(z => z.FilmId == salon.SeçiliFilm.Id)))
                     {
-                        dolu = true;
+                        koltukdolu = true;
                     }
 
-                    if (dolu)
+                    if (koltukdolu)
                     {
-                        MessageBox.Show("Belirtilen Aralıkta Dolu Koltuk Var Seçimi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        _ = MessageBox.Show("Belirtilen Aralıkta Dolu Koltuk Var Seçimi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;
                     }
 
                     if (salon?.SeçiliSalon?.Koltuklar?.Any(z => z.No >= TopluGirişBaşlangıçKoltuk.No && z.No <= TopluGirişBitişKoltuk.No && z.KoltukTipiId == 0) == true)
                     {
-                        MessageBox.Show("Bu Salonda Halen Koltuk Tipi Ayarlanmamış Koltuk Var Sağ Tıklayıp Ayarlayın Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        _ = MessageBox.Show("Bu Salonda Halen Koltuk Tipi Ayarlanmamış Koltuk Var Sağ Tıklayıp Ayarlayın Veya Salondan Tüm Koltuk Tipini Ayarlayın.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;
                     }
 
@@ -118,11 +120,10 @@ namespace Sinema.ViewModel
                     SalonViewModel.DatabaseSave.Execute(null);
 
                     TopluGirişİsimListesi = null;
-                    salon.SeçiliFilm = null;
                     TopluGirişBaşlangıçKoltuk = null;
                     TopluGirişBitişKoltuk = null;
 
-                    MessageBox.Show($"Toplam Tahsil Edilecek Tutar {toplamtutar:C}", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _ = MessageBox.Show($"Toplam Tahsil Edilecek Tutar {toplamtutar:C}", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }, parameter =>
             {
@@ -155,7 +156,7 @@ namespace Sinema.ViewModel
                     }
 
                     koltuk.KoltukDolu = true;
-                    koltuk.Müşteri.Remove(Musteri);
+                    _ = koltuk.Müşteri.Remove(Musteri);
                     koltuk.KoltukDolu = false;
                     SalonViewModel.DatabaseSave.Execute(null);
                 }
@@ -176,14 +177,14 @@ namespace Sinema.ViewModel
                     hedefkoltuk.KoltukDolu = true;
 
                     kaynakkoltuk.KoltukDolu = true;
-                    kaynakkoltuk.Müşteri.Remove(Musteri);
+                    _ = kaynakkoltuk.Müşteri.Remove(Musteri);
                     kaynakkoltuk.KoltukDolu = false;
 
                     SalonViewModel.DatabaseSave.Execute(null);
                 }
                 else
                 {
-                    MessageBox.Show($"Bu Filmde Taşınacak Koltukta {hedefkoltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.FilmId).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _ = MessageBox.Show($"Bu Filmde Taşınacak Koltukta {hedefkoltuk.Müşteri.FirstOrDefault(z => z.FilmId == Musteri.FilmId).Ad} Adlı Kişinin Kaydı Vardır.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }, parameter =>
             {

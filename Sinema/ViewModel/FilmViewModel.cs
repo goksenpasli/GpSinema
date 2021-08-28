@@ -61,7 +61,7 @@ namespace Sinema.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("Bu Saatte Bu Salon İçin Zaten Film Ayarlanmış Tarihi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _ = MessageBox.Show("Bu Saatte Bu Salon İçin Zaten Film Ayarlanmış Tarihi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }, parameter => SeçiliSalon is not null && !string.IsNullOrWhiteSpace(Film?.Adı) && DateTime.TryParseExact(Saat, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
@@ -80,7 +80,7 @@ namespace Sinema.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("Bu Saatte Bu Salon İçin Zaten Film Ayarlanmış Tarihi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _ = MessageBox.Show("Bu Saatte Bu Salon İçin Zaten Film Ayarlanmış Tarihi Değiştirin.", "SİNEMA", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }, parameter => true);
 
