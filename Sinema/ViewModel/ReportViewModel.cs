@@ -112,6 +112,20 @@ namespace Sinema.ViewModel
 
     internal class ReportData : Film
     {
-        public double Fiyat { get; set; }
+        private double fiyat;
+
+        public double Fiyat
+        {
+            get => fiyat;
+
+            set
+            {
+                if (fiyat != value)
+                {
+                    fiyat = value;
+                    OnPropertyChanged(nameof(Fiyat));
+                }
+            }
+        }
     }
 }

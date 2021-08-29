@@ -1,6 +1,5 @@
 ﻿using Sinema.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -13,14 +12,13 @@ namespace Sinema
 {
     public class KoltukTipiIdToBrushConverter : IValueConverter
     {
-        private readonly BrushConverter brushconvert;
-        public static IEnumerable<XElement> koltukrenkleri;
+        private readonly BrushConverter brushconverter;
+
         public KoltukTipiIdToBrushConverter()
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                brushconvert = new BrushConverter();
-                koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
+                brushconverter = new BrushConverter();
             }
         }
 
@@ -32,8 +30,9 @@ namespace Sinema
             }
             if (value is int Id)
             {
+                var koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
                 var renk = koltukrenkleri?.Where(z => (int)z.Attribute("Id") == Id).Select(z => z.Attribute("KoltukRenk").Value).FirstOrDefault();
-                return !string.IsNullOrEmpty(renk) ? brushconvert.ConvertFromString(renk) : Brushes.Transparent;
+                return !string.IsNullOrEmpty(renk) ? brushconverter.ConvertFromString(renk) : Brushes.Transparent;
             }
 
             return Brushes.Transparent;

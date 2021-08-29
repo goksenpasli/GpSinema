@@ -872,7 +872,6 @@
                                                         <Button.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                                                 <Binding Mode="OneWay" />
-                                                                <Binding ElementName="grid" Path="DataContext" />
                                                                 <Binding ElementName="Cb" Path="SelectedItem" />
                                                             </MultiBinding>
                                                         </Button.CommandParameter>
@@ -881,13 +880,7 @@
                                             </GroupBox>
                                         </Extensions:ContentToggleButton.Content>
                                     </Extensions:ContentToggleButton>
-                                    <Button Content="GİZLİ KOLTUKLARI&#xA;GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}">
-                                        <Button.CommandParameter>
-                                            <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                <Binding Mode="OneWay" />
-                                            </MultiBinding>
-                                        </Button.CommandParameter>
-                                    </Button>
+                                    <Button Content="GİZLİ KOLTUKLARI&#xA;GÖSTER" Command="{Binding DataContext.KoltukTipiGirişiViewModel.TümKoltuklarıGöster, ElementName=grid}" CommandParameter="{Binding Mode=OneWay}" />
                                 </StackPanel>
                             </UniformGrid>
                             <Grid Grid.Row="2">

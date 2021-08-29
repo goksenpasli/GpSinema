@@ -3,7 +3,6 @@ using Sinema.Model;
 using System;
 using System.Linq;
 using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace Sinema.ViewModel
 {
@@ -42,31 +41,16 @@ namespace Sinema.ViewModel
                 }
             }, parameter => true);
 
-            KoltukAyarla = new RelayCommand<object>(parameter =>
-            {
-                if (parameter is object[] data && data[0] is Koltuk koltuk)
-                {
-                    var SeçiliKoltukTipi = data[1] as KoltukTipi;
-                    if (SeçiliKoltukTipi is not null)
-                    {
-                        koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
-                        koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                    }
-                    SalonViewModel.DatabaseSave.Execute(null);
-                }
-            }, parameter => true);
+            KoltukAyarla = new RelayCommand<object>(parameter => SalonViewModel.DatabaseSave.Execute(null), parameter => true);
 
             KoltuklarıAyarla = new RelayCommand<object>(parameter =>
             {
-                if (parameter is object[] data && data[0] is Salon salon && data[1] is MainWindowViewModel mainWindowViewModel && data[2] is KoltukTipi SeçiliKoltukTipi)
+                if (parameter is object[] data && data[0] is Salon salon && data[1] is KoltukTipi SeçiliKoltukTipi)
                 {
-                    KoltukTipiIdToBrushConverter.koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
-
                     foreach (var koltuk in salon.Koltuklar)
                     {
                         if (salon.SeçiliKoltukDüzeni == 0)
                         {
-                            koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                             koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                             if (salon.TopluKoltukGizle)
                             {
@@ -75,7 +59,6 @@ namespace Sinema.ViewModel
                         }
                         if (salon?.SeçiliKoltukDüzeni == 1 && koltuk.No % 2 == 1)
                         {
-                            koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                             koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                             if (salon.TopluKoltukGizle)
                             {
@@ -84,7 +67,6 @@ namespace Sinema.ViewModel
                         }
                         if (salon?.SeçiliKoltukDüzeni == 2 && koltuk.No % 2 == 0)
                         {
-                            koltuk.SeçiliKoltukTipi = SeçiliKoltukTipi;
                             koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                             if (salon.TopluKoltukGizle)
                             {
@@ -95,7 +77,6 @@ namespace Sinema.ViewModel
                         {
                             foreach (var koltukaralık in salon.Koltuklar.Where(z => z.No >= salon.KoltukAltAralık && z.No <= salon.KoltukÜstAralık))
                             {
-                                koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                                 koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
                                 if (salon.TopluKoltukGizle)
                                 {
@@ -110,7 +91,6 @@ namespace Sinema.ViewModel
                                 for (var i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
                                 {
                                     var koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
-                                    koltukaralık.SeçiliKoltukTipi = SeçiliKoltukTipi;
                                     koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
                                     if (salon.TopluKoltukGizle)
                                     {
@@ -140,8 +120,6 @@ namespace Sinema.ViewModel
                 }
             }, parameter => true);
         }
-
-        public ICommand ÇiftKoltuklarıAyarla { get; }
 
         public Koltuk Koltuk
         {
@@ -178,10 +156,6 @@ namespace Sinema.ViewModel
         }
 
         public ICommand KoltukTipiGirişiYap { get; }
-
-        public ICommand TekKoltuklarıAyarla { get; }
-
-        public ICommand TümKoltuklarıAyarla { get; }
 
         public ICommand TümKoltuklarıGöster { get; }
     }

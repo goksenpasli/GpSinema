@@ -39,12 +39,6 @@
                             </Image>
                             <TextBlock Text="UYGULA" VerticalAlignment="Center" />
                         </StackPanel>
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource CloneConverter}">
-                                <Binding Mode="OneWay" />
-                                <Binding Path="SeçiliKoltukTipi" />
-                            </MultiBinding>
-                        </Button.CommandParameter>
                     </Button>
                 </StackPanel>
                 <ListView Grid.Column="1"
