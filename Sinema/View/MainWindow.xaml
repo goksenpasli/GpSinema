@@ -922,6 +922,18 @@
                                                         Margin="1"
                                                         ContextMenuService.ShowOnDisabled="True"
                                                         Tag="{Binding DataContext, ElementName=grid}">
+                                                        <Extensions:ContentToggleButton.ToolTip>
+                                                            <ToolTip>
+                                                                <ListBox ItemsSource="{Binding Müşteri}" ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                                                    <ListBox.ItemContainerStyle>
+                                                                        <Style TargetType="ListBoxItem">
+                                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                            <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                                                                        </Style>
+                                                                    </ListBox.ItemContainerStyle>
+                                                                </ListBox>
+                                                            </ToolTip>
+                                                        </Extensions:ContentToggleButton.ToolTip>
                                                         <Extensions:ContentToggleButton.Background>
                                                             <MultiBinding Converter="{StaticResource SeçiliFilmtoKoltukRenkConverter}">
                                                                 <Binding Mode="OneWay" />
@@ -930,26 +942,10 @@
                                                             </MultiBinding>
                                                         </Extensions:ContentToggleButton.Background>
                                                         <Extensions:ContentToggleButton.OverContent>
-                                                            <TextBlock>
-                                                                <TextBlock.Text>
-                                                                    <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
-                                                                        <Binding Path="No" />
-                                                                        <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.SalonHarfleri.Count" />
-                                                                    </MultiBinding>
-                                                                </TextBlock.Text>
-                                                                <TextBlock.ToolTip>
-                                                                    <ToolTip>
-                                                                        <ListBox ItemsSource="{Binding Müşteri}" ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                                                                            <ListBox.ItemContainerStyle>
-                                                                                <Style TargetType="ListBoxItem">
-                                                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                                                    <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
-                                                                                </Style>
-                                                                            </ListBox.ItemContainerStyle>
-                                                                        </ListBox>
-                                                                    </ToolTip>
-                                                                </TextBlock.ToolTip>
-                                                            </TextBlock>
+                                                            <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
+                                                                <Binding Path="No" />
+                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.SalonHarfleri.Count" />
+                                                            </MultiBinding>
                                                         </Extensions:ContentToggleButton.OverContent>
                                                         <Extensions:ContentToggleButton.ContextMenu>
                                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}" Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}">

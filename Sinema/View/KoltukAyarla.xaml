@@ -11,7 +11,7 @@
     <Grid>
         <GroupBox Background="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}">
             <GroupBox.Header>
-                <TextBlock Text="{Binding OverContent.Text, StringFormat={}{0} NUMARALI KOLTUK, RelativeSource={RelativeSource AncestorType=Extensions:ContentToggleButton}}" />
+                <TextBlock Text="{Binding OverContent, StringFormat={}{0} NUMARALI KOLTUK, RelativeSource={RelativeSource AncestorType=Extensions:ContentToggleButton}}" />
             </GroupBox.Header>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -22,7 +22,8 @@
                     <CheckBox Content="KOLTUK ETKİN" IsChecked="{Binding KoltukEtkin}" IsTabStop="False" />
                     <CheckBox Content="KOLTUK GÖRÜNÜR" IsChecked="{Binding Görünür}" IsTabStop="False" />
                     <HeaderedContentControl Header="KOLTUK TİPİ">
-                        <ComboBox ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}"
+                        <ComboBox IsEnabled="{Binding Items.IsEmpty, ElementName=Lv, Mode=OneWay}"
+                            ItemsSource="{Binding Tag.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}"
                             ItemTemplate="{StaticResource KoltukTipiColorTemplate}"
                             SelectedValue="{Binding DataContext.KoltukTipiId, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Extensions:ContentToggleButton}}}"
                             SelectedValuePath="Id" />
@@ -41,7 +42,8 @@
                         </StackPanel>
                     </Button>
                 </StackPanel>
-                <ListView Grid.Column="1"
+                <ListView x:Name="Lv"
+                    Grid.Column="1"
                     Height="250"
                     ItemsSource="{Binding Müşteri}"
                     Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl, AncestorLevel=2}}"

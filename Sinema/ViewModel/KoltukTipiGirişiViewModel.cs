@@ -8,8 +8,6 @@ namespace Sinema.ViewModel
 {
     public class KoltukTipiGirişiViewModel : InpcBase
     {
-        private Koltuk koltuk;
-
         private KoltukTipi koltukTipi;
 
         public KoltukTipiGirişiViewModel()
@@ -49,35 +47,34 @@ namespace Sinema.ViewModel
                 {
                     foreach (var koltuk in salon.Koltuklar)
                     {
-                        if (salon.SeçiliKoltukDüzeni == 0)
+                        if (salon.TopluKoltukGizle)
                         {
-                            koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                            if (salon.TopluKoltukGizle)
-                            {
-                                koltuk.Görünür = false;
-                            }
+                            koltuk.Görünür = false;
                         }
-                        if (salon?.SeçiliKoltukDüzeni == 1 && koltuk.No % 2 == 1)
+
+                        if (koltuk?.Müşteri?.Any() == false)
                         {
-                            koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                            if (salon.TopluKoltukGizle)
+                            if (salon.SeçiliKoltukDüzeni == 0)
                             {
-                                koltuk.Görünür = false;
+                                koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                             }
-                        }
-                        if (salon?.SeçiliKoltukDüzeni == 2 && koltuk.No % 2 == 0)
-                        {
-                            koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
-                            if (salon.TopluKoltukGizle)
+                            if (salon?.SeçiliKoltukDüzeni == 1 && koltuk.No % 2 == 1)
                             {
-                                koltuk.Görünür = false;
+                                koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
+                            }
+                            if (salon?.SeçiliKoltukDüzeni == 2 && koltuk.No % 2 == 0)
+                            {
+                                koltuk.KoltukTipiId = SeçiliKoltukTipi.Id;
                             }
                         }
                         if (salon?.SeçiliKoltukDüzeni == 3)
                         {
                             foreach (var koltukaralık in salon.Koltuklar.Where(z => z.No >= salon.KoltukAltAralık && z.No <= salon.KoltukÜstAralık))
                             {
-                                koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                                if (koltukaralık?.Müşteri?.Any() == false)
+                                {
+                                    koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                                }
                                 if (salon.TopluKoltukGizle)
                                 {
                                     koltukaralık.Görünür = false;
@@ -91,7 +88,11 @@ namespace Sinema.ViewModel
                                 for (var i = 0; i <= ((salon.KoltukÜstAralık - salon.KoltukAltAralık) % salon.EnKoltukSayı); i++)
                                 {
                                     var koltukaralık = salon.Koltuklar.FirstOrDefault(z => z.No == (i + salon.KoltukAltAralık + j * salon.EnKoltukSayı));
-                                    koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+
+                                    if (koltukaralık?.Müşteri?.Any() == false)
+                                    {
+                                        koltukaralık.KoltukTipiId = SeçiliKoltukTipi.Id;
+                                    }
                                     if (salon.TopluKoltukGizle)
                                     {
                                         koltukaralık.Görünür = false;
@@ -107,7 +108,7 @@ namespace Sinema.ViewModel
 
             TümKoltuklarıGöster = new RelayCommand<object>(parameter =>
             {
-                if (parameter is object[] data && data[0] is Salon salon)
+                if (parameter is Salon salon)
                 {
                     foreach (var item in salon.Koltuklar)
                     {
@@ -119,20 +120,6 @@ namespace Sinema.ViewModel
                     SalonViewModel.DatabaseSave.Execute(null);
                 }
             }, parameter => true);
-        }
-
-        public Koltuk Koltuk
-        {
-            get => koltuk;
-
-            set
-            {
-                if (koltuk != value)
-                {
-                    koltuk = value;
-                    OnPropertyChanged(nameof(Koltuk));
-                }
-            }
         }
 
         public ICommand KoltukAyarla { get; }
