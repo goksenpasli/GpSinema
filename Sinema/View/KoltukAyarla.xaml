@@ -11,7 +11,7 @@
     <Grid>
         <GroupBox Background="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType={x:Type Extensions:ContentToggleButton}}}">
             <GroupBox.Header>
-                <TextBlock Text="{Binding OverContent, StringFormat={}{0} NUMARALI KOLTUK, RelativeSource={RelativeSource AncestorType=Extensions:ContentToggleButton}}" />
+                <TextBlock Text="{Binding OverContent.Text, StringFormat={}{0} NUMARALI KOLTUK, RelativeSource={RelativeSource AncestorType=Extensions:ContentToggleButton}}" />
             </GroupBox.Header>
             <Grid>
                 <Grid.ColumnDefinitions>

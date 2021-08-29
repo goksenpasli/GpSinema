@@ -41,7 +41,7 @@ namespace Sinema.ViewModel
             return List;
         }
 
-        public static IEnumerable<IGrouping<int, TSource>> GroupBy<TSource>(IEnumerable<TSource> source, int itemsPerGroup)
+        public static IEnumerable<IGrouping<int, TSource>> GroupBy<TSource>(this IEnumerable<TSource> source, int itemsPerGroup)
         {
             return source.Zip(Enumerable.Range(0, source.Count()), (s, r) => new
             {
@@ -50,7 +50,7 @@ namespace Sinema.ViewModel
             }).GroupBy(i => i.Group, g => g.Item);
         }
 
-        public static string HarfeDöndür(int counter)
+        public static string HarfeDöndür(this int counter)
         {
             Stack<char> stack = new();
             if (counter == 0)
@@ -66,7 +66,7 @@ namespace Sinema.ViewModel
             return new string(stack.ToArray());
         }
 
-        public static void ResimEkle(Film dc)
+        public static void ResimEkle(this Film dc)
         {
             OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Resim Dosyaları (*.jpg;*.jpeg;*.tif;*.tiff;*.png)|*.jpg;*.jpeg;*.tif;*.tiff;*.png" };
             if (openFileDialog.ShowDialog() == true)
@@ -77,12 +77,12 @@ namespace Sinema.ViewModel
             }
         }
 
-        public static ObservableCollection<string> SalonHarfleri(int max)
+        public static ObservableCollection<string> SalonHarfleri(this int max)
         {
             ObservableCollection<string> list = new();
             for (var i = 0; i < max; i++)
             {
-                list.Add(HarfeDöndür(i));
+                list.Add(i.HarfeDöndür());
             }
             return list;
         }
@@ -108,7 +108,7 @@ namespace Sinema.ViewModel
             serializer.Serialize(stream, dataToSerialize);
         }
 
-        public static void VideoEkle(Film dc)
+        public static void VideoEkle(this Film dc)
         {
             OpenFileDialog openFileDialog = new() { Multiselect = false, Filter = "Video Dosyaları (*.mp4;*.avi;*.mov;*.wmv;*.mpg)|*.mp4;*.avi;*.mov;*.wmv;*.mpg" };
             if (openFileDialog.ShowDialog() == true)

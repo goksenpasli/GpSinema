@@ -76,7 +76,7 @@ namespace Sinema.ViewModel
                         {
                             var koltuk = item.Parent.Attribute("No").Value;
                             var salon = item.Parent.Parent.Parent.Attribute("Adı").Value;
-                            BulunanKişiler.Add(salon + " " + koltuk + " nolu koltuk");
+                            BulunanKişiler.Add($"{salon} {koltuk} nolu koltuk");
                         }
                     }
                 }

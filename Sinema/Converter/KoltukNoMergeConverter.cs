@@ -11,12 +11,9 @@ namespace Sinema
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                return null;
-            }
-            var data = values;
-            return data[0] is int koltukno && data[1] is int bölen ? ExtensionMethods.HarfeDöndür((koltukno - 1) % bölen) + koltukno : 0;
+            return DesignerProperties.GetIsInDesignMode(new DependencyObject())
+                ? null
+                : values[0] is int koltukno && values[1] is int bölen ? ((koltukno - 1) % bölen).HarfeDöndür() + koltukno : 0;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();

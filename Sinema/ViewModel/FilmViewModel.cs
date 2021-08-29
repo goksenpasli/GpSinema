@@ -65,9 +65,9 @@ namespace Sinema.ViewModel
                 }
             }, parameter => SeçiliSalon is not null && !string.IsNullOrWhiteSpace(Film?.Adı) && DateTime.TryParseExact(Saat, "H:m", new CultureInfo("tr-TR"), DateTimeStyles.None, out _));
 
-            FilmVideoEkle = new RelayCommand<object>(parameter => ExtensionMethods.VideoEkle(Film), parameter => true);
+            FilmVideoEkle = new RelayCommand<object>(parameter => Film.VideoEkle(), parameter => true);
 
-            FilmResimEkle = new RelayCommand<object>(parameter => ExtensionMethods.ResimEkle(Film), parameter => true);
+            FilmResimEkle = new RelayCommand<object>(parameter => Film.ResimEkle(), parameter => true);
 
             FilmTarihGüncelle = new RelayCommand<object>(parameter =>
             {
@@ -87,7 +87,7 @@ namespace Sinema.ViewModel
             FilmResimGüncelle = new RelayCommand<object>(parameter =>
             {
                 var data = parameter as object[];
-                ExtensionMethods.ResimEkle(data[0] as Film);
+                (data[0] as Film).ResimEkle();
                 SalonViewModel.DatabaseSave.Execute(null);
             }, parameter => true);
 
@@ -115,7 +115,7 @@ namespace Sinema.ViewModel
             FilmVideoGüncelle = new RelayCommand<object>(parameter =>
             {
                 var data = parameter as object[];
-                ExtensionMethods.VideoEkle(data[0] as Film);
+                (data[0] as Film).VideoEkle();
                 SalonViewModel.DatabaseSave.Execute(null);
             }, parameter => true);
 

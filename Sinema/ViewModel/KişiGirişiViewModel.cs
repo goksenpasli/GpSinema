@@ -159,6 +159,8 @@ namespace Sinema.ViewModel
                     _ = koltuk.Müşteri.Remove(Musteri);
                     koltuk.KoltukDolu = false;
                     SalonViewModel.DatabaseSave.Execute(null);
+                    TopluGirişBaşlangıçKoltuk = null;
+                    TopluGirişBitişKoltuk = null;
                 }
             }, parameter => true);
 
@@ -181,6 +183,8 @@ namespace Sinema.ViewModel
                     kaynakkoltuk.KoltukDolu = false;
 
                     SalonViewModel.DatabaseSave.Execute(null);
+                    TopluGirişBaşlangıçKoltuk = null;
+                    TopluGirişBitişKoltuk = null;
                 }
                 else
                 {

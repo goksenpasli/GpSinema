@@ -78,7 +78,7 @@
                     FontWeight="Bold"><Run Text="{Binding Ad}" /><LineBreak /><Run Text="{Binding Soyad}" /></TextBlock>
             </Grid>
         </DataTemplate>
-        <ItemsPanelTemplate x:Key="ColorPanelTTemplate">
+        <ItemsPanelTemplate x:Key="ColorPanelTemplate">
             <UniformGrid Columns="8" />
         </ItemsPanelTemplate>
         <DataTemplate x:Key="ColorItemTemplate">
@@ -147,7 +147,7 @@
                                 <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
                                     ItemContainerStyle="{StaticResource ListColorBlockStyle}"
                                     ItemTemplate="{StaticResource ColorItemTemplate}"
-                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                    ItemsPanel="{StaticResource ColorPanelTemplate}"
                                     SelectedValue="{Binding SalonViewModel.Salon.Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     SelectedValuePath="Name" />
                             </Extensions:SplitButton.InternalContent>
@@ -250,7 +250,7 @@
                                 <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
                                     ItemContainerStyle="{StaticResource ListColorBlockStyle}"
                                     ItemTemplate="{StaticResource ColorItemTemplate}"
-                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                    ItemsPanel="{StaticResource ColorPanelTemplate}"
                                     SelectedValue="{Binding Film.Renk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     SelectedValuePath="Name" />
                             </Extensions:SplitButton.InternalContent>
@@ -357,7 +357,7 @@
                                         <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
                                             ItemContainerStyle="{StaticResource ListColorBlockStyle}"
                                             ItemTemplate="{StaticResource ColorItemTemplate}"
-                                            ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                            ItemsPanel="{StaticResource ColorPanelTemplate}"
                                             SelectedValue="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukRenk}"
                                             SelectedValuePath="Name" />
                                     </Extensions:SplitButton.InternalContent>
@@ -379,7 +379,7 @@
                                                                 <ListBox ItemsSource="{Binding Mode=OneWay, Source={StaticResource ColorList}}"
                                                                     ItemContainerStyle="{StaticResource ListColorBlockStyle}"
                                                                     ItemTemplate="{StaticResource ColorItemTemplate}"
-                                                                    ItemsPanel="{StaticResource ColorPanelTTemplate}"
+                                                                    ItemsPanel="{StaticResource ColorPanelTemplate}"
                                                                     SelectedValue="{Binding KoltukRenk, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                     SelectedValuePath="Name" />
                                                             </Extensions:ContentToggleButton>
@@ -566,7 +566,6 @@
                                                     <Hyperlink.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource CloneConverter}">
                                                             <Binding Mode="OneWay" />
-                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
                                                         </MultiBinding>
                                                     </Hyperlink.CommandParameter>
                                                     <Run Text="µ" FontFamily="Webdings" />
@@ -584,7 +583,6 @@
                                                     <Hyperlink.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource CloneConverter}">
                                                             <Binding Mode="OneWay" />
-                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salonlar" />
                                                         </MultiBinding>
                                                     </Hyperlink.CommandParameter>
                                                     <Run Text="·" FontFamily="Webdings" />
@@ -938,32 +936,27 @@
                                                                 <Binding Path="KoltukDolu" />
                                                             </MultiBinding>
                                                         </Extensions:ContentToggleButton.Background>
-                                                        <Extensions:ContentToggleButton.ToolTip>
-                                                            <ToolTip>
-                                                                <ToolTip.Style>
-                                                                    <Style TargetType="ToolTip">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding Müşteri.Count}" Value="0">
-                                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </ToolTip.Style>
-                                                                <ListBox ItemsSource="{Binding Müşteri}" ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                                                                    <ListBox.ItemContainerStyle>
-                                                                        <Style TargetType="ListBoxItem">
-                                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                                            <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
-                                                                        </Style>
-                                                                    </ListBox.ItemContainerStyle>
-                                                                </ListBox>
-                                                            </ToolTip>
-                                                        </Extensions:ContentToggleButton.ToolTip>
                                                         <Extensions:ContentToggleButton.OverContent>
-                                                            <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
-                                                                <Binding Path="No" />
-                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.SalonHarfleri.Count" />
-                                                            </MultiBinding>
+                                                            <TextBlock>
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
+                                                                        <Binding Path="No" />
+                                                                        <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.SalonHarfleri.Count" />
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                                <TextBlock.ToolTip>
+                                                                    <ToolTip>
+                                                                        <ListBox ItemsSource="{Binding Müşteri}" ItemTemplate="{StaticResource ListboxToolTipMusteriTemplate}" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                                                            <ListBox.ItemContainerStyle>
+                                                                                <Style TargetType="ListBoxItem">
+                                                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                                    <Setter Property="Visibility" Value="{Binding FilmId, Converter={StaticResource FilmIdToFilmVisibilityConverter}}" />
+                                                                                </Style>
+                                                                            </ListBox.ItemContainerStyle>
+                                                                        </ListBox>
+                                                                    </ToolTip>
+                                                                </TextBlock.ToolTip>
+                                                            </TextBlock>
                                                         </Extensions:ContentToggleButton.OverContent>
                                                         <Extensions:ContentToggleButton.ContextMenu>
                                                             <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=Self}}" Tag="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=Self}}">

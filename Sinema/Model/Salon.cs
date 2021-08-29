@@ -229,7 +229,7 @@ namespace Sinema.Model
         {
             get
             {
-                salonEnBoyYapısı = ExtensionMethods.GroupBy(((int)İlaveKoltukSayısı + (EnKoltukSayı * BoyKoltukSayı)).Bölenler(), 2);
+                salonEnBoyYapısı = ((int)İlaveKoltukSayısı + (EnKoltukSayı * BoyKoltukSayı)).Bölenler().GroupBy(2);
                 return salonEnBoyYapısı;
             }
 
@@ -248,7 +248,7 @@ namespace Sinema.Model
         {
             get
             {
-                salonHarfleri = ExtensionMethods.SalonHarfleri(EnKoltukSayı);
+                salonHarfleri = EnKoltukSayı.SalonHarfleri();
                 return salonHarfleri;
             }
 
