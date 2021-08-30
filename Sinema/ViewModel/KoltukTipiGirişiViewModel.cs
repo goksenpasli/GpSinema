@@ -13,9 +13,10 @@ namespace Sinema.ViewModel
         public KoltukTipiGirişiViewModel()
         {
             KoltukTipi = new KoltukTipi();
+
             KoltukTipiGirişiYap = new RelayCommand<object>(parameter =>
             {
-                if (parameter is MainWindowViewModel mainWindowViewModel)
+                if (parameter is KoltukTipleri koltuktipleri)
                 {
                     KoltukTipi koltuktipi = new()
                     {
@@ -25,19 +26,12 @@ namespace Sinema.ViewModel
                         Id = new Random(Guid.NewGuid().GetHashCode()).Next(1, int.MaxValue),
                     };
 
-                    mainWindowViewModel.SalonViewModel.Salonlar.KoltukTipleri.KoltukTipi.Add(koltuktipi);
+                    koltuktipleri.KoltukTipi.Add(koltuktipi);
                     SalonViewModel.DatabaseSave.Execute(null);
                 }
-            }, parameter => !string.IsNullOrWhiteSpace(KoltukTipi.KoltukAçıklama));
+            }, parameter => !string.IsNullOrWhiteSpace(KoltukTipi?.KoltukAçıklama));
 
-            KoltukFiyatGüncelle = new RelayCommand<object>(parameter =>
-            {
-                if (parameter is object[] data && data[0] is KoltukTipi koltukTipi)
-                {
-                    KoltukTipi.KoltukFiyatı = koltukTipi.KoltukFiyatı;
-                    SalonViewModel.DatabaseSave.Execute(null);
-                }
-            }, parameter => true);
+            KoltukFiyatGüncelle = new RelayCommand<object>(parameter => SalonViewModel.DatabaseSave.Execute(null), parameter => true);
 
             KoltukAyarla = new RelayCommand<object>(parameter => SalonViewModel.DatabaseSave.Execute(null), parameter => true);
 

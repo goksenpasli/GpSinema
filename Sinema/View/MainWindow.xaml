@@ -341,7 +341,7 @@
                                     <Extensions:NumericUpDownControl Maximum="10000" Minimum="1" ShowMode="CurrencyMode" SmallChange="1"
                                         Value="{Binding KoltukTipiGirişiViewModel.KoltukTipi.KoltukFiyatı, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </HeaderedContentControl>
-                                <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding Mode=OneWay}">
+                                <Extensions:SplitButton HorizontalContentAlignment="Stretch" Command="{Binding KoltukTipiGirişiViewModel.KoltukTipiGirişiYap, Mode=OneWay}" CommandParameter="{Binding SalonViewModel.Salonlar.KoltukTipleri}">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                         <Image Width="32" Height="32">
                                             <Image.Source>
@@ -399,7 +399,7 @@
                                             <GridViewColumn Width="32">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltukFiyatGüncelle, Mode=OneWay, ElementName=grid}">
+                                                        <Button Command="{Binding DataContext.KoltukTipiGirişiViewModel.KoltukFiyatGüncelle, Mode=OneWay, ElementName=grid}" CommandParameter="{Binding Mode=OneWay}">
                                                             <Image Width="16" Height="16">
                                                                 <Image.Source>
                                                                     <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
@@ -408,11 +408,6 @@
                                                                     </MultiBinding>
                                                                 </Image.Source>
                                                             </Image>
-                                                            <Button.CommandParameter>
-                                                                <MultiBinding Converter="{StaticResource CloneConverter}">
-                                                                    <Binding Mode="OneWay" />
-                                                                </MultiBinding>
-                                                            </Button.CommandParameter>
                                                         </Button>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
@@ -435,6 +430,19 @@
                             </Image.Source>
                         </Image>
                         <TextBlock Text="UYGULAMA HAKKINDA" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding SalonViewModel.VeritabanıAç}" IsTabStop="False">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Image Width="32" Height="32">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource SystemFileIconConverter}">
+                                    <Binding Source="Shell32.dll" />
+                                    <Binding Source="72" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="VERİTABANINI AÇ" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -481,7 +489,9 @@
                         </GroupBox>
                     </Extensions:ContentToggleButton>
                     <Separator Grid.ColumnSpan="3" Margin="0,2,0,0" VerticalAlignment="Bottom" />
-                    <Image Grid.Row="1" Grid.Column="0" Source="{Binding ResimYolu, ConverterParameter=200, Converter={StaticResource DataImageFilePathImageUriConverter}, IsAsync=True}">
+                    <Image Grid.Row="1" Grid.Column="0"
+                        Margin="3"
+                        Source="{Binding ResimYolu, ConverterParameter=200, Converter={StaticResource DataImageFilePathImageUriConverter}, IsAsync=True}">
                         <Image.ToolTip>
                             <Image Source="{Binding ResimYolu, ConverterParameter=600, Converter={StaticResource DataImageFilePathImageUriConverter}}" />
                         </Image.ToolTip>
@@ -614,7 +624,7 @@
                                                         <Button.CommandParameter>
                                                             <MultiBinding Converter="{StaticResource CloneConverter}">
                                                                 <Binding Mode="OneWay" />
-                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon" />
+                                                                <Binding ElementName="TabCtrl" Path="SelectedItem" />
                                                             </MultiBinding>
                                                         </Button.CommandParameter>
                                                     </Button>
@@ -915,12 +925,13 @@
                                         <ItemsControl Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding Koltuklar}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Extensions:ContentToggleButton IsEnabled="{Binding KoltukEtkin}"
+                                                    <Extensions:ContentToggleButton Grid.Row="0"
+                                                        IsEnabled="{Binding KoltukEtkin}"
                                                         Visibility="{Binding Görünür, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                         BorderBrush="{Binding KoltukTipiId, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource KoltukTipiIdToBrushConverter}}"
                                                         BorderThickness="2"
                                                         Margin="1"
-                                                        ContextMenuService.ShowOnDisabled="True"
+                                                        ContextMenuService.ShowOnDisabled="True" CornerRadius="0"
                                                         Tag="{Binding DataContext, ElementName=grid}">
                                                         <Extensions:ContentToggleButton.ToolTip>
                                                             <ToolTip>
@@ -944,7 +955,7 @@
                                                         <Extensions:ContentToggleButton.OverContent>
                                                             <MultiBinding Converter="{StaticResource KoltukNoMergeConverter}">
                                                                 <Binding Path="No" />
-                                                                <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.SalonHarfleri.Count" />
+                                                                <Binding ElementName="TabCtrl" Path="SelectedItem.EnKoltukSayı" />
                                                             </MultiBinding>
                                                         </Extensions:ContentToggleButton.OverContent>
                                                         <Extensions:ContentToggleButton.ContextMenu>
@@ -984,7 +995,7 @@
                                                                     <ListBox.ItemsSource>
                                                                         <MultiBinding Converter="{StaticResource KoltukNoToOturanConverter}">
                                                                             <Binding Mode="OneWay" />
-                                                                            <Binding ElementName="grid" Path="DataContext.SalonViewModel.Salon.SeçiliSalon.EnKoltukSayı" />
+                                                                            <Binding ElementName="TabCtrl" Path="SelectedItem.EnKoltukSayı" />
                                                                         </MultiBinding>
                                                                     </ListBox.ItemsSource>
                                                                     <ListBox.ItemsPanel>

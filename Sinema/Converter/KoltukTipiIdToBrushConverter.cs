@@ -12,13 +12,13 @@ namespace Sinema
 {
     public class KoltukTipiIdToBrushConverter : IValueConverter
     {
-        private readonly BrushConverter brushconverter;
+        private readonly StringToBrushConverter stringtobrushconverter;
 
         public KoltukTipiIdToBrushConverter()
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                brushconverter = new BrushConverter();
+                stringtobrushconverter = new StringToBrushConverter();
             }
         }
 
@@ -32,7 +32,7 @@ namespace Sinema
             {
                 var koltukrenkleri = XElement.Load(MainWindowViewModel.xmldatapath)?.Element("KoltukTipleri")?.Elements("KoltukTipi");
                 var renk = koltukrenkleri?.Where(z => (int)z.Attribute("Id") == Id).Select(z => z.Attribute("KoltukRenk").Value).FirstOrDefault();
-                return !string.IsNullOrEmpty(renk) ? brushconverter.ConvertFromString(renk) : Brushes.Transparent;
+                return !string.IsNullOrEmpty(renk) ? stringtobrushconverter.Convert(renk, null, null, CultureInfo.CurrentUICulture) : Brushes.Transparent;
             }
 
             return Brushes.Transparent;

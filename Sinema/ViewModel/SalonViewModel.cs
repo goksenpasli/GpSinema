@@ -3,6 +3,7 @@ using Sinema.Model;
 using Sinema.View;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -85,6 +86,8 @@ namespace Sinema.ViewModel
             DatabaseSave = new RelayCommand<object>(parameter => Salonlar.Serialize());
 
             Hakkında = new RelayCommand<object>(parameter => new Hakkında().ShowDialog(), parameter => true);
+
+            VeritabanıAç = new RelayCommand<object>(parameter => Process.Start(MainWindowViewModel.xmldatapath), parameter => true);
         }
 
         public static ICommand DatabaseSave { get; set; }
@@ -138,6 +141,8 @@ namespace Sinema.ViewModel
         }
 
         public ICommand SalonOluştur { get; }
+
+        public ICommand VeritabanıAç { get; }
 
         private ObservableCollection<KoltukTipi> KoltukTipleriniYükle()
         {
