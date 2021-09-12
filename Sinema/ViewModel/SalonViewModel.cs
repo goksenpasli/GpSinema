@@ -87,7 +87,7 @@ namespace Sinema.ViewModel
 
             Hakkında = new RelayCommand<object>(parameter => new Hakkında().ShowDialog(), parameter => true);
 
-            VeritabanıAç = new RelayCommand<object>(parameter => Process.Start(MainWindowViewModel.xmldatapath), parameter => true);
+            VeritabanıAç = new RelayCommand<object>(parameter => Process.Start(MainWindowViewModel.xmldatapath), parameter => File.Exists(MainWindowViewModel.xmldatapath));
         }
 
         public static ICommand DatabaseSave { get; set; }
